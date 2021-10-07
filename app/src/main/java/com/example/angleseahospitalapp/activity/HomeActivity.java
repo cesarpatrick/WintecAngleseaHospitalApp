@@ -27,9 +27,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout drawerLayout;
 
-    public HomeActivity(AppBarConfiguration appBarConfiguration) {
-        this.appBarConfiguration = appBarConfiguration;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +57,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         Intent addNurseIntent = new Intent(this, AddNurseActivity.class);
         binding.fab.setOnClickListener(view -> startActivity(addNurseIntent));
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
     }
 
     @Override
