@@ -1,6 +1,7 @@
 package com.example.angleseahospitalapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -34,6 +35,10 @@ public class PinScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pin_screen);
+
+        //Set my toolbar because i removed the default one
+        Toolbar toolbar = findViewById(R.id.toolbarPin);
+        setSupportActionBar(toolbar);
 
         loadData();
 

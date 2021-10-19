@@ -4,41 +4,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.PinScreenActivity">
+    tools:context=".activity.PinScreenActivity"
+    android:layout_gravity="center">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.AngleseaHospitalApp.AppBarOverlay"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.086">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarPin"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/Theme.AngleseaHospitalApp.PopupOverlay"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.086"
+            app:title="@string/app_title"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fragment_container"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <ImageView
+        android:id="@+id/rectImage"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="56dp"
+        android:background="#CACEED"
+        android:src="@drawable/rectangle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <TextView
+        android:id="@+id/textViewPinTitleTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="@string/pin_screen_title_title"
+        android:textAlignment="textStart"
+        android:textColor="#46527A"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewPinTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/pinView"
+        app:layout_constraintHorizontal_bias="0.076"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.602" />
 
     <TextView
         android:id="@+id/textViewPinTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/pin_screen_titile"
-        android:textColor="@color/purple_700"
-        android:textSize="20dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/pin_screen_title"
+        android:textAlignment="textStart"
+        android:textColor="#46527A"
+        android:textSize="15dp"
         android:textStyle="bold"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/imageViewName"
+        app:layout_constraintBottom_toBottomOf="@+id/pinTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/pinView"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.086" />
+        app:layout_constraintVertical_bias="0.528" />
 
-    <Button
-        android:id="@+id/confirmPinBtn"
+    <TextView
+        android:id="@+id/pinTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="256dp"
-        android:text="Confirm"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="Enter Pin"
+        android:textColor="#46527A"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/pinView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></Button>
+        app:layout_constraintTop_toBottomOf="@+id/rectImage" />
+
 
     <com.chaos.view.PinView
         android:id="@+id/pinView"
         style="@style/PinWidget.PinView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
+        android:layout_marginTop="30dp"
         android:cursorVisible="true"
         android:hint="-"
         android:inputType="number"
@@ -52,22 +116,50 @@
         app:itemRadius="4dp"
         app:itemSpacing="0dp"
         app:itemWidth="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageViewName"
+        app:layout_constraintBottom_toTopOf="@+id/confirmPinBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.557"
+        app:layout_constraintTop_toBottomOf="@+id/pinTitle"
+        app:layout_constraintVertical_bias="0.744"
         app:lineWidth="2dp"
         app:viewType="rectangle" />
 
+    <Button
+        android:id="@+id/confirmPinBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="Confirm"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pinView" />
+
     <ImageView
         android:id="@+id/imageViewName"
-        android:layout_width="136dp"
-        android:layout_height="185dp"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="380dp"
+        android:layout_width="match_parent"
+        android:layout_height="99dp"
+        android:layout_marginTop="50dp"
         android:src="@drawable/ic_fingerprint"
         android:text="Label"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/confirmPinBtn" />
+
+    <TextView
+        android:id="@+id/fingerPrintTitle"
+        android:layout_width="174dp"
+        android:layout_height="14dp"
+        android:layout_marginTop="5dp"
+        android:text="Touch the finger print sensor"
+        android:textAlignment="center"
+        android:textColor="#949AA1"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

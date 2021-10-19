@@ -10,8 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AngleseaHospitalApp">
         <activity
-            android:name=".activity.PinScreenActivity"
+            android:name=".activity.HelpActivity"
             android:exported="true" />
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.PinScreenActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar" />
         <activity
             android:name=".activity.AddNurseActivity"
             android:exported="true" />

@@ -1,37 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+    tools:showIn="navigation_view"
+    >
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/navMail"
-            android:icon="@drawable/ic_key"
-            android:title="Mail"></item>
+            android:id="@+id/navShifts"
+            android:icon="@drawable/ic_shifts"
+            android:title="@string/menu_shifts"/>
 
         <item
-            android:id="@+id/navEvent"
-            android:icon="@drawable/ic_surname"
-            android:title="Events"></item>
+            android:id="@+id/navMyLeave"
+            android:icon="@drawable/ic_menu_leave"
+            android:title="@string/menu_my_leave" />
 
         <item
-            android:id="@+id/navHospital"
-            android:icon="@drawable/ic_person"
-            android:title="Hospital"></item>
+            android:id="@+id/navHelp"
+            android:icon="@drawable/ic_menu_help"
+            android:title="@string/menu_help" />
+
+        <item
+            android:id="@+id/navLogOut"
+            android:icon="@drawable/ic_menu_logout"
+            android:title="@string/menu_log_out" />
     </group>
-
-    <item android:title="Facilities">
-        <menu>
-            <item
-                android:id="@+id/navCamera"
-                android:icon="@drawable/ic_person"
-                android:title="Camera"></item>
-
-
-            <item
-                android:id="@+id/navTv"
-                android:icon="@drawable/ic_key"
-                android:title="TV"></item>
-        </menu>
-    </item>
 </menu>

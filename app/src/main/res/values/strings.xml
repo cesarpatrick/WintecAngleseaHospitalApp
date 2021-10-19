@@ -16,7 +16,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
 
-
     <string name="text_2"><h1>Disclaimer</h1>
 <p>Last updated: October 01, 2021</p>
  <br></br>
@@ -83,5 +82,14 @@ The following definitions shall have the same meaning regardless of whether they
     <string name="disclaimer_title">Application Disclaimer</string>
     <string name="add_nurse">Add Nurse</string>
     <string name="saveNurseBtnText">Save</string>
-    <string name="pin_screen_titile">Insert the pin or use your finger print to access your schedule</string>
+    <string name="pin_screen_title_title">Sign In</string>
+    <string name="pin_screen_title">Please log in using finger print or enter your pin to get access</string>
+    <string name="app_title">Anglesea Payroll</string>
+    <string name="hello_message">Hello!</string>
+    <string name="menu_shifts">Shifts</string>
+    <string name="menu_my_leave">My Leave</string>
+    <string name="menu_help">Help</string>
+    <string name="menu_log_out">Log Out</string>
+    <string name="how_to_use_anglesea_payroll_app">How to use Anglesea Payroll App</string>
+
 </resources>
