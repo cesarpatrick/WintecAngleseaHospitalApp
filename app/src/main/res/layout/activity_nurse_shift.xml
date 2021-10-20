@@ -22,7 +22,7 @@
         android:id="@+id/toolbarShift"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="#2D43A6"
         app:popupTheme="@style/Theme.AngleseaHospitalApp.PopupOverlay"
         app:title="My Shifts"
         app:titleTextColor="@color/white"

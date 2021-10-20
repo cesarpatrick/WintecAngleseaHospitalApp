@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AngleseaHospitalApp">
         <activity
+            android:name=".activity.NurseLeaveActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar" />
+        <activity
             android:name=".activity.NurseShiftActivity"
             android:exported="true"
             android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar" />

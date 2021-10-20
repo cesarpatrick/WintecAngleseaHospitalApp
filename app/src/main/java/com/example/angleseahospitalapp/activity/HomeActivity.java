@@ -39,15 +39,12 @@ import org.w3c.dom.Text;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
 
-    private AppBarConfiguration appBarConfiguration;
     private ActivityHomeBinding binding;
 
     private DrawerLayout drawerLayout;
 
     private MaterialButton startShiftBtn;
 
-    //Stopwatch fields
-    private Chronometer chronometer;
     private long pauseOffset;
     private boolean running;
 
@@ -78,32 +75,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public void startChronometer(View v) {
-        if (!running) {
-            chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
-            chronometer.start();
-            running = true;
-
-            Resources res = this.getResources();
-            Drawable icon = ResourcesCompat.getDrawable(res, R.drawable.ic_baseline_pause, null);
-            startShiftBtn.setIcon(icon);
-
-            Toast.makeText(this,"Have a good day.", Toast.LENGTH_LONG);
-        }else{
-            chronometer.stop();
-            pauseOffset = SystemClock.elapsedRealtime() - chronometer.getBase();
-            running = false;
-
-            Resources res = this.getResources();
-            Drawable icon = ResourcesCompat.getDrawable(res, R.drawable.ic_play, null);
-            startShiftBtn.setIcon(icon);
-        }
-    }
-
-    public void resetChronometer(View v) {
-        chronometer.setBase(SystemClock.elapsedRealtime());
-        pauseOffset = 0;
-    }
     //To close the navigation draw on back pressed
     @Override
     public void onBackPressed() {
@@ -117,7 +88,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Fragment selectedFragment = null;
 
         switch (item.getItemId()){
             case R.id.navHelp:
@@ -127,6 +97,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.navShifts:
                 Intent shiftIntent = new Intent(this, NurseShiftActivity.class);
                 startActivity(shiftIntent);
+                break;
+            case R.id.navMyLeave:
+                Intent myLeaveIntent = new Intent(this, NurseLeaveActivity.class);
+                startActivity(myLeaveIntent);
                 break;
         }
 

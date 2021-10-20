@@ -22,7 +22,7 @@
             android:id="@+id/toolbarHelp"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="#2D43A6"
             app:popupTheme="@style/Theme.AngleseaHospitalApp.PopupOverlay"
             app:title="How to use Anglesia Payroll"
             app:titleTextColor="@color/white"
