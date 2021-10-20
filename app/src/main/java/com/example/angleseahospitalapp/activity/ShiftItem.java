@@ -5,11 +5,13 @@ public class ShiftItem {
     private String day;
     private String time;
     private String teamName;
+    private String dayName;
 
-    public ShiftItem(String day, String time, String teamName) {
+    public ShiftItem(String day, String time, String teamName, String dayName) {
         this.day = day;
         this.time = time;
         this.teamName = teamName;
+        this.dayName = dayName;
     }
 
     public String getDay() {
@@ -34,5 +36,13 @@ public class ShiftItem {
 
     public void setTeamName(String teamName) {
         this.teamName = teamName;
+    }
+
+    public String getDayName() {
+        return dayName;
+    }
+
+    public void setDayName(String dayName) {
+        this.dayName = dayName;
     }
 }
