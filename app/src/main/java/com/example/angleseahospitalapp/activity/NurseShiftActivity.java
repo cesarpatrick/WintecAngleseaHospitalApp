@@ -2,28 +2,27 @@ package com.example.angleseahospitalapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.widget.MediaController;
-import android.widget.VideoView;
 
 import com.example.angleseahospitalapp.R;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
-public class HelpActivity extends AppCompatActivity {
+public class NurseShiftActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_help);
+        setContentView(R.layout.activity_nurse_shift);
 
-        Toolbar toolbar = findViewById(R.id.toolbarHelp);
+        Toolbar toolbar = findViewById(R.id.toolbarShift);
         setSupportActionBar(toolbar);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -33,17 +32,19 @@ public class HelpActivity extends AppCompatActivity {
         upArrow.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
-        VideoView videoView = findViewById(R.id.videoView);
-        String path = "android.resource://"+ getPackageName() + "/" + R.raw.zoro;
-        Uri uri = Uri.parse(path);
-        videoView.setVideoURI(uri);
-
-        //Adding the media player controller (Play and pause)
-        MediaController mediaController = new MediaController(this);
-        videoView.setMediaController(mediaController);
-        mediaController.setAnchorView(videoView);
+        ArrayList<ShiftItem> shiftItems = new ArrayList<>();
+        shiftItems.add(new ShiftItem("21", "08:00 - 06:00", "OT Team (OT 3)"));
+        shiftItems.add(new ShiftItem("22", "03:00 - 12:00", "OT Team (OT 3)"));
+        shiftItems.add(new ShiftItem("23", "07:00 - 05:00", "OT Team (OT 3)"));
 
 
+        RecyclerView mRecyclerView = findViewById(R.id.shiftsRecyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.Adapter mAdapter = new ShiftAdapter(shiftItems);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override

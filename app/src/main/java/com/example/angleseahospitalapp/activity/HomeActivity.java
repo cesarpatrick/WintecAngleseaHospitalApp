@@ -1,5 +1,6 @@
 package com.example.angleseahospitalapp.activity;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -21,7 +22,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -75,11 +78,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
-    }
-
     public void startChronometer(View v) {
         if (!running) {
             chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
@@ -106,5 +104,43 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         chronometer.setBase(SystemClock.elapsedRealtime());
         pauseOffset = 0;
     }
+    //To close the navigation draw on back pressed
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Fragment selectedFragment = null;
+
+        switch (item.getItemId()){
+            case R.id.navHelp:
+                Intent helpIntent = new Intent(this, HelpActivity.class);
+                startActivity(helpIntent);
+                break;
+            case R.id.navShifts:
+                Intent shiftIntent = new Intent(this, NurseShiftActivity.class);
+                startActivity(shiftIntent);
+                break;
+        }
+
+        drawerLayout.closeDrawer(GravityCompat.START);
+
+        //To select the item
+        return true;
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 
 }

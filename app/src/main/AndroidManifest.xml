@@ -10,22 +10,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AngleseaHospitalApp">
         <activity
-            android:name=".activity.HelpActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activity.ProfileActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activity.PinScreenActivity"
+            android:name=".activity.NurseShiftActivity"
             android:exported="true"
             android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar" />
         <activity
+            android:name=".activity.HelpActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar" />
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PinScreenActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar" />
+        <activity
             android:name=".activity.AddNurseActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.HomeActivity"
             android:exported="true"
             android:label="@string/title_activity_home"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar" />
         <activity
             android:name=".activity.MainActivity"
