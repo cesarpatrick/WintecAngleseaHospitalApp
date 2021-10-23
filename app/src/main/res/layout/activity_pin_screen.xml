@@ -132,6 +132,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:text="Confirm"
+        android:backgroundTint="@color/app_blue"
         app:layout_constraintBottom_toTopOf="@+id/imageViewName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.515"
