@@ -7,134 +7,195 @@
     android:layout_height="match_parent">
 
 
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/add_nurse"
-        android:textColor="@color/purple_700"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/imageViewName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:theme="@style/Theme.AngleseaHospitalApp.AppBarOverlay"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <ImageView
-        android:id="@+id/imageViewName"
-        android:layout_width="69dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="32dp"
-        android:src="@drawable/ic_person"
-        android:text="Label"
-        app:layout_constraintBottom_toTopOf="@+id/imageViewSurname"
-        app:layout_constraintEnd_toStartOf="@+id/editTextName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarAddUser"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#2D43A6"
+        app:popupTheme="@style/Theme.AngleseaHospitalApp.PopupOverlay"
+        app:title="New User"
+        app:titleTextColor="@color/white"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </androidx.appcompat.widget.Toolbar>
 
     <EditText
-        android:id="@+id/editTextName"
-        android:layout_width="271dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="32dp"
+        android:id="@+id/nameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:hint="Name"
-        app:layout_constraintBottom_toTopOf="@+id/editTextSurname"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageViewName"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageViewSurname"
-        android:layout_width="69dp"
-        android:layout_height="48dp"
-        android:src="@drawable/ic_surname"
-        android:text="Label"
-        app:layout_constraintBottom_toTopOf="@+id/editTextPin"
-        app:layout_constraintEnd_toStartOf="@+id/editTextSurname"
+        android:textColor="#A8B2BF"
+        android:textSize="15sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewName" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarAddUser"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/editTextSurname"
-        android:layout_width="271dp"
-        android:layout_height="52dp"
+        android:id="@+id/surnameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:hint="Surname"
-        app:layout_constraintBottom_toTopOf="@+id/editTextPin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageViewSurname"
-        app:layout_constraintTop_toBottomOf="@+id/editTextName" />
-
-    <ImageView
-        android:id="@+id/imageViewPin"
-        android:layout_width="69dp"
-        android:layout_height="48dp"
-        android:src="@drawable/ic_key"
-        android:text="Pin"
-        app:layout_constraintBottom_toTopOf="@+id/editViewPhoto"
-        app:layout_constraintEnd_toStartOf="@+id/editTextSurname"
+        android:textColor="#A8B2BF"
+        android:textSize="15sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewSurname" />
+        app:layout_constraintTop_toBottomOf="@+id/nameEditText"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/editTextPin"
-        android:layout_width="271dp"
-        android:layout_height="52dp"
-        android:hint="Pin"
-        app:layout_constraintBottom_toTopOf="@+id/editViewPhoto"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageViewSurname"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSurname" />
+        android:id="@+id/phoneEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:hint="Phone"
+        android:textColor="#A8B2BF"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/surnameEditText"
+        app:layout_constraintVertical_bias="0.0" />
 
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:hint="Email"
+        android:textColor="#A8B2BF"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phoneEditText"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/pinEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:hint="Pin"
+        android:maxLength="4"
+        android:textColor="#A8B2BF"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailEditText"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/editViewPhoto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:text="Photography"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageViewPhoto"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageViewPin"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPin" />
-
-    <ImageView
-        android:id="@+id/imageViewPhoto"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/ic_launcher_background"
-        app:layout_constraintBottom_toTopOf="@+id/textView13"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editViewPhoto" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/textView13"
+        android:id="@+id/roleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/saveNurseBtn"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:hint="Role:"
+        android:maxLength="4"
+        android:textColor="#A8B2BF"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/pinEditText"
+        app:layout_constraintTop_toBottomOf="@+id/pinEditText"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Spinner
+        android:id="@+id/roleSpinner"
+        android:layout_width="237dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toTopOf="@+id/addPhotoBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintTop_toBottomOf="@+id/pinEditText"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/addPhotoBtn"
+        android:layout_width="123dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="180dp"
+        android:background="#2D43A6"
+        android:src="@drawable/ic_camera"
+        android:text="Save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/roleSpinner" />
+
+    <TextView
+        android:id="@+id/cameraTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.212"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewPhoto"
-        app:srcCompat="@android:drawable/ic_menu_camera" />
+        app:layout_constraintTop_toBottomOf="@id/addPhotoBtn" />
+
+    <ImageButton
+        android:id="@+id/fingerPrintBtn"
+        android:layout_width="123dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="28dp"
+        android:background="#2D43A6"
+        android:src="@drawable/ic_white_finger"
+        android:text="Save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/roleSpinner" />
+
+    <TextView
+        android:id="@+id/fingerPrintTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="56dp"
+        android:text="Fingerprint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.14"
+        app:layout_constraintStart_toStartOf="cameraTextView"
+        app:layout_constraintTop_toBottomOf="@id/fingerPrintBtn" />
+
+
 
     <Button
         android:id="@+id/saveNurseBtn"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="16dp"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageViewPhoto"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
