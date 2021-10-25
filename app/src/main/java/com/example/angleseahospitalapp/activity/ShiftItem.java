@@ -6,6 +6,7 @@ public class ShiftItem {
     private String time;
     private String teamName;
     private String dayName;
+    private String staffID;
 
     public ShiftItem(String day, String time, String teamName, String dayName) {
         this.day = day;
@@ -44,5 +45,13 @@ public class ShiftItem {
 
     public void setDayName(String dayName) {
         this.dayName = dayName;
+    }
+
+    public String getStaffID() {
+        return staffID;
+    }
+
+    public void setStaffID(String staffID) {
+        this.staffID = staffID;
     }
 }
