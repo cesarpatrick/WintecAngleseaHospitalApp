@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "978463821329",
+    "firebase_url": "https://anglesea-app-default-rtdb.firebaseio.com",
+    "project_id": "anglesea-app",
+    "storage_bucket": "anglesea-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:978463821329:android:c14897c40ff985901cebb0",
+        "android_client_info": {
+          "package_name": "com.example.angleseahospitalapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "978463821329-bulmbcfsgeifhlltcq36lvnsdbbtlr1o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaFfTGPEF0tSHkcH8I1W3kI_TLRLtqy1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "978463821329-bulmbcfsgeifhlltcq36lvnsdbbtlr1o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
