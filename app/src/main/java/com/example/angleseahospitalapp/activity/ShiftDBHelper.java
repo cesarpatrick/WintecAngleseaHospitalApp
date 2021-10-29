@@ -16,58 +16,46 @@ public class ShiftDBHelper {
 
     public ShiftDBHelper(){}
 
-    public void uploadShift(String staffID, ShiftItem shiftUpload){
-        mStaffDBRef.child(staffID).setValue(shiftUpload);
+    public void uploadShift(ShiftItem shiftUpload){
+        String uploadId = mStaffDBRef.push().getKey();
+        mStaffDBRef.child(uploadId).setValue(shiftUpload);
     }
 
     public ArrayList<ShiftItem> retrieveShift(String staffIDKey){
         ArrayList<ShiftItem> shiftList = new ArrayList<>();
-
         mStaffDBRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 shiftList.clear();
                 for (DataSnapshot postSnapshot: snapshot.getChildren()){
-                    if (postSnapshot.getKey().equals(staffIDKey)){
+                    if (postSnapshot.getValue(ShiftItem.class).getStaffID().equals(staffIDKey)){
                         ShiftItem shift = postSnapshot.getValue(ShiftItem.class);
-                        shift.setStaffID(postSnapshot.getKey());
+                        shift.setShiftKey(postSnapshot.getKey());
                         shiftList.add(shift);
                     }
-
                 }
             }
-
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-
+            public void onCancelled(@NonNull DatabaseError error) {  }
         });
-
         return shiftList;
     }
 
     public ArrayList<ShiftItem> retrieveAllShifts(){
         ArrayList<ShiftItem> shiftList = new ArrayList<>();
-
         mStaffDBRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 shiftList.clear();
                 for (DataSnapshot postSnapshot: snapshot.getChildren()){
                     ShiftItem shift = postSnapshot.getValue(ShiftItem.class);
-                    shift.setStaffID(postSnapshot.getKey());
+                    shift.setShiftKey(postSnapshot.getKey());
                     shiftList.add(shift);
-
                 }
             }
-
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {  }
         });
-
         return shiftList;
     }
 

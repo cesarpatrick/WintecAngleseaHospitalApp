@@ -7,8 +7,10 @@ public class ShiftItem {
     private String teamName;
     private String dayName;
     private String staffID;
+    private String shiftKey;
 
-    public ShiftItem(String day, String time, String teamName, String dayName) {
+    public ShiftItem(String staffID,String day, String time, String teamName, String dayName) {
+        this.staffID = staffID;
         this.day = day;
         this.time = time;
         this.teamName = teamName;
@@ -54,4 +56,8 @@ public class ShiftItem {
     public void setStaffID(String staffID) {
         this.staffID = staffID;
     }
+
+    public String getShiftKey() { return shiftKey; }
+
+    public void setShiftKey(String shiftKey) { this.shiftKey = shiftKey; }
 }

@@ -43,9 +43,9 @@ public class NurseShiftActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
         ArrayList<ShiftItem> shiftItems = new ArrayList<>();
-        shiftItems.add(new ShiftItem("21", "08:00 - 06:00", "OT Team (OT 3)","Sunday"));
-        shiftItems.add(new ShiftItem("22", "03:00 - 12:00", "OT Team (OT 3)","Tuesday"));
-        shiftItems.add(new ShiftItem("23", "07:00 - 05:00", "OT Team (OT 3)", "Friday"));
+        shiftItems.add(new ShiftItem("111222333", "21", "08:00 - 06:00", "OT Team (OT 3)","Sunday"));
+        shiftItems.add(new ShiftItem("111333222","22", "03:00 - 12:00", "OT Team (OT 3)","Tuesday"));
+        shiftItems.add(new ShiftItem("222111333","23", "07:00 - 05:00", "OT Team (OT 3)", "Friday"));
 
         RecyclerView mRecyclerView = findViewById(R.id.shiftsRecyclerView);
         mRecyclerView.setHasFixedSize(true);
