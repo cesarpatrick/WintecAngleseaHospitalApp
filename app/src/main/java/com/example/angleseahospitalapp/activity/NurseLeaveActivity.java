@@ -7,13 +7,15 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.example.angleseahospitalapp.R;
+import com.example.angleseahospitalapp.model.Role;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class NurseLeaveActivity extends AppCompatActivity {
@@ -35,9 +37,19 @@ public class NurseLeaveActivity extends AppCompatActivity {
 
         Spinner period = findViewById(R.id.periodSpinner);
 
+        List<String> periods = new ArrayList<>();
+        periods.add("This Year");
+        periods.add("Last 6 Month");
+        periods.add("Last Month");
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, periods);
+        period.setAdapter(dataAdapter);
+
         FloatingActionButton fab = findViewById(R.id.addLeave);
         fab.setOnClickListener(view -> {
-
+            Intent addLeaveIntent = new Intent(this, AddLeaveActivity.class);
+            startActivity(addLeaveIntent);
         });
     }
 

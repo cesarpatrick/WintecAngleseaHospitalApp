@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.angleseahospitalapp">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,15 +12,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AngleseaHospitalApp">
         <activity
+            android:name=".activity.AddLeaveActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar" />
+        <activity
             android:name=".activity.AddShiftActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar" />
         <activity
             android:name=".activity.NurseLeaveActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar" />
         <activity
             android:name=".activity.NurseShiftActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar" />
         <activity
             android:name=".activity.HelpActivity"
@@ -35,9 +46,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar" />
         <activity
-            android:name=".activity.AddNurseActivity"
+            android:name=".activity.AddUserActivity"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar" />
         <activity
             android:name=".activity.HomeActivity"
             android:exported="true"

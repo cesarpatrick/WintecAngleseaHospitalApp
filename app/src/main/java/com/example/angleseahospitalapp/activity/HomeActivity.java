@@ -1,18 +1,8 @@
 package com.example.angleseahospitalapp.activity;
 
-import android.content.ClipData;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Chronometer;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.angleseahospitalapp.R;
 
@@ -21,21 +11,12 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.angleseahospitalapp.databinding.ActivityHomeBinding;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-
-import org.w3c.dom.Text;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
 
@@ -71,7 +52,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         actionBarDrawerToggle.syncState();
 
 
-        Intent addNurseIntent = new Intent(this, AddNurseActivity.class);
+        Intent addNurseIntent = new Intent(this, AddUserActivity.class);
 
     }
 
@@ -101,6 +82,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.navMyLeave:
                 Intent myLeaveIntent = new Intent(this, NurseLeaveActivity.class);
                 startActivity(myLeaveIntent);
+                break;
+            case R.id.addUser:
+                Intent addUserIntent = new Intent(this, AddUserActivity.class);
+                startActivity(addUserIntent);
+                break;
+            case R.id.addShift:
+                Intent addShiftIntent = new Intent(this, AddShiftActivity.class);
+                startActivity(addShiftIntent);
                 break;
         }
 

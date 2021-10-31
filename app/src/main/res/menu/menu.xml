@@ -24,5 +24,15 @@
             android:id="@+id/navLogOut"
             android:icon="@drawable/ic_menu_logout"
             android:title="@string/menu_log_out" />
+
+        <item
+            android:id="@+id/addUser"
+            android:icon="@drawable/ic_person"
+            android:title="Add User" />
+
+        <item
+            android:id="@+id/addShift"
+            android:icon="@drawable/ic_baseline_date_range_24"
+            android:title="Shift" />
     </group>
 </menu>

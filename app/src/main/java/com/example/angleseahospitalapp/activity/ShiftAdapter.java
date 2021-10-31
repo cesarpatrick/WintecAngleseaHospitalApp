@@ -8,12 +8,13 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.angleseahospitalapp.R;
+import com.example.angleseahospitalapp.model.ShiftItem;
 
 import java.util.ArrayList;
 
 public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ShiftViewHolder>{
 
-    private ArrayList<ShiftItem> shiftList;
+    public ArrayList<ShiftItem> shiftList;
 
     public static class ShiftViewHolder extends RecyclerView.ViewHolder {
         public TextView dayTextView;

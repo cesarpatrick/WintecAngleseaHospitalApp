@@ -1,4 +1,4 @@
-package com.example.angleseahospitalapp.activity;
+package com.example.angleseahospitalapp.model;
 
 public class ShiftItem {
 

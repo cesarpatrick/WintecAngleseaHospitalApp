@@ -6,7 +6,9 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,14 +33,18 @@ public class AddShiftActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_shift);
 
-        Toolbar toolbar = findViewById(R.id.toolbarShift);
+        Toolbar toolbar = findViewById(R.id.toolbarAddShit);
         setSupportActionBar(toolbar);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        final Drawable upArrow = getDrawable(R.drawable.ic_baseline_arrow_back_24);
+        upArrow.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+        getSupportActionBar().setHomeAsUpIndicator(upArrow);
+
         dateEditText = findViewById(R.id.dateInputTextView);
-        calendarBtn = (ImageButton) findViewById(R.id.calendarBtn);
+        calendarBtn =  findViewById(R.id.calendarBtn);
 
         calendarBtn.setOnClickListener(view -> {
             Calendar cal = Calendar.getInstance();

@@ -1,8 +1,5 @@
 package com.example.angleseahospitalapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,16 +7,19 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.chaos.view.PinView;
 import com.example.angleseahospitalapp.R;
-import com.example.angleseahospitalapp.model.SystemConstants;
+import com.example.angleseahospitalapp.db.UserDBHelper;
+import com.example.angleseahospitalapp.model.*;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -102,11 +102,25 @@ public class PinScreenActivity extends AppCompatActivity {
         confirmPinBtn = findViewById(R.id.confirmPinBtn);
         confirmPinBtn.setEnabled(false);
 
+        UserDBHelper userDBHelper = new UserDBHelper();
+
         Intent intent = new Intent(this, HomeActivity.class);
         confirmPinBtn.setOnClickListener(view -> {
-            save(pinView.getText().toString());
-            Toast.makeText(this,load(),Toast.LENGTH_LONG).show();
-            startActivity(intent);
+
+            User user = userDBHelper.getUserByPin("0789");
+
+           // if( user.getmKey() != null && !user.getmKey().isEmpty()) {
+                save(pinView.getText().toString());
+                Toast.makeText(this, load(), Toast.LENGTH_LONG).show();
+                startActivity(intent);
+          //  }else{
+//                Toast toast = Toast.makeText(this, "Pin does not exist.", Toast.LENGTH_LONG);
+//                View toastView = toast.getView();
+//
+//                //To change the Background of Toast
+//                toastView.setBackgroundColor(Color.RED);
+//                toast.show();
+//            }
         });
     }
 
