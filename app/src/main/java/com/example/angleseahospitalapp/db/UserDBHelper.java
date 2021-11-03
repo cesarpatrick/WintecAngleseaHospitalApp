@@ -45,15 +45,16 @@ public class UserDBHelper {
     public User getUserByPin(String pin){
 
         final User[] user = {new User()};
-
-        mUserDBRef.child("/pin").equalTo(pin).addListenerForSingleValueEvent(new ValueEventListener() {
+        mUserDBRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                if (snapshot.exists()) {
-                    user[0] = snapshot.getValue(User.class);
+                for (DataSnapshot postSnapshot: snapshot.getChildren()){
+                    if (postSnapshot.getValue(User.class).getPin().equals(pin)){
+                        User mUser = postSnapshot.getValue(User.class);
+                        //User.setmKey(postSnapshot.getKey());
+                        user[0] = (mUser);
+                    }
                 }
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {  }
