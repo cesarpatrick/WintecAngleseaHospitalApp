@@ -46,12 +46,14 @@ public class UserDBHelper {
 
         final User[] user = {new User()};
 
-        Query query = mUserDBRef.equalTo(pin,"pin");
-
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        mUserDBRef.child("/pin").equalTo(pin).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                 user[0] = snapshot.getValue(User.class);
+
+                if (snapshot.exists()) {
+                    user[0] = snapshot.getValue(User.class);
+                }
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {  }

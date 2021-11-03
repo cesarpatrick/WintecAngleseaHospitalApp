@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -109,18 +110,18 @@ public class PinScreenActivity extends AppCompatActivity {
 
             User user = userDBHelper.getUserByPin("0789");
 
-           // if( user.getmKey() != null && !user.getmKey().isEmpty()) {
+            if( user.getmKey() != null && !user.getmKey().isEmpty()) {
                 save(pinView.getText().toString());
                 Toast.makeText(this, load(), Toast.LENGTH_LONG).show();
                 startActivity(intent);
-          //  }else{
-//                Toast toast = Toast.makeText(this, "Pin does not exist.", Toast.LENGTH_LONG);
-//                View toastView = toast.getView();
-//
-//                //To change the Background of Toast
-//                toastView.setBackgroundColor(Color.RED);
-//                toast.show();
-//            }
+            }else{
+                Toast toast = Toast.makeText(this, "Pin does not exist.", Toast.LENGTH_LONG);
+                View toastView = toast.getView();
+
+                //To change the Background of Toast
+                toastView.setBackgroundColor(Color.RED);
+                toast.show();
+            }
         });
     }
 
