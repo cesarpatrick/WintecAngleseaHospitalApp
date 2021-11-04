@@ -108,7 +108,7 @@ public class PinScreenActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HomeActivity.class);
         confirmPinBtn.setOnClickListener(view -> {
 
-            User user = dbHelper.getUser("9876");
+            User user = dbHelper.getUserByPin("9876");
 
             if( user.getUserId() != null && !user.getUserId().isEmpty()) {
                 save(pinView.getText().toString());

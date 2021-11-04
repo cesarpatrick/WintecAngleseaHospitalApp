@@ -71,6 +71,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 DBContract.ShiftsTable.TABLE_NAME + "( " +
                 DBContract.ShiftsTable.COLUMN_SHIFTID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DBContract.ShiftsTable.COLUMN_USERID + " INTEGER, " +
+                DBContract.ShiftsTable.COLUMN_DATE + " DATE, " +
                 DBContract.ShiftsTable.COLUMN_CLOCKIN  + " TIME, " +
                 DBContract.ShiftsTable.COLUMN_CLOCKOUT + " TIME, " +
                 DBContract.ShiftsTable.COLUMN_PERIOD + " TEXT, " +
@@ -82,6 +83,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_SHIFTS_TABLE);
         db.execSQL(SQL_CREATE_LEAVE_TABLE);
         fillUsers();
+        fillShifts();
+        fillLeave();
     }
 
     @Override
@@ -101,7 +104,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     @SuppressLint("Range")
-    public User getUser(String pin){
+    public User getUserByPin(String pin){
         User usr = new User();
         db = getReadableDatabase();
 
@@ -131,28 +134,81 @@ public class DBHelper extends SQLiteOpenHelper {
         return usr;
     }
 
+    @SuppressLint("Range")
+    public User getUserById(String userId){
+        User usr = new User();
+        db = getReadableDatabase();
+
+        String selection = DBContract.UsersTable.COLUMN_USERID + " = ?";
+        String[] selectionArs = new String[]{userId};
+        Cursor c = db.query(
+                DBContract.UsersTable.TABLE_NAME,
+                null,
+                selection,
+                selectionArs,
+                null,
+                null,
+                null);
+
+        if (c.moveToFirst()){
+            do {
+                usr.setUserId(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_USERID)));
+                usr.setName(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_NAME)));
+                usr.setSurname(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_SURNAME)));
+                usr.setPin(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_PIN)));
+                usr.setEmail(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_EMAIL)));
+                usr.setRole(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_ROLENAME)));
+            } while (c.moveToNext());
+        }
+
+        c.close();
+        return usr;
+    }
+
     public void insertUser(User user){
         ContentValues cv = new ContentValues();
         cv.put(DBContract.UsersTable.COLUMN_USERID, user.getUserId());
         cv.put(DBContract.UsersTable.COLUMN_NAME, user.getName());
+        cv.put(DBContract.UsersTable.COLUMN_SURNAME, user.getSurname());
         cv.put(DBContract.UsersTable.COLUMN_PIN, user.getPin());
         cv.put(DBContract.UsersTable.COLUMN_EMAIL, user.getEmail());
         cv.put(DBContract.UsersTable.COLUMN_ROLENAME, user.getRole());
         db.insert(DBContract.UsersTable.TABLE_NAME, null, cv);
     }
 
-    private void insertShift(ShiftItem shift){}
+    private void insertShift(ShiftItem shift){
+        ContentValues cv = new ContentValues();
+        cv.put(DBContract.ShiftsTable.COLUMN_USERID, shift.getStaffID());
+        cv.put(DBContract.ShiftsTable.COLUMN_DATE, shift.getDate());
+        cv.put(DBContract.ShiftsTable.COLUMN_CLOCKIN, shift.getClockInTime());
+        cv.put(DBContract.ShiftsTable.COLUMN_CLOCKOUT, shift.getClockOutTime());
+        cv.put(DBContract.ShiftsTable.COLUMN_PERIOD, ""); //
+        db.insert(DBContract.ShiftsTable.TABLE_NAME, null, cv);
+    }
 
-    private void insertLeave(Leave leave){}
+    private void insertLeave(Leave leave){
+        ContentValues cv = new ContentValues();
+        cv.put(DBContract.LeaveTable.COLUMN_USERID, leave.getUserId());
+        cv.put(DBContract.LeaveTable.COLUMN_STARTDATETIME, leave.getStartDate()); //Date type
+        cv.put(DBContract.LeaveTable.COLUMN_ENDDATETIME, leave.getEndDate()); //Date type
+        cv.put(DBContract.LeaveTable.COLUMN_STATUS, leave.getLeaveStatus());
+        db.insert(DBContract.LeaveTable.TABLE_NAME, null, cv);
+    }
 
     private void fillUsers(){
         User u1 = new User("1234", "Jordan", "Laing", "9876", "This is excluded for now", "Dev", "Jordy@mail", "0210000000");
         insertUser(u1);
     }
 
-    private void fillShifts(){}
+    private void fillShifts(){
+        ShiftItem s1 = new ShiftItem("1234", "24-11-21", "09:00", "12:00", "Dev");
+        insertShift(s1);
+    }
 
-    private void fillLeave(){}
+    private void fillLeave(){
+        Leave l1 = new Leave("1234", "29-11-21", "1-12-21", "Approved");
+        insertLeave(l1);
+    }
 
 
     //----------------------------old------------------------------------\\

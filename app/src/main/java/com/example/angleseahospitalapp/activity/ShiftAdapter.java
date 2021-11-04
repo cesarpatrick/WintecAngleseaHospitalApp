@@ -46,10 +46,10 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ShiftViewHol
     public void onBindViewHolder(ShiftAdapter.ShiftViewHolder holder, int position) {
         ShiftItem shiftItem = shiftList.get(position);
 
-        holder.dayTextView.setText(shiftItem.getDay());
-        holder.timeTextView.setText(shiftItem.getTime());
+        holder.dayTextView.setText(shiftItem.getDate()); //this has to be split up was a date type for db
+        holder.timeTextView.setText(shiftItem.getClockInTime());
         holder.teamNameTextView.setText(shiftItem.getTeamName());
-        holder.dayNameTextView.setText(shiftItem.getDayName());
+        holder.dayNameTextView.setText(shiftItem.getDate()); //this has to be split up was a date type for db
     }
 
     @Override

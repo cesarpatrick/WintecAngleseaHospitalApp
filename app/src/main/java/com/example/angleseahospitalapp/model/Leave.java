@@ -9,6 +9,15 @@ public class Leave {
     String endDate;
     String leaveStatus;
 
+    public Leave(){}
+
+    public Leave(String userId, String startDate, String endDate, String leaveStatus){
+        this.userId = userId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.leaveStatus = leaveStatus;
+    }
+
     public String getKey() {
         return key;
     }
