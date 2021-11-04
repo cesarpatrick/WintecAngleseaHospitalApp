@@ -19,7 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.chaos.view.PinView;
 import com.example.angleseahospitalapp.R;
-import com.example.angleseahospitalapp.db.UserDBHelper;
+import com.example.angleseahospitalapp.db.DBHelper;
 import com.example.angleseahospitalapp.model.*;
 
 import java.io.BufferedReader;
@@ -103,14 +103,14 @@ public class PinScreenActivity extends AppCompatActivity {
         confirmPinBtn = findViewById(R.id.confirmPinBtn);
         confirmPinBtn.setEnabled(false);
 
-        UserDBHelper userDBHelper = new UserDBHelper();
+        DBHelper dbHelper = DBHelper.getInstance(this);
 
         Intent intent = new Intent(this, HomeActivity.class);
         confirmPinBtn.setOnClickListener(view -> {
 
-            User user = userDBHelper.getUserByPin("0789");
+            User user = dbHelper.getUser("9876");
 
-            if( user.getmKey() != null && !user.getmKey().isEmpty()) {
+            if( user.getUserId() != null && !user.getUserId().isEmpty()) {
                 save(pinView.getText().toString());
                 Toast.makeText(this, load(), Toast.LENGTH_LONG).show();
                 startActivity(intent);

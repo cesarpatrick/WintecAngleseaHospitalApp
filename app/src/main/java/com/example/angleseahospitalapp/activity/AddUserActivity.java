@@ -25,16 +25,16 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.angleseahospitalapp.R;
-import com.example.angleseahospitalapp.db.UserDBHelper;
+import com.example.angleseahospitalapp.db.DBHelper;
 import com.example.angleseahospitalapp.model.Role;
 import com.example.angleseahospitalapp.model.Upload;
 import com.example.angleseahospitalapp.model.User;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
+//import com.google.firebase.storage.FirebaseStorage;
+//import com.google.firebase.storage.StorageReference;
+//import com.google.firebase.storage.StorageTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +44,6 @@ import java.util.UUID;
 public class AddUserActivity extends AppCompatActivity {
 
     //Firebase
-    FirebaseStorage storage;
-    StorageReference storageReference;
     Uri fileUri;
 
     ImageView userPhoto;
@@ -75,9 +73,6 @@ public class AddUserActivity extends AppCompatActivity {
 
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
-
-        storage = FirebaseStorage.getInstance();
-        storageReference = FirebaseStorage.getInstance().getReference("images/");
 
         userPhoto = findViewById(R.id.profileImage);
         photoBtn = findViewById(R.id.addPhotoBtn);
@@ -172,6 +167,7 @@ public class AddUserActivity extends AppCompatActivity {
         User user = new User();
 
         // Creating second StorageReference.
+        /**
         StorageTask storageTask = null;
         if(fileUri != null) {
 
@@ -198,8 +194,9 @@ public class AddUserActivity extends AppCompatActivity {
                         double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
                     });;
         }
+         **/
 
-        UserDBHelper helper = new UserDBHelper();
+        DBHelper helper = DBHelper.getInstance(this);
 
 
         user.setEmail(emailEditText.getText().toString());
@@ -210,7 +207,7 @@ public class AddUserActivity extends AppCompatActivity {
         user.setRole(roleSpinner.getSelectedItem().toString());
 
 
-        helper.saveUser(user);
+        helper.insertUser(user);
 
         //Set all the fields back to empty
         cleanFields();

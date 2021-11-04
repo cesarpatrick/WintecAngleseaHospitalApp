@@ -2,7 +2,7 @@ package com.example.angleseahospitalapp.model;
 
 public class User {
 
-    private String mKey;
+    private String userId;
     private String name;
     private String surname;
     private String pin;
@@ -11,12 +11,10 @@ public class User {
     private String role;
     private String phoneNumber;
 
-    public User(){
+    public User(){ }
 
-    }
-
-    public User(String mKey, String name, String surname, String pin, String photoPath, String role, String email, String phoneNumber) {
-        this.mKey = mKey;
+    public User(String userId, String name, String surname, String pin, String photoPath, String role, String email, String phoneNumber) {
+        this.userId = userId;
         this.name = name;
         this.surname = surname;
         this.pin = pin;
@@ -26,12 +24,12 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getmKey() {
-        return mKey;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setmKey(String mKey) {
-        this.mKey = mKey;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getName() {
