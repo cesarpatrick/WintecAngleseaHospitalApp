@@ -1,15 +1,20 @@
 package com.example.angleseahospitalapp.model;
 
-public class ShiftItem {
+public class Shift {
 
     private String clockInTime;
     private String clockOutTime;
     private String teamName;
     private String date;
     private String staffID;
-    private String shiftKey;
+    private String shiftId;
+    private String period;
 
-    public ShiftItem(String staffID, String date, String clockInTime, String clockOutTime, String teamName) {
+    public Shift(){
+
+    }
+
+    public Shift(String staffID, String date, String clockInTime, String clockOutTime, String teamName) {
         this.staffID = staffID;
         this.date = date;
         this.clockInTime = clockInTime;
@@ -50,9 +55,9 @@ public class ShiftItem {
         this.staffID = staffID;
     }
 
-    public String getShiftKey() { return shiftKey; }
+    public String getShiftId() { return shiftId; }
 
-    public void setShiftKey(String shiftKey) { this.shiftKey = shiftKey; }
+    public void setShiftId(String shiftId) { this.shiftId = shiftId; }
 
     public String getClockOutTime() {
         return clockOutTime;
@@ -60,5 +65,13 @@ public class ShiftItem {
 
     public void setClockOutTime(String clockOutTime) {
         this.clockOutTime = clockOutTime;
+    }
+
+    public String getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(String period) {
+        this.period = period;
     }
 }

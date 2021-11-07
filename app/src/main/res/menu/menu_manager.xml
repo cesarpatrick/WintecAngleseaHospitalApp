@@ -6,14 +6,19 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/navShifts"
-            android:icon="@drawable/ic_shifts"
-            android:title="@string/menu_shifts"/>
+            android:id="@+id/addShift"
+            android:icon="@drawable/ic_baseline_date_range_24"
+            android:title="@string/shift" />
 
         <item
-            android:id="@+id/navMyLeave"
+            android:id="@+id/navLeaveManager"
             android:icon="@drawable/ic_menu_leave"
-            android:title="@string/menu_my_leave" />
+            android:title="@string/meny_leave_request" />
+
+        <item
+            android:id="@+id/addUser"
+            android:icon="@drawable/ic_person"
+            android:title="@string/add_user" />
 
         <item
             android:id="@+id/navHelp"

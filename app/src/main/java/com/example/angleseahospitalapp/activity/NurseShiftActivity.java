@@ -11,13 +11,21 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.example.angleseahospitalapp.R;
-import com.example.angleseahospitalapp.model.ShiftItem;
+import com.example.angleseahospitalapp.db.DBHelper;
+import com.example.angleseahospitalapp.model.Shift;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public class NurseShiftActivity extends AppCompatActivity {
+import com.example.angleseahospitalapp.model.*;
 
+public class NurseShiftActivity extends AppCompatActivity {
+    DBHelper dbHelper = DBHelper.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +42,7 @@ public class NurseShiftActivity extends AppCompatActivity {
         upArrow.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
-        ArrayList<ShiftItem> shiftItems = new ArrayList<>();
-        shiftItems.add(new ShiftItem("111222333", "21-11-21", "08:00", "06:00", "OT Team (OT 3)"));
-        shiftItems.add(new ShiftItem("111333222","22-11-21", "03:00", "12:00", "OT Team (OT 3)"));
-        shiftItems.add(new ShiftItem("222111333","23-11-21", "07:00", "05:00", "OT Team (OT 3)"));
+        ArrayList<Shift> shiftItems = new ArrayList<>(dbHelper.getAllShiftByUserId(load()));
 
         RecyclerView mRecyclerView = findViewById(R.id.shiftsRecyclerView);
         mRecyclerView.setHasFixedSize(true);
@@ -61,6 +66,34 @@ public class NurseShiftActivity extends AppCompatActivity {
         return true;
     }
 
+    public String load() {
+        FileInputStream fis = null;
 
+        try {
+            fis = openFileInput(SystemConstants.FILE_NAME);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String text;
+
+            while ((text = br.readLine()) != null) {
+                sb.append(text).append("\n");
+            }
+
+            return  sb.toString();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 
 }

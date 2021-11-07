@@ -2,6 +2,8 @@ package com.example.angleseahospitalapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -11,14 +13,21 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.example.angleseahospitalapp.R;
-import com.example.angleseahospitalapp.model.Role;
+import com.example.angleseahospitalapp.db.DBHelper;
+import com.example.angleseahospitalapp.model.*;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class NurseLeaveActivity extends AppCompatActivity {
+
+    DBHelper helper = DBHelper.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,22 +44,21 @@ public class NurseLeaveActivity extends AppCompatActivity {
         upArrow.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
-        Spinner period = findViewById(R.id.periodSpinner);
-
-        List<String> periods = new ArrayList<>();
-        periods.add("This Year");
-        periods.add("Last 6 Month");
-        periods.add("Last Month");
-
-        // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, periods);
-        period.setAdapter(dataAdapter);
-
         FloatingActionButton fab = findViewById(R.id.addLeave);
         fab.setOnClickListener(view -> {
             Intent addLeaveIntent = new Intent(this, AddLeaveActivity.class);
             startActivity(addLeaveIntent);
         });
+
+        RecyclerView mRecyclerView = findViewById(R.id.leaveRecyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.Adapter mAdapter = new LeaveAdapter(new ArrayList<>(helper.getAllLeaveByUserId(load())));
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
+
     }
 
     @Override
@@ -63,5 +71,35 @@ public class NurseLeaveActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    public String load() {
+        FileInputStream fis = null;
+
+        try {
+            fis = openFileInput(SystemConstants.FILE_NAME);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String text;
+
+            while ((text = br.readLine()) != null) {
+                sb.append(text).append("\n");
+            }
+
+            return  sb.toString();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 }

@@ -5,17 +5,23 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 
 import com.chaos.view.PinView;
 import com.example.angleseahospitalapp.R;
@@ -27,11 +33,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.Executor;
 
 public class PinScreenActivity extends AppCompatActivity {
 
     Button confirmPinBtn;
-
     Button confirmDisclaimerBtn;
 
     private RadioButton radio;
@@ -41,6 +47,11 @@ public class PinScreenActivity extends AppCompatActivity {
 
     private Boolean disclaimerDone = false;
 
+    Executor executor;
+    BiometricPrompt biometricPrompt;
+    BiometricPrompt.PromptInfo promptInfo;
+
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +60,8 @@ public class PinScreenActivity extends AppCompatActivity {
         //Set my toolbar because i removed the default one
         Toolbar toolbar = findViewById(R.id.toolbarPin);
         setSupportActionBar(toolbar);
+
+        DBHelper dbHelper = DBHelper.getInstance(this);
 
         loadData();
 
@@ -100,19 +113,50 @@ public class PinScreenActivity extends AppCompatActivity {
             return false;
         });
 
+        Intent intent = new Intent(this, HomeActivity.class);
+
+        executor = ContextCompat.getMainExecutor(this);
+        biometricPrompt = new BiometricPrompt(PinScreenActivity.this, executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+                Toast.makeText(PinScreenActivity.this, "It was not possible recognize the fingerprint, please try again", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                User user = dbHelper.getUserByPin("0123");
+                save(user.getPin());
+                Toast.makeText(PinScreenActivity.this, "Welcome, " + user.getName(), Toast.LENGTH_LONG).show();
+                startActivity(intent);
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                Toast.makeText(PinScreenActivity.this, "It was not possible recognize the fingerprint, please try again", Toast.LENGTH_LONG).show();            }
+        });
+
+        promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Biometric Authentication")
+                .setSubtitle("Login using fingerprint authentication")
+                .setNegativeButtonText("User App Password")
+                .build();
+
+        ImageButton fingerprintBtn = findViewById(R.id.fingerPrintBtn);
+        fingerprintBtn.setOnClickListener(view -> biometricPrompt.authenticate(promptInfo));
+
         confirmPinBtn = findViewById(R.id.confirmPinBtn);
         confirmPinBtn.setEnabled(false);
 
-        DBHelper dbHelper = DBHelper.getInstance(this);
-
-        Intent intent = new Intent(this, HomeActivity.class);
         confirmPinBtn.setOnClickListener(view -> {
 
-            User user = dbHelper.getUserByPin("9876");
+            User user = dbHelper.getUserByPin(pinView.getText().toString());
 
             if( user.getUserId() != null && !user.getUserId().isEmpty()) {
                 save(pinView.getText().toString());
-                Toast.makeText(this, load(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Welcome, " + user.getName(), Toast.LENGTH_LONG).show();
                 startActivity(intent);
             }else{
                 Toast toast = Toast.makeText(this, "Pin does not exist.", Toast.LENGTH_LONG);
@@ -136,6 +180,7 @@ public class PinScreenActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         disclaimerDone = sharedPreferences.getBoolean(DISCLAIMER_DONE,false);
     }
+
 
     public void save(String text) {
 
@@ -186,5 +231,6 @@ public class PinScreenActivity extends AppCompatActivity {
         }
         return null;
     }
+
 
 }

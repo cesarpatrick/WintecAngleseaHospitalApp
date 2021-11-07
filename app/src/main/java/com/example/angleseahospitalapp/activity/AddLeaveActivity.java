@@ -10,20 +10,27 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.angleseahospitalapp.R;
+import com.example.angleseahospitalapp.db.DBHelper;
 import com.example.angleseahospitalapp.db.LeaveDBHelper;
 import com.example.angleseahospitalapp.model.Leave;
 import com.example.angleseahospitalapp.model.LeaveStatus;
+import com.example.angleseahospitalapp.model.User;
 import com.example.angleseahospitalapp.model.Util;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.Objects;
+
+import com.example.angleseahospitalapp.model.*;
 
 public class AddLeaveActivity extends AppCompatActivity {
 
@@ -35,6 +42,7 @@ public class AddLeaveActivity extends AppCompatActivity {
     private ImageButton startDateBtn;
     private ImageButton endDateBtn;
 
+    DBHelper dbHelper = DBHelper.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +115,7 @@ public class AddLeaveActivity extends AppCompatActivity {
 
         mDateEndSetListener = (datePicker, year, month, day) -> {
             month = month + 1;
-            String date = month + "/" + Util.formatDayDate(day) + "/" + year;
+            String date =Util.formatDayDate(day)  + "/" + month + "/" + year;
             endDateEditText.setText(date);
         };
 
@@ -122,12 +130,11 @@ public class AddLeaveActivity extends AppCompatActivity {
     }
 
     private void save() {
-        LeaveDBHelper dbHelper =  new LeaveDBHelper();
 
         Leave leave = new Leave();
         leave.setStartDate(startDateEditText.getText().toString());
         leave.setEndDate(endDateEditText.getText().toString());
-        //leave.setUserId();
+        leave.setUserId(dbHelper.getUserByPin(load()).getUserId());
         leave.setLeaveStatus(LeaveStatus.REQUESTED.toString());
         dbHelper.saveLeave(leave);
 
@@ -144,5 +151,35 @@ public class AddLeaveActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    public String load() {
+        FileInputStream fis = null;
+
+        try {
+            fis = openFileInput(SystemConstants.FILE_NAME);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String text;
+
+            while ((text = br.readLine()) != null) {
+                sb.append(text).append("\n");
+            }
+
+            return  sb.toString();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 }

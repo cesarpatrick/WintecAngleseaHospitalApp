@@ -29,9 +29,9 @@ public class LeaveDBHelper {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 leaveList.clear();
                 for (DataSnapshot postSnapshot: snapshot.getChildren()){
-                    if (postSnapshot.getValue(Leave.class).getKey().equals(leaveKey)){
+                    if (postSnapshot.getValue(Leave.class).getId().equals(leaveKey)){
                         Leave leave = postSnapshot.getValue(Leave.class);
-                        leave.setKey(postSnapshot.getKey());
+                        leave.setId(postSnapshot.getKey());
                         leaveList.add(leave);
                     }
                 }

@@ -88,11 +88,13 @@ The following definitions shall have the same meaning regardless of whether they
     <string name="hello_message">Hello!</string>
     <string name="menu_shifts">Shifts</string>
     <string name="menu_my_leave">My Leave</string>
+    <string name="meny_leave_request">Leave Requests</string>
     <string name="menu_help">Help</string>
     <string name="menu_log_out">Log Out</string>
     <string name="how_to_use_anglesea_payroll_app">How to use Anglesea Payroll App</string>
     <string name="staff_hint">Staff</string>
     <string name="submit">Submit</string>
     <string name="shift">Shift</string>
+    <string name="add_user">Add User</string>
 
 </resources>

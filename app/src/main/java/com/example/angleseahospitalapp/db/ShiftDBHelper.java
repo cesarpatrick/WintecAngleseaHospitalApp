@@ -2,7 +2,7 @@ package com.example.angleseahospitalapp.db;
 
 import androidx.annotation.NonNull;
 
-import com.example.angleseahospitalapp.model.ShiftItem;
+import com.example.angleseahospitalapp.model.Shift;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,21 +16,21 @@ public class ShiftDBHelper {
 
     public ShiftDBHelper(){}
 
-    public void uploadShift(ShiftItem shiftUpload){
+    public void uploadShift(Shift shiftUpload){
         String uploadId = mStaffDBRef.push().getKey();
         mStaffDBRef.child(uploadId).setValue(shiftUpload);
     }
 
-    public ArrayList<ShiftItem> retrieveShift(String staffIDKey){
-        ArrayList<ShiftItem> shiftList = new ArrayList<>();
+    public ArrayList<Shift> retrieveShift(String staffIDKey){
+        ArrayList<Shift> shiftList = new ArrayList<>();
         mStaffDBRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 shiftList.clear();
                 for (DataSnapshot postSnapshot: snapshot.getChildren()){
-                    if (postSnapshot.getValue(ShiftItem.class).getStaffID().equals(staffIDKey)){
-                        ShiftItem shift = postSnapshot.getValue(ShiftItem.class);
-                        shift.setShiftKey(postSnapshot.getKey());
+                    if (postSnapshot.getValue(Shift.class).getStaffID().equals(staffIDKey)){
+                        Shift shift = postSnapshot.getValue(Shift.class);
+                        shift.setShiftId(postSnapshot.getKey());
                         shiftList.add(shift);
                     }
                 }
@@ -41,15 +41,15 @@ public class ShiftDBHelper {
         return shiftList;
     }
 
-    public ArrayList<ShiftItem> retrieveAllShifts(){
-        ArrayList<ShiftItem> shiftList = new ArrayList<>();
+    public ArrayList<Shift> retrieveAllShifts(){
+        ArrayList<Shift> shiftList = new ArrayList<>();
         mStaffDBRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 shiftList.clear();
                 for (DataSnapshot postSnapshot: snapshot.getChildren()){
-                    ShiftItem shift = postSnapshot.getValue(ShiftItem.class);
-                    shift.setShiftKey(postSnapshot.getKey());
+                    Shift shift = postSnapshot.getValue(Shift.class);
+                    shift.setShiftId(postSnapshot.getKey());
                     shiftList.add(shift);
                 }
             }

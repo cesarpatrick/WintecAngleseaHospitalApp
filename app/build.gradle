@@ -32,6 +32,7 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.biometric:biometric:1.0.1'
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'com.chaos.view:pinview:1.4.4'

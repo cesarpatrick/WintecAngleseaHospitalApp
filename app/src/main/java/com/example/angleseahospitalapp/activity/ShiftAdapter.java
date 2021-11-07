@@ -8,13 +8,13 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.angleseahospitalapp.R;
-import com.example.angleseahospitalapp.model.ShiftItem;
+import com.example.angleseahospitalapp.model.Shift;
 
 import java.util.ArrayList;
 
 public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ShiftViewHolder>{
 
-    public ArrayList<ShiftItem> shiftList;
+    public ArrayList<Shift> shiftList;
 
     public static class ShiftViewHolder extends RecyclerView.ViewHolder {
         public TextView dayTextView;
@@ -38,13 +38,13 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ShiftViewHol
         return svh;
     }
 
-    public ShiftAdapter(ArrayList<ShiftItem> list) {
+    public ShiftAdapter(ArrayList<Shift> list) {
         shiftList = list;
     }
 
     @Override
     public void onBindViewHolder(ShiftAdapter.ShiftViewHolder holder, int position) {
-        ShiftItem shiftItem = shiftList.get(position);
+        Shift shiftItem = shiftList.get(position);
 
         holder.dayTextView.setText(shiftItem.getDate()); //this has to be split up was a date type for db
         holder.timeTextView.setText(shiftItem.getClockInTime());

@@ -133,19 +133,20 @@
         android:layout_marginTop="10dp"
         android:text="Confirm"
         android:backgroundTint="@color/app_blue"
-        app:layout_constraintBottom_toTopOf="@+id/imageViewName"
+        app:layout_constraintBottom_toTopOf="@+id/fingerPrintBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pinView" />
 
-    <ImageView
-        android:id="@+id/imageViewName"
-        android:layout_width="match_parent"
-        android:layout_height="99dp"
-        android:layout_marginTop="50dp"
-        android:src="@drawable/ic_fingerprint"
-        android:text="Label"
+    <ImageButton
+        android:id="@+id/fingerPrintBtn"
+        android:layout_width="66dp"
+        android:layout_height="77dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/ic_fingerprint"
+        android:text="Save"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirmPinBtn" />
 
@@ -161,6 +162,6 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewName" />
+        app:layout_constraintTop_toBottomOf="@+id/fingerPrintBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

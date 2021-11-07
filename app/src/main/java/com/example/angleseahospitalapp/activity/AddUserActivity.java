@@ -27,19 +27,13 @@ import android.widget.Toast;
 import com.example.angleseahospitalapp.R;
 import com.example.angleseahospitalapp.db.DBHelper;
 import com.example.angleseahospitalapp.model.Role;
-import com.example.angleseahospitalapp.model.Upload;
 import com.example.angleseahospitalapp.model.User;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-//import com.google.firebase.storage.FirebaseStorage;
-//import com.google.firebase.storage.StorageReference;
-//import com.google.firebase.storage.StorageTask;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 public class AddUserActivity extends AppCompatActivity {
 
@@ -164,55 +158,28 @@ public class AddUserActivity extends AppCompatActivity {
 
     private void save(){
 
-        User user = new User();
-
-        // Creating second StorageReference.
-        /**
-        StorageTask storageTask = null;
-        if(fileUri != null) {
-
-            StorageReference ref = storageReference.child(UUID.randomUUID().toString() +"." + getFileExtension(fileUri));
-            storageTask = ref.putFile(fileUri).addOnSuccessListener(taskSnapshot -> {
-
-                Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
-
-                while(!urlTask.isSuccessful());
-                Uri downloadUrl = urlTask.getResult();
-
-                Upload upload = new Upload("0",
-                        downloadUrl.toString());
-                String uploadId = mDatabaseRef.push().getKey();
-
-                mDatabaseRef.child(uploadId).setValue(upload);
-
-                if(downloadUrl != null) {
-                    user.setPhotoPath(downloadUrl.getPath());
-                }
-            })
-                    .addOnFailureListener(e -> Toast.makeText(AddUserActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show())
-                    .addOnProgressListener(taskSnapshot -> {
-                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                    });;
-        }
-         **/
+        User user;
 
         DBHelper helper = DBHelper.getInstance(this);
 
+        user = helper.getUserByPin(pinEditText.getText().toString());
+        if( user.getUserId() != null){
+            Toast.makeText(this, "This pin number is already in use, try another one. ", Toast.LENGTH_LONG).show();
+        }else{
+            user = new User();
+            user.setPin(pinEditText.getText().toString());
+            user.setEmail(emailEditText.getText().toString());
+            user.setName(nameEditText.getText().toString());
+            user.setPhoneNumber(phoneEditText.getText().toString());
+            user.setSurname(surnameEditText.getText().toString());
+            user.setRole(roleSpinner.getSelectedItem().toString());
 
-        user.setEmail(emailEditText.getText().toString());
-        user.setName(nameEditText.getText().toString());
-        user.setPhoneNumber(phoneEditText.getText().toString());
-        user.setSurname(surnameEditText.getText().toString());
-        user.setPin(pinEditText.getText().toString());
-        user.setRole(roleSpinner.getSelectedItem().toString());
+            helper.saveUser(user);
 
-
-        helper.insertUser(user);
-
-        //Set all the fields back to empty
-        cleanFields();
-
-        Toast.makeText(this, "User Saved.", Toast.LENGTH_LONG).show();
+            //Set all the fields back to empty
+            cleanFields();
+            Toast.makeText(this, "User Saved.", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void cleanFields(){

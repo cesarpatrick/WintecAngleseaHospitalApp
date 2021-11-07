@@ -7,20 +7,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.angleseahospitalapp.model.Leave;
-import com.example.angleseahospitalapp.model.ShiftItem;
+import com.example.angleseahospitalapp.model.Role;
+import com.example.angleseahospitalapp.model.Shift;
 import com.example.angleseahospitalapp.model.User;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "AngleseaDatabase.db";
@@ -53,7 +48,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 DBContract.UsersTable.COLUMN_PIN + " INTEGER, " +
                 DBContract.UsersTable.COLUMN_EMAIL + " TEXT, " +
                 DBContract.UsersTable.COLUMN_ROLENAME + " TEXT, " +
-                DBContract.UsersTable.COLUMN_FINGERPRINT + " TEXT " +
+                DBContract.UsersTable.COLUMN_FINGERPRINT + " TEXT, " +
+                DBContract.UsersTable.COLUMN_PHOTO + " BLOB " +
                 ")";
 
         final String SQL_CREATE_LEAVE_TABLE = "CREATE TABLE " +
@@ -102,6 +98,78 @@ public class DBHelper extends SQLiteOpenHelper {
         db.setForeignKeyConstraintsEnabled(true);
     }
 
+    @SuppressLint("Range")
+    public List<User> getAllUsers(){
+        List<User> users = new ArrayList<>();
+        db = getReadableDatabase();
+
+        String query = "SELECT * FROM users where role= '" + Role.NURSE.toString() + "'";
+        Cursor c = db.rawQuery(query,null);
+
+        while(c.moveToNext()){
+
+            User user = new User();
+            user.setUserId(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_USERID)));
+            user.setName(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_NAME)));
+            user.setSurname(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_SURNAME)));
+            user.setPin(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_PIN)));
+            user.setEmail(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_EMAIL)));
+            user.setRole(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_ROLENAME)));
+            users.add(user);
+        }
+
+        c.close();
+        return users;
+    }
+
+    @SuppressLint("Range")
+    public List<Leave> getAllLeaveByUserId(String userPin){
+        List<Leave> leaveList = new ArrayList<>();
+        db = getReadableDatabase();
+
+        User user = getUserByPin(userPin);
+
+        String query = "SELECT * FROM leave where userid=" + user.getUserId();
+        Cursor c = db.rawQuery(query,null);
+
+        while(c.moveToNext()){
+
+            Leave leave = new Leave();
+            leave.setId(c.getString(c.getColumnIndex(DBContract.LeaveTable.COLUMN_LEAVEID)));
+            leave.setUserId(c.getString(c.getColumnIndex(DBContract.LeaveTable.COLUMN_USERID)));
+            leave.setStartDate(c.getString(c.getColumnIndex(DBContract.LeaveTable.COLUMN_STARTDATETIME)));
+            leave.setEndDate(c.getString(c.getColumnIndex(DBContract.LeaveTable.COLUMN_ENDDATETIME)));
+            leave.setLeaveStatus(c.getString(c.getColumnIndex(DBContract.LeaveTable.COLUMN_STATUS)));
+            leaveList.add(leave);
+        }
+
+        c.close();
+        return leaveList;
+    }
+
+    @SuppressLint("Range")
+    public List<Shift> getAllShiftByUserId(String userPin){
+        List<Shift> shiftList = new ArrayList<>();
+        db = getReadableDatabase();
+
+        User user = getUserByPin(userPin);
+
+        String query = "SELECT * FROM shift where userid=" + user.getUserId() + " order by date";
+        Cursor c = db.rawQuery(query,null);
+
+        while(c.moveToNext()){
+
+            Shift shift = new Shift();
+            shift.setShiftId(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_SHIFTID)));
+            shift.setStaffID(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_USERID)));
+            shift.setPeriod(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_PERIOD)));
+            shift.setDate(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_DATE)));
+            shiftList.add(shift);
+        }
+
+        c.close();
+        return shiftList;
+    }
 
     @SuppressLint("Range")
     public User getUserByPin(String pin){
@@ -165,7 +233,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return usr;
     }
 
-    public void insertUser(User user){
+    public void saveUser(User user){
         ContentValues cv = new ContentValues();
         cv.put(DBContract.UsersTable.COLUMN_USERID, user.getUserId());
         cv.put(DBContract.UsersTable.COLUMN_NAME, user.getName());
@@ -176,17 +244,17 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert(DBContract.UsersTable.TABLE_NAME, null, cv);
     }
 
-    private void insertShift(ShiftItem shift){
+    public void saveShift(Shift shift){
         ContentValues cv = new ContentValues();
         cv.put(DBContract.ShiftsTable.COLUMN_USERID, shift.getStaffID());
         cv.put(DBContract.ShiftsTable.COLUMN_DATE, shift.getDate());
         cv.put(DBContract.ShiftsTable.COLUMN_CLOCKIN, shift.getClockInTime());
         cv.put(DBContract.ShiftsTable.COLUMN_CLOCKOUT, shift.getClockOutTime());
-        cv.put(DBContract.ShiftsTable.COLUMN_PERIOD, ""); //
+        cv.put(DBContract.ShiftsTable.COLUMN_PERIOD, shift.getPeriod()); //
         db.insert(DBContract.ShiftsTable.TABLE_NAME, null, cv);
     }
 
-    private void insertLeave(Leave leave){
+    public void saveLeave(Leave leave){
         ContentValues cv = new ContentValues();
         cv.put(DBContract.LeaveTable.COLUMN_USERID, leave.getUserId());
         cv.put(DBContract.LeaveTable.COLUMN_STARTDATETIME, leave.getStartDate()); //Date type
@@ -197,85 +265,16 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void fillUsers(){
         User u1 = new User("1234", "Jordan", "Laing", "9876", "This is excluded for now", "Dev", "Jordy@mail", "0210000000");
-        insertUser(u1);
+        saveUser(u1);
     }
 
     private void fillShifts(){
-        ShiftItem s1 = new ShiftItem("1234", "24-11-21", "09:00", "12:00", "Dev");
-        insertShift(s1);
+        Shift s1 = new Shift("1234", "24-11-21", "09:00", "12:00", "Dev");
+        saveShift(s1);
     }
 
     private void fillLeave(){
         Leave l1 = new Leave("1234", "29-11-21", "1-12-21", "Approved");
-        insertLeave(l1);
+        saveLeave(l1);
     }
-
-
-    //----------------------------old------------------------------------\\
-    /**
-    public void saveUser(User user){
-        String uploadId = mUserDBRef.push().getKey();
-        mUserDBRef.child(uploadId).setValue(user);
-    }
-
-    public ArrayList<User> getUserByKey(String userKey){
-        ArrayList<User> users = new ArrayList<>();
-        mUserDBRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                users.clear();
-                for (DataSnapshot postSnapshot: snapshot.getChildren()){
-                    if (postSnapshot.getValue(User.class).getmKey().equals(userKey)){
-                        User user = postSnapshot.getValue(User.class);
-                        user.setmKey(postSnapshot.getKey());
-                        users.add(user);
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {  }
-        });
-        return users;
-    }
-
-    public User getUserByPin(String pin){
-        ArrayList<User> users = new ArrayList<>();
-        mUserDBRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                users.clear();
-                for (DataSnapshot postSnapshot: snapshot.getChildren()){
-                    if (postSnapshot.getValue(User.class).getPin().equals(pin)){
-                        User mUser = postSnapshot.getValue(User.class);
-                        //User.setmKey(postSnapshot.getKey());
-                        users.add(mUser);
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {  }
-        });
-
-        User user = new User();
-        return user;
-    }
-
-    public ArrayList<User> getAllUsers(){
-        ArrayList<User> users = new ArrayList<>();
-        mUserDBRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                users.clear();
-                for (DataSnapshot postSnapshot: snapshot.getChildren()){
-                    User user = postSnapshot.getValue(User.class);
-                    user.setmKey(postSnapshot.getKey());
-                    users.add(user);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {  }
-        });
-        return users;
-    }
-     **/
 }

@@ -1,9 +1,7 @@
 package com.example.angleseahospitalapp.model;
 
-import java.util.Date;
-
 public class Leave {
-    String key;
+    String id;
     String userId;
     String startDate;
     String endDate;
@@ -18,12 +16,12 @@ public class Leave {
         this.leaveStatus = leaveStatus;
     }
 
-    public String getKey() {
-        return key;
+    public String getId() {
+        return id;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUserId() {
