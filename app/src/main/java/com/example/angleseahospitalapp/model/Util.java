@@ -29,7 +29,7 @@ public class Util {
     }
 
     public static String getDayNameText(Date date){
-        Format f = new SimpleDateFormat("EEEE");
+        Format f = new SimpleDateFormat("EEE");
         String str = f.format(date);
         return str;
     }
