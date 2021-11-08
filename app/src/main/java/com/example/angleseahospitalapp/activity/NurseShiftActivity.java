@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.example.angleseahospitalapp.R;
 import com.example.angleseahospitalapp.db.DBHelper;
@@ -19,7 +20,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import com.example.angleseahospitalapp.model.*;
@@ -52,6 +55,9 @@ public class NurseShiftActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
+        TextView monthTitleTextView = findViewById(R.id.monthTitleTextView);
+        String month = Calendar.getInstance().getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+        monthTitleTextView.setText(month);
     }
 
     @Override
