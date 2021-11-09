@@ -178,7 +178,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         User user = getUserByPin(userPin);
 
-        String query = "SELECT * FROM shift where userid=" + user.getUserId() + " order by date";
+        String query = "SELECT * FROM shift where userid=" + user.getUserId() + " order by shift_date";
         Cursor c = db.rawQuery(query,null);
 
         while(c.moveToNext()){
@@ -294,13 +294,27 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void saveShift(Shift shift){
-        ContentValues cv = new ContentValues();
-        cv.put(DBContract.ShiftsTable.COLUMN_USERID, shift.getStaffID());
-        cv.put(DBContract.ShiftsTable.COLUMN_DATE, shift.getDate());
-        cv.put(DBContract.ShiftsTable.COLUMN_CLOCKIN, shift.getClockInTime());
-        cv.put(DBContract.ShiftsTable.COLUMN_CLOCKOUT, shift.getClockOutTime());
-        cv.put(DBContract.ShiftsTable.COLUMN_PERIOD, shift.getPeriod()); //
-        db.insert(DBContract.ShiftsTable.TABLE_NAME, null, cv);
+
+        String selection = DBContract.ShiftsTable.COLUMN_SHIFTID + " = ?";
+        String[] selectionArs = new String[]{shift.getShiftId()};
+
+        if(shift.getShiftId() == null || shift.getShiftId().isEmpty()){
+            ContentValues cv = new ContentValues();
+            cv.put(DBContract.ShiftsTable.COLUMN_USERID, shift.getStaffID());
+            cv.put(DBContract.ShiftsTable.COLUMN_DATE, shift.getDate());
+            cv.put(DBContract.ShiftsTable.COLUMN_CLOCKIN, shift.getClockInTime());
+            cv.put(DBContract.ShiftsTable.COLUMN_CLOCKOUT, shift.getClockOutTime());
+            cv.put(DBContract.ShiftsTable.COLUMN_PERIOD, shift.getPeriod()); //
+            db.insert(DBContract.ShiftsTable.TABLE_NAME, null, cv);
+        }else{
+            ContentValues cv = new ContentValues();
+            cv.put(DBContract.ShiftsTable.COLUMN_DATE, shift.getDate());
+            cv.put(DBContract.ShiftsTable.COLUMN_CLOCKIN, shift.getClockInTime());
+            cv.put(DBContract.ShiftsTable.COLUMN_CLOCKOUT, shift.getClockOutTime());
+            cv.put(DBContract.ShiftsTable.COLUMN_PERIOD, shift.getPeriod()); //
+            db.update(DBContract.ShiftsTable.TABLE_NAME, cv, selection, selectionArs);
+        }
+
     }
 
     public void saveLeave(Leave leave){
@@ -318,12 +332,12 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     private void fillShifts(){
-        Shift s1 = new Shift("1", "24-11-21", "09:00", "12:00", "Dev");
+        Shift s1 = new Shift("1", "24/11/21", "09:00", "12:00", "Dev");
         saveShift(s1);
     }
 
     private void fillLeave(){
-        Leave l1 = new Leave("1", "29-11-21", "1-12-21", "Approved");
+        Leave l1 = new Leave("1", "29/11/21", "01/12/21", "APPROVED");
         saveLeave(l1);
     }
 }

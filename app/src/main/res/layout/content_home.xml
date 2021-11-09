@@ -15,15 +15,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" >
 
-            <TextView
-                android:id="@+id/homeTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="07:30"
-                android:textColor="#46527A"
-                android:textSize="50sp"
-                android:textStyle="bold" />
+        <TextView
+            android:id="@+id/homeTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="07:30"
+            android:textColor="#46527A"
+            android:textSize="50sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 
@@ -53,7 +53,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="26dp"
             android:layout_marginBottom="56dp"
-            android:text="07:30 AM"
+            android:text="07:30"
             android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold" />
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="46dp"
             android:layout_marginEnd="40dp"
             android:text="START TIME"
@@ -73,12 +73,12 @@
             android:textStyle="bold" />
 
         <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/homeSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="144dp"
-            style="@style/HomeSwitch"
             android:layout_marginTop="9dp" />
 
         <TextView
@@ -153,7 +153,18 @@
         android:id="@+id/clockInBtn"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:backgroundTint="@color/design_default_color_secondary_variant"
+        android:backgroundTint="#64E831"
+        android:gravity="center"
+        android:text="Clock in"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userName" />
+
+    <Button
+        android:id="@+id/clockOutBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:backgroundTint="#E32606"
         android:gravity="center"
         android:text="Clock in"
         app:layout_constraintEnd_toEndOf="parent"

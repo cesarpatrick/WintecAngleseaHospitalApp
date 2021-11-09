@@ -1,14 +1,8 @@
 package com.example.angleseahospitalapp.model;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Util {
@@ -23,9 +17,14 @@ public class Util {
     }
 
 
-    public static String getFirstDayOfMonth(Date date){
-//        String dayFormmat;
-        return "";
+    public static String getTimeFromStringDate(String date){
+
+        if(!date.isEmpty()){
+            String[] dayFormmat = date.split(" ");
+            return dayFormmat[1];
+        }
+
+        return null;
     }
 
     public static String getLastDayOfMonth(Date date){
@@ -55,12 +54,12 @@ public class Util {
     }
 
     public static String convertDateToString(Date date){
-        SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
         return format1.format(date);
     }
 
     public static String convertDateTimeToString(Date date){
-        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         return format1.format(date);
     }
 

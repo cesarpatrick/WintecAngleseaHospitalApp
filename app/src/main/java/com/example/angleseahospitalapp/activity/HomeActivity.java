@@ -1,6 +1,7 @@
 package com.example.angleseahospitalapp.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,13 +15,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.angleseahospitalapp.databinding.ActivityHomeBinding;
 import com.example.angleseahospitalapp.db.DBHelper;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.BufferedReader;
@@ -41,12 +42,21 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout drawerLayout;
 
-    private MaterialButton startShiftBtn;
+    private RelativeLayout loggedRelativeLayout;
+    private RelativeLayout timeRelativeLayout;
 
-    private long pauseOffset;
-    private boolean running;
+    private User user;
 
-    DBHelper dbHelper = DBHelper.getInstance(this);
+    private TextView shiftStartTimeTextView;
+    private TextView durationTimeTextView;
+    private TextView homeTimeTextView;
+
+    private SwitchCompat homeSwitch;
+
+    private Button clockInBtn;
+    private Button clockOutBtn;
+
+    private DBHelper dbHelper = DBHelper.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,30 +65,46 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        Thread t = new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(1000);
+                        runOnUiThread(() -> updateTimeTextView());
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+
+        t.start();
+
         //Set my toolbar because i removed the default one
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        shiftStartTimeTextView = findViewById(R.id.shiftStartTime);
+        durationTimeTextView = findViewById(R.id.durationTimeTextView);
+
         drawerLayout = findViewById(R.id.drawerLayout);
+
+        homeSwitch = findViewById(R.id.homeSwitch);
+        homeSwitch.setEnabled(false);
 
         NavigationView navigationView = findViewById(R.id.navView);
 
-        User user = dbHelper.getUserByPin(load());
+        user = dbHelper.getUserByPin(load());
         TextView userName = findViewById(R.id.userName);
         userName.setText(user.getName() +" "+user.getSurname());
 
-        TextView homeTimeTextView = findViewById(R.id.homeTime);
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        String strDate = sdf.format(cal.getTime());
-        homeTimeTextView.setText(strDate);
-
         navigationView.setNavigationItemSelectedListener(this);
 
-        RelativeLayout loggedRelativeLayout = findViewById(R.id.relativeLayout);
+        loggedRelativeLayout = findViewById(R.id.relativeLayout);
         loggedRelativeLayout.setVisibility(View.INVISIBLE);
 
-        RelativeLayout timeRelativeLayout = findViewById(R.id.relativeLayout);
+        timeRelativeLayout = findViewById(R.id.relativeLayout2);
 
         if(user.getRole().equals(Role.MANAGER.toString())){
             navigationView.getMenu().clear();
@@ -93,19 +119,37 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
-        Button clockInBtn = findViewById(R.id.clockInBtn);
-        clockInBtn.setEnabled(false);
+        clockInBtn = findViewById(R.id.clockInBtn);
+        clockOutBtn = findViewById(R.id.clockOutBtn);
+
+        clockInBtn.setVisibility(View.INVISIBLE);
+        clockOutBtn.setVisibility(View.INVISIBLE);
 
         if(Role.valueOf(user.getRole().toUpperCase()).equals(Role.NURSE)){
-            Shift shift = dbHelper.getShiftByUserIdByDate(user.getUserId(), Util.dateQuery(Util.convertDateToString(new Date())));
+            Shift shift = dbHelper.getShiftByUserIdByDate(user.getUserId(), Util.convertDateToString(new Date()));
 
-            if(!shift.getShiftId().isEmpty()){
+            if(shift.getShiftId() != null && !shift.getShiftId().isEmpty()){
                 clockInBtn.setVisibility(View.VISIBLE);
+                if(shift.getClockInTime() != null && !shift.getClockInTime().isEmpty()){
+                    clockInBtn.setVisibility(View.INVISIBLE);
+                    clockOutBtn.setVisibility(View.VISIBLE);
 
+                    shiftStartTimeTextView.setText(Util.getTimeFromStringDate(shift.getClockInTime()));
+                    durationTimeTextView.setText("00:00");
+
+                    loggedRelativeLayout.setVisibility(View.VISIBLE);
+                    timeRelativeLayout.setVisibility(View.INVISIBLE);
+                }
+
+            }else{
+                clockInBtn.setVisibility(View.INVISIBLE);
+                clockOutBtn.setVisibility(View.INVISIBLE);
             }
         }else{
             clockInBtn.setVisibility(View.INVISIBLE);
         }
+
+        clockInBtn.setOnClickListener(view -> clockIn());
     }
 
     //To close the navigation draw on back pressed
@@ -215,4 +259,40 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
+
+    private void updateTimeTextView(){
+        homeTimeTextView = findViewById(R.id.homeTime);
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        String strDate = sdf.format(cal.getTime());
+        homeTimeTextView.setText(strDate);
+    }
+
+    private void clockIn(){
+        Shift shift = dbHelper.getShiftByUserIdByDate(user.getUserId(), Util.convertDateToString(new Date()));
+
+        if(shift.getShiftId() != null && !shift.getShiftId().isEmpty()){
+
+            shift.setClockInTime(Util.convertDateTimeToString(new Date()));
+
+            dbHelper.saveShift(shift);
+
+            shiftStartTimeTextView.setText(homeTimeTextView.getText());
+            durationTimeTextView.setText("00:00");
+
+            loggedRelativeLayout.setVisibility(View.VISIBLE);
+            timeRelativeLayout.setVisibility(View.INVISIBLE);
+
+            clockInBtn.setVisibility(View.INVISIBLE);
+            clockOutBtn.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void clockOut(){
+
+
+        clockInBtn.setVisibility(View.INVISIBLE);
+        clockOutBtn.setVisibility(View.INVISIBLE);
+    }
+
 }

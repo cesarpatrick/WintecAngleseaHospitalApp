@@ -69,8 +69,9 @@
         <item name="cornerFamilyBottomLeft">rounded</item>
     </style>
 
-    <style name="HomeSwitch" parent="@style/Widget.AppCompat.CompoundButton.Switch">
+    <style name="Custom.Widget.SwitchCompat" parent="@style/Widget.AppCompat.CompoundButton.Switch">
         <item name="android:colorControlActivated">#E8232B</item>
+        <item name="android:textColorPrimary">#64E831</item>
         <item name="android:colorForeground">#64E831</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
     </style>
