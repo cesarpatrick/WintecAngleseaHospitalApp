@@ -13,6 +13,7 @@ import com.example.angleseahospitalapp.model.Leave;
 import com.example.angleseahospitalapp.model.Role;
 import com.example.angleseahospitalapp.model.Shift;
 import com.example.angleseahospitalapp.model.User;
+import com.example.angleseahospitalapp.model.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,8 +69,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 DBContract.ShiftsTable.COLUMN_SHIFTID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DBContract.ShiftsTable.COLUMN_USERID + " INTEGER, " +
                 DBContract.ShiftsTable.COLUMN_DATE + " DATE, " +
-                DBContract.ShiftsTable.COLUMN_CLOCKIN  + " TIME, " +
-                DBContract.ShiftsTable.COLUMN_CLOCKOUT + " TIME, " +
+                DBContract.ShiftsTable.COLUMN_CLOCKIN  + " DATE, " +
+                DBContract.ShiftsTable.COLUMN_CLOCKOUT + " DATE, " +
                 DBContract.ShiftsTable.COLUMN_PERIOD + " TEXT, " +
                 "FOREIGN KEY(" + DBContract.ShiftsTable.COLUMN_USERID + ") REFERENCES " +
                 DBContract.UsersTable.TABLE_NAME + "(" + DBContract.UsersTable.COLUMN_USERID + ")" + "ON DELETE CASCADE" +
@@ -148,6 +149,29 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
+    public List<Leave> getAllLeave(){
+        List<Leave> leaveList = new ArrayList<>();
+        db = getReadableDatabase();
+
+        String query = "SELECT * FROM leave";
+        Cursor c = db.rawQuery(query,null);
+
+        while(c.moveToNext()){
+
+            Leave leave = new Leave();
+            leave.setId(c.getString(c.getColumnIndex(DBContract.LeaveTable.COLUMN_LEAVEID)));
+            leave.setUserId(c.getString(c.getColumnIndex(DBContract.LeaveTable.COLUMN_USERID)));
+            leave.setStartDate(c.getString(c.getColumnIndex(DBContract.LeaveTable.COLUMN_STARTDATETIME)));
+            leave.setEndDate(c.getString(c.getColumnIndex(DBContract.LeaveTable.COLUMN_ENDDATETIME)));
+            leave.setLeaveStatus(c.getString(c.getColumnIndex(DBContract.LeaveTable.COLUMN_STATUS)));
+            leaveList.add(leave);
+        }
+
+        c.close();
+        return leaveList;
+    }
+
+    @SuppressLint("Range")
     public List<Shift> getAllShiftByUserId(String userPin){
         List<Shift> shiftList = new ArrayList<>();
         db = getReadableDatabase();
@@ -200,6 +224,31 @@ public class DBHelper extends SQLiteOpenHelper {
 
         c.close();
         return usr;
+    }
+
+    @SuppressLint("Range")
+    public Shift getShiftByUserIdByDate(String userId, String date){
+        Shift shift = new Shift();
+        db = getReadableDatabase();
+
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM shift where userid=").append(userId).append(" and shift_date='").append(date).append("'");
+
+        Cursor c = db.rawQuery(query.toString(),null);
+
+        while (c.moveToNext()){
+
+            shift.setStaffID(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_USERID)));
+            shift.setDate(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_DATE)));
+            shift.setPeriod(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_PERIOD)));
+            shift.setShiftId(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_SHIFTID)));
+            shift.setClockInTime(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_CLOCKIN)));
+            shift.setClockOutTime(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_CLOCKOUT)));
+            break;
+        }
+
+        c.close();
+        return shift;
     }
 
     @SuppressLint("Range")
@@ -264,17 +313,17 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     private void fillUsers(){
-        User u1 = new User("1234", "Jordan", "Laing", "9876", "This is excluded for now", "Dev", "Jordy@mail", "0210000000");
+        User u1 = new User("1", "Jordan", "Laing", "9876", "This is excluded for now", "MANAGER", "Jordy@mail", "0210000000");
         saveUser(u1);
     }
 
     private void fillShifts(){
-        Shift s1 = new Shift("1234", "24-11-21", "09:00", "12:00", "Dev");
+        Shift s1 = new Shift("1", "24-11-21", "09:00", "12:00", "Dev");
         saveShift(s1);
     }
 
     private void fillLeave(){
-        Leave l1 = new Leave("1234", "29-11-21", "1-12-21", "Approved");
+        Leave l1 = new Leave("1", "29-11-21", "1-12-21", "Approved");
         saveLeave(l1);
     }
 }

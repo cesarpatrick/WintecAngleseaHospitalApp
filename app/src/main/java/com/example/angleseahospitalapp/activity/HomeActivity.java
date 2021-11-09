@@ -3,6 +3,9 @@ package com.example.angleseahospitalapp.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.angleseahospitalapp.R;
@@ -27,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import com.example.angleseahospitalapp.model.*;
 
@@ -63,7 +67,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         TextView userName = findViewById(R.id.userName);
         userName.setText(user.getName() +" "+user.getSurname());
 
-
         TextView homeTimeTextView = findViewById(R.id.homeTime);
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
@@ -71,6 +74,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         homeTimeTextView.setText(strDate);
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        RelativeLayout loggedRelativeLayout = findViewById(R.id.relativeLayout);
+        loggedRelativeLayout.setVisibility(View.INVISIBLE);
+
+        RelativeLayout timeRelativeLayout = findViewById(R.id.relativeLayout);
 
         if(user.getRole().equals(Role.MANAGER.toString())){
             navigationView.getMenu().clear();
@@ -85,9 +93,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
+        Button clockInBtn = findViewById(R.id.clockInBtn);
+        clockInBtn.setEnabled(false);
 
-        Intent addNurseIntent = new Intent(this, AddUserActivity.class);
+        if(Role.valueOf(user.getRole().toUpperCase()).equals(Role.NURSE)){
+            Shift shift = dbHelper.getShiftByUserIdByDate(user.getUserId(), Util.dateQuery(Util.convertDateToString(new Date())));
 
+            if(!shift.getShiftId().isEmpty()){
+                clockInBtn.setVisibility(View.VISIBLE);
+
+            }
+        }else{
+            clockInBtn.setVisibility(View.INVISIBLE);
+        }
     }
 
     //To close the navigation draw on back pressed
@@ -126,7 +144,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(addShiftIntent);
                 break;
             case R.id.navLeaveManager:
-                Intent leaveManagerIntent = new Intent(this, AddShiftActivity.class);
+                Intent leaveManagerIntent = new Intent(this, ListLeaveActivity.class);
                 startActivity(leaveManagerIntent);
                 break;
             case R.id.navLogOut:
@@ -197,5 +215,4 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
-
 }

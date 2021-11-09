@@ -13,6 +13,7 @@ import com.example.angleseahospitalapp.model.Leave;
 import com.example.angleseahospitalapp.model.LeaveStatus;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.LeaveViewHolder>{
 
@@ -50,9 +51,9 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.LeaveViewHol
         holder.toTextView.setText(leaveItem.getEndDate());
         holder.statusTextView.setText(leaveItem.getLeaveStatus());
 
-        if(LeaveStatus.valueOf(leaveItem.getLeaveStatus()).equals(LeaveStatus.APPROVED)){
+        if(LeaveStatus.valueOf(leaveItem.getLeaveStatus().toUpperCase()).equals(LeaveStatus.APPROVED)){
             holder.statusTextView.setTextColor(Color.GREEN);
-        }else if(LeaveStatus.valueOf(leaveItem.getLeaveStatus()).equals(LeaveStatus.DISAPPROVED)){
+        }else if(LeaveStatus.valueOf(leaveItem.getLeaveStatus().toUpperCase()).equals(LeaveStatus.DISAPPROVED)){
             holder.statusTextView.setTextColor(Color.RED);
         }else{
             holder.statusTextView.setTextColor(Color.BLUE);

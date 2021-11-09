@@ -24,7 +24,7 @@ public final class DBContract {
         public static final String TABLE_NAME = "shift";
         public static final String COLUMN_SHIFTID = "shiftid"; //primary key
         public static final String COLUMN_USERID = "userid"; //foreign key
-        public static final String COLUMN_DATE = "date";
+        public static final String COLUMN_DATE = "shift_date";
         public static final String COLUMN_CLOCKIN = "clockin";
         public static final String COLUMN_CLOCKOUT = "clockout";
         public static final String COLUMN_PERIOD = "period";

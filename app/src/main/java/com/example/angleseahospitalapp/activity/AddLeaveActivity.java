@@ -17,10 +17,8 @@ import android.widget.Toast;
 
 import com.example.angleseahospitalapp.R;
 import com.example.angleseahospitalapp.db.DBHelper;
-import com.example.angleseahospitalapp.db.LeaveDBHelper;
 import com.example.angleseahospitalapp.model.Leave;
 import com.example.angleseahospitalapp.model.LeaveStatus;
-import com.example.angleseahospitalapp.model.User;
 import com.example.angleseahospitalapp.model.Util;
 
 import java.io.BufferedReader;
@@ -88,7 +86,7 @@ public class AddLeaveActivity extends AppCompatActivity {
 
         mDateStartSetListener = (datePicker, year, month, day) -> {
             month = month + 1;
-            String date = month + "/" + Util.formatDayDate(day) + "/" + year;
+            String date = Util.formatDayDate(day) + "/" + Util.formatDayDate(month) + "/" + year;
             startDateEditText.setText(date);
         };
 
@@ -115,7 +113,7 @@ public class AddLeaveActivity extends AppCompatActivity {
 
         mDateEndSetListener = (datePicker, year, month, day) -> {
             month = month + 1;
-            String date =Util.formatDayDate(day)  + "/" + month + "/" + year;
+            String date =Util.formatDayDate(day)  + "/" + Util.formatDayDate(month) + "/" + year;
             endDateEditText.setText(date);
         };
 

@@ -6,25 +6,108 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" >
+
+            <TextView
+                android:id="@+id/homeTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="07:30"
+                android:textColor="#46527A"
+                android:textSize="50sp"
+                android:textStyle="bold" />
+    </RelativeLayout>
+
+
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="100dp"
         android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.434"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" >
 
+<!--        <TextView-->
+<!--            android:id="@+id/homeTime"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:text="07:30"-->
+<!--            android:textColor="#46527A"-->
+<!--            android:textSize="50sp"-->
+<!--            android:textStyle="bold" />-->
+
         <TextView
-            android:id="@+id/homeTime"
+            android:id="@+id/shiftStartTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="07:30"
-            android:textColor="#46527A"
-            android:textSize="50sp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="26dp"
+            android:layout_marginBottom="56dp"
+            android:text="07:30 AM"
+            android:textColor="@color/black"
+            android:textSize="25sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/homeTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="46dp"
+            android:layout_marginEnd="40dp"
+            android:text="START TIME"
+            android:textColor="#46527A"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="144dp"
+            style="@style/HomeSwitch"
+            android:layout_marginTop="9dp" />
+
+        <TextView
+            android:id="@+id/durationTimeLabelTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="225dp"
+            android:layout_marginTop="47dp"
+            android:text="DURATION"
+            android:textColor="#46527A"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/durationTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="229dp"
+            android:layout_marginTop="8dp"
+            android:text="07:30"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+
     </RelativeLayout>
 
     <ImageView

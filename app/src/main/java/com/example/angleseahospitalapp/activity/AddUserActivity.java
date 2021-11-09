@@ -65,7 +65,6 @@ public class AddUserActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
         userPhoto = findViewById(R.id.profileImage);

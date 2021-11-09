@@ -1,8 +1,14 @@
 package com.example.angleseahospitalapp.model;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Util {
@@ -48,6 +54,16 @@ public class Util {
         return null;
     }
 
+    public static String convertDateToString(Date date){
+        SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy");
+        return format1.format(date);
+    }
+
+    public static String convertDateTimeToString(Date date){
+        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        return format1.format(date);
+    }
+
     public static String getTimeByShiftPeriod(ShiftPeriod period){
 
         if (period.equals(period.MORNING)){
@@ -61,4 +77,23 @@ public class Util {
         }
     }
 
+    public static String dateQuery(String stringDate){
+
+        SimpleDateFormat inSDF = new SimpleDateFormat("mm/dd/yyyy");
+        SimpleDateFormat outSDF = new SimpleDateFormat("yyyy-mm-dd");
+
+        String outDate = "";
+
+        if(stringDate != null && !stringDate.isEmpty()){
+            try {
+                Date date = inSDF.parse(stringDate);
+                outDate = outSDF.format(date);
+                return outDate;
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
 }
