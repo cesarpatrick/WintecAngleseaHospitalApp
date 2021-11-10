@@ -1,5 +1,6 @@
 package com.example.angleseahospitalapp.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.example.angleseahospitalapp.R;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.widget.SwitchCompat;
@@ -56,30 +58,57 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private Button clockInBtn;
     private Button clockOutBtn;
 
+    private boolean isClockedIn = false;
+
     private DBHelper dbHelper = DBHelper.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        user = dbHelper.getUserByPin(load());
+
+        if(isClockedIn){
+            Shift shift = dbHelper.getShiftByUserIdByDate(user.getUserId(), Util.convertDateToString(new Date()));
+
+            Thread thread = new Thread() {
+
+                @Override
+                public void run() {
+                    try {
+                        while (!isInterrupted()) {
+                            Thread.sleep(1000);
+                            runOnUiThread(() -> durationTimeTextView.setText(Util.shiftDuration(shift.getClockInTime(), Util.convertDateTimeToString(new Date()))));
+                        }
+                    } catch (InterruptedException e) {
+                    }
+                }
+            };
+
+            thread.start();
+        }
+
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Thread t = new Thread() {
+        if(!isClockedIn) {
 
-            @Override
-            public void run() {
-                try {
-                    while (!isInterrupted()) {
-                        Thread.sleep(1000);
-                        runOnUiThread(() -> updateTimeTextView());
+            Thread t = new Thread() {
+
+                @Override
+                public void run() {
+                    try {
+                        while (!isInterrupted()) {
+                            Thread.sleep(1000);
+                            runOnUiThread(() -> updateTimeTextView());
+                        }
+                    } catch (InterruptedException e) {
                     }
-                } catch (InterruptedException e) {
                 }
-            }
-        };
+            };
 
-        t.start();
+            t.start();
+        }
 
         //Set my toolbar because i removed the default one
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -95,7 +124,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = findViewById(R.id.navView);
 
-        user = dbHelper.getUserByPin(load());
         TextView userName = findViewById(R.id.userName);
         userName.setText(user.getName() +" "+user.getSurname());
 
@@ -136,6 +164,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                     shiftStartTimeTextView.setText(Util.getTimeFromStringDate(shift.getClockInTime()));
                     durationTimeTextView.setText("00:00");
+                    isClockedIn = true;
 
                     loggedRelativeLayout.setVisibility(View.VISIBLE);
                     timeRelativeLayout.setVisibility(View.INVISIBLE);
@@ -150,6 +179,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
 
         clockInBtn.setOnClickListener(view -> clockIn());
+        clockOutBtn.setOnClickListener(view -> clockOut());
     }
 
     //To close the navigation draw on back pressed
@@ -290,9 +320,37 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private void clockOut(){
 
+        Shift shift = dbHelper.getShiftByUserIdByDate(user.getUserId(), Util.convertDateToString(new Date()));
 
-        clockInBtn.setVisibility(View.INVISIBLE);
-        clockOutBtn.setVisibility(View.INVISIBLE);
+        if(shift.getShiftId() != null && !shift.getShiftId().isEmpty()){
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setCancelable(true);
+            builder.setTitle("Clock out");
+            builder.setMessage("Are you sure you want to clock out ?");
+            builder.setPositiveButton("Confirm",
+                    (dialog, which) -> {
+
+                        shift.setClockOutTime(Util.convertDateTimeToString(new Date()));
+
+                        dbHelper.saveShift(shift);
+
+                        shiftStartTimeTextView.setText(homeTimeTextView.getText());
+
+                        loggedRelativeLayout.setVisibility(View.INVISIBLE);
+                        timeRelativeLayout.setVisibility(View.VISIBLE);
+
+                        clockInBtn.setVisibility(View.INVISIBLE);
+                        clockOutBtn.setVisibility(View.INVISIBLE);
+
+            });
+            builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
     }
 
 }

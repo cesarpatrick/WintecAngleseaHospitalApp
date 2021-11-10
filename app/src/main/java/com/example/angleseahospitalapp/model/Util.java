@@ -10,12 +10,11 @@ public class Util {
     public static String formatDayDate(int day){
         String dayFormmat;
         if(day <= 9){
-            return dayFormmat = "0"+day;
+            return "0"+day;
         }else{
-           return dayFormmat = ""+day;
+           return ""+day;
         }
     }
-
 
     public static String getTimeFromStringDate(String date){
 
@@ -94,5 +93,49 @@ public class Util {
         }
 
         return null;
+    }
+
+    public static String shiftDuration(String date1, String date2){
+        // SimpleDateFormat converts the
+        // string format to date object
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        // Try Block
+        try {
+
+            // parse method is used to parse
+            // the text from a string to
+            // produce the date
+            Date d1 = sdf.parse(date1);
+            Date d2 = sdf.parse(date2);
+
+            // Calucalte time difference
+            // in milliseconds
+            long difference_In_Time
+                    = d2.getTime() - d1.getTime();
+
+
+
+            long difference_In_Minutes
+                    = (difference_In_Time
+                    / (1000 * 60))
+                    % 60;
+
+            long difference_In_Hours
+                    = (difference_In_Time
+                    / (1000 * 60 * 60))
+                    % 24;
+
+
+           return Util.formatDayDate(Integer.parseInt(difference_In_Hours+"")) + ":" + Util.formatDayDate(Integer.parseInt(difference_In_Minutes+""));
+
+        }
+
+        // Catch the Exception
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+     return null;
     }
 }

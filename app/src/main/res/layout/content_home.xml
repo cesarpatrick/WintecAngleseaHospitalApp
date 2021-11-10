@@ -166,7 +166,7 @@
         android:layout_height="60dp"
         android:backgroundTint="#E32606"
         android:gravity="center"
-        android:text="Clock in"
+        android:text="Clock out"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userName" />

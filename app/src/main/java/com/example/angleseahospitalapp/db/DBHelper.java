@@ -232,7 +232,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db = getReadableDatabase();
 
         StringBuilder query = new StringBuilder();
-        query.append("SELECT * FROM shift where userid=").append(userId).append(" and shift_date='").append(date).append("'");
+        query.append("SELECT * FROM shift where userid=").append(userId)
+                .append(" and shift_date='").append(date).append("'").append(" and clockout IS NULL");
 
         Cursor c = db.rawQuery(query.toString(),null);
 
