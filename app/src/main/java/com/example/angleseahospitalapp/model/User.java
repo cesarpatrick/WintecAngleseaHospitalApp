@@ -7,18 +7,18 @@ public class User {
     private String surname;
     private String pin;
     private String email;
-    private String photoPath;
+    private byte[] photo;
     private String role;
     private String phoneNumber;
 
     public User(){ }
 
-    public User(String userId, String name, String surname, String pin, String photoPath, String role, String email, String phoneNumber) {
+    public User(String userId, String name, String surname, String pin, byte[] photo, String role, String email, String phoneNumber) {
         this.userId = userId;
         this.name = name;
         this.surname = surname;
         this.pin = pin;
-        this.photoPath = photoPath;
+        this.photo = photo;
         this.role = role;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -56,12 +56,12 @@ public class User {
         this.pin = pin;
     }
 
-    public String getPhotoPath() {
-        return photoPath;
+    public byte[] getPhoto() {
+        return photo;
     }
 
-    public void setPhotoPath(String photoPath) {
-        this.photoPath = photoPath;
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 
     public String getRole() {

@@ -44,6 +44,8 @@ public class AddUserActivity extends AppCompatActivity {
     ImageButton photoBtn;
     Button saveBtn;
 
+    byte[] photo;
+
     EditText nameEditText;
     EditText surnameEditText;
     EditText phoneEditText;
@@ -126,6 +128,8 @@ public class AddUserActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
+            photo = imageBitmap.getNinePatchChunk();
+
             //filePath = Uri.fromFile()
             userPhoto.setImageBitmap(imageBitmap);
             fileUri = Uri.fromFile(userPhoto.getContext().getFilesDir());
@@ -172,6 +176,10 @@ public class AddUserActivity extends AppCompatActivity {
             user.setPhoneNumber(phoneEditText.getText().toString());
             user.setSurname(surnameEditText.getText().toString());
             user.setRole(roleSpinner.getSelectedItem().toString());
+
+            if(photo != null){
+                user.setPhoto(photo);
+            }
 
             helper.saveUser(user);
 

@@ -293,6 +293,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(DBContract.UsersTable.COLUMN_PIN, user.getPin());
         cv.put(DBContract.UsersTable.COLUMN_EMAIL, user.getEmail());
         cv.put(DBContract.UsersTable.COLUMN_ROLENAME, user.getRole());
+        cv.put(DBContract.UsersTable.COLUMN_PHOTO, user.getPhoto());
         db.insert(DBContract.UsersTable.TABLE_NAME, null, cv);
     }
 
@@ -330,7 +331,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     private void fillUsers(){
-        User u1 = new User("1", "Jordan", "Laing", "9876", "This is excluded for now", "MANAGER", "Jordy@mail", "0210000000");
+        User u1 = new User("1", "Jordan", "Laing", "9876", null, "MANAGER", "Jordy@mail", "0210000000");
         saveUser(u1);
     }
 
