@@ -128,7 +128,6 @@ public class PinScreenActivity extends AppCompatActivity {
                 super.onAuthenticationSucceeded(result);
                 User user = dbHelper.getUserByPin("0123");
                 save(user.getPin());
-                Toast.makeText(PinScreenActivity.this, "Welcome, " + user.getName(), Toast.LENGTH_LONG).show();
                 startActivity(intent);
             }
 
@@ -156,7 +155,6 @@ public class PinScreenActivity extends AppCompatActivity {
 
             if( user.getUserId() != null && !user.getUserId().isEmpty()) {
                 save(pinView.getText().toString());
-                Toast.makeText(this, "Welcome, " + user.getName(), Toast.LENGTH_LONG).show();
                 startActivity(intent);
             }else{
                 Toast toast = Toast.makeText(this, "Pin does not exist.", Toast.LENGTH_LONG);

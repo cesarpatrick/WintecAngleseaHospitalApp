@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ListUserActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.AngleseaHospitalApp.AppBarOverlay"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/usersToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#2D43A6"
+        app:popupTheme="@style/Theme.AngleseaHospitalApp.PopupOverlay"
+        app:title="Users"
+        app:titleTextColor="@color/white"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <TextView
+        android:id="@+id/staffTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="8dp"
+        android:text="Edit User"
+        android:maxLength="4"
+        android:textColor="#A8B2BF"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.034"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usersToolbar" />
+
+    <Spinner
+        android:id="@+id/staffSpinner"
+        android:layout_width="220dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.177"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/staffTextView"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/editUserBtn"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
+        android:background="#2D43A6"
+        android:src="@drawable/ic_baseline_edit_24"
+        android:text="Save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toEndOf="@+id/staffSpinner"
+        app:layout_constraintTop_toBottomOf="@id/usersToolbar" />
+
+    <TextView
+        android:id="@+id/addNewUserTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="8dp"
+        android:text="Add"
+        android:textColor="#A8B2BF"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.034"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/staffSpinner" />
+
+    <Button
+        android:id="@+id/addUserBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="328dp"
+        android:backgroundTint="@color/app_blue"
+        android:text="Add New User"
+        app:layout_constraintTop_toBottomOf="@id/addNewUserTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/nurseGroupTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="32dp"
+        android:text="Manager Nurse Groups"
+        android:textColor="#A8B2BF"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addUserBtn" />
+
+    <Button
+        android:id="@+id/addUserGroupBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@color/app_blue"
+        android:text="Nurse groups"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nurseGroupTextView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -53,8 +53,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private TextView durationTimeTextView;
     private TextView homeTimeTextView;
 
-    private SwitchCompat homeSwitch;
-
     private Button clockInBtn;
     private Button clockOutBtn;
 
@@ -68,8 +66,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         user = dbHelper.getUserByPin(load());
 
+        Shift shift = dbHelper.getShiftByUserIdByDate(user.getUserId(), Util.convertDateToString(new Date()));
+
+        if(shift != null && shift.getClockInTime() != null && !shift.getClockInTime().isEmpty()){
+            isClockedIn = true;
+        }else{
+            isClockedIn = false;
+        }
+
         if(isClockedIn){
-            Shift shift = dbHelper.getShiftByUserIdByDate(user.getUserId(), Util.convertDateToString(new Date()));
 
             Thread thread = new Thread() {
 
@@ -119,9 +124,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         drawerLayout = findViewById(R.id.drawerLayout);
 
-        homeSwitch = findViewById(R.id.homeSwitch);
-        homeSwitch.setEnabled(false);
-
         NavigationView navigationView = findViewById(R.id.navView);
 
         TextView userName = findViewById(R.id.userName);
@@ -154,7 +156,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         clockOutBtn.setVisibility(View.INVISIBLE);
 
         if(Role.valueOf(user.getRole().toUpperCase()).equals(Role.NURSE)){
-            Shift shift = dbHelper.getShiftByUserIdByDate(user.getUserId(), Util.convertDateToString(new Date()));
 
             if(shift.getShiftId() != null && !shift.getShiftId().isEmpty()){
                 clockInBtn.setVisibility(View.VISIBLE);
@@ -334,8 +335,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         shift.setClockOutTime(Util.convertDateTimeToString(new Date()));
 
                         dbHelper.saveShift(shift);
-
-                        shiftStartTimeTextView.setText(homeTimeTextView.getText());
 
                         loggedRelativeLayout.setVisibility(View.INVISIBLE);
                         timeRelativeLayout.setVisibility(View.VISIBLE);

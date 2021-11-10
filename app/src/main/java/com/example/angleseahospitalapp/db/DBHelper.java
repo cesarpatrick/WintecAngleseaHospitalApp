@@ -188,6 +188,8 @@ public class DBHelper extends SQLiteOpenHelper {
             shift.setStaffID(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_USERID)));
             shift.setPeriod(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_PERIOD)));
             shift.setDate(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_DATE)));
+            shift.setClockOutTime(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_CLOCKOUT)));
+            shift.setClockInTime(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_CLOCKIN)));
             shiftList.add(shift);
         }
 

@@ -1,8 +1,10 @@
 package com.example.angleseahospitalapp.activity;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +26,7 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ShiftViewHol
         public TextView dayNameTextView;
         public TextView timeTextView;
         public TextView teamNameTextView;
+        public RelativeLayout relativeLayout;
 
         public ShiftViewHolder(View itemView) {
             super(itemView);
@@ -31,6 +34,7 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ShiftViewHol
             timeTextView = itemView.findViewById(R.id.timeTextView);
             teamNameTextView = itemView.findViewById(R.id.teamNameTextView);
             dayNameTextView = itemView.findViewById(R.id.dayNameTextView);
+            relativeLayout = itemView.findViewById(R.id.shiftItemRelativeLayout);
         }
     }
 
@@ -53,6 +57,10 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ShiftViewHol
         holder.timeTextView.setText(Util.getTimeByShiftPeriod(ShiftPeriod.valueOf(shiftItem.getPeriod())));
         holder.teamNameTextView.setText(shiftItem.getTeamName());
         holder.dayNameTextView.setText(Util.getDayNameText(Util.convertStringToDate(shiftItem.getDate()))); //this has to be split up was a date type for db
+
+        if(shiftItem.getClockOutTime() != null && !shiftItem.getClockOutTime().isEmpty()){
+            holder.relativeLayout.setBackgroundColor(Color.GREEN);
+        }
     }
 
     @Override
