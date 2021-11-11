@@ -69,7 +69,6 @@ public class AddShiftActivity extends AppCompatActivity {
         periodSpinnerList.add(ShiftPeriod.AFTERNOON.toString());
         periodSpinnerList.add(ShiftPeriod.NIGHT.toString());
 
-
         staffSpinnerList.add("");
         for (User user: users) {
             staffSpinnerList.add(user.getUserId() + "-" + user.getName() +" "+ user.getSurname());
