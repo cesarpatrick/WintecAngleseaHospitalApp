@@ -72,6 +72,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 DBContract.ShiftsTable.COLUMN_CLOCKIN  + " DATE, " +
                 DBContract.ShiftsTable.COLUMN_CLOCKOUT + " DATE, " +
                 DBContract.ShiftsTable.COLUMN_PERIOD + " TEXT, " +
+                DBContract.ShiftsTable.COLUMN_WEEKEND + " TEXT, " +
+                DBContract.ShiftsTable.COLUMN_PUBLIC_HOLIDAY + " TEXT, " +
                 "FOREIGN KEY(" + DBContract.ShiftsTable.COLUMN_USERID + ") REFERENCES " +
                 DBContract.UsersTable.TABLE_NAME + "(" + DBContract.UsersTable.COLUMN_USERID + ")" + "ON DELETE CASCADE" +
                 ")";
@@ -190,6 +192,8 @@ public class DBHelper extends SQLiteOpenHelper {
             shift.setDate(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_DATE)));
             shift.setClockOutTime(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_CLOCKOUT)));
             shift.setClockInTime(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_CLOCKIN)));
+            shift.setWeekend(Boolean.parseBoolean(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_WEEKEND))));
+            shift.setPublicHoliday(Boolean.parseBoolean(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_PUBLIC_HOLIDAY))));
             shiftList.add(shift);
         }
 
@@ -248,6 +252,8 @@ public class DBHelper extends SQLiteOpenHelper {
             shift.setShiftId(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_SHIFTID)));
             shift.setClockInTime(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_CLOCKIN)));
             shift.setClockOutTime(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_CLOCKOUT)));
+            shift.setWeekend(Boolean.parseBoolean(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_WEEKEND))));
+            shift.setPublicHoliday(Boolean.parseBoolean(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_PUBLIC_HOLIDAY))));
             break;
         }
 
@@ -310,13 +316,19 @@ public class DBHelper extends SQLiteOpenHelper {
             cv.put(DBContract.ShiftsTable.COLUMN_CLOCKIN, shift.getClockInTime());
             cv.put(DBContract.ShiftsTable.COLUMN_CLOCKOUT, shift.getClockOutTime());
             cv.put(DBContract.ShiftsTable.COLUMN_PERIOD, shift.getPeriod()); //
+            cv.put(DBContract.ShiftsTable.COLUMN_WEEKEND, shift.getWeekend());
+            cv.put(DBContract.ShiftsTable.COLUMN_PUBLIC_HOLIDAY, shift.getPublicHoliday()); //
+
             db.insert(DBContract.ShiftsTable.TABLE_NAME, null, cv);
+
         }else{
             ContentValues cv = new ContentValues();
             cv.put(DBContract.ShiftsTable.COLUMN_DATE, shift.getDate());
             cv.put(DBContract.ShiftsTable.COLUMN_CLOCKIN, shift.getClockInTime());
             cv.put(DBContract.ShiftsTable.COLUMN_CLOCKOUT, shift.getClockOutTime());
             cv.put(DBContract.ShiftsTable.COLUMN_PERIOD, shift.getPeriod()); //
+            cv.put(DBContract.ShiftsTable.COLUMN_WEEKEND, shift.getWeekend());
+            cv.put(DBContract.ShiftsTable.COLUMN_PUBLIC_HOLIDAY, shift.getPublicHoliday());
             db.update(DBContract.ShiftsTable.TABLE_NAME, cv, selection, selectionArs);
         }
 
@@ -337,7 +349,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     private void fillShifts(){
-        Shift s1 = new Shift("1", "24/11/21", "09:00", "12:00", "Dev");
+        Shift s1 = new Shift("1", "24/11/21", "09:00", "12:00", "Dev", false, false);
         saveShift(s1);
     }
 

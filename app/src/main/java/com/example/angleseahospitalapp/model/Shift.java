@@ -9,17 +9,21 @@ public class Shift {
     private String staffID;
     private String shiftId;
     private String period;
+    private boolean weekend;
+    private boolean publicHoliday;
 
     public Shift(){
 
     }
 
-    public Shift(String staffID, String date, String clockInTime, String clockOutTime, String teamName) {
+    public Shift(String staffID, String date, String clockInTime, String clockOutTime, String teamName, boolean isWeekend, boolean isPublicHoliday) {
         this.staffID = staffID;
         this.date = date;
         this.clockInTime = clockInTime;
         this.clockOutTime = clockOutTime;
         this.teamName = teamName;
+        this.weekend = isWeekend;
+        this.publicHoliday = isPublicHoliday;
     }
 
     public String getDate() {
@@ -73,5 +77,21 @@ public class Shift {
 
     public void setPeriod(String period) {
         this.period = period;
+    }
+
+    public boolean getWeekend() {
+        return weekend;
+    }
+
+    public void setWeekend(boolean weekend) {
+        this.weekend = weekend;
+    }
+
+    public boolean getPublicHoliday() {
+        return publicHoliday;
+    }
+
+    public void setPublicHoliday(boolean publicHoliday) {
+        this.publicHoliday = publicHoliday;
     }
 }

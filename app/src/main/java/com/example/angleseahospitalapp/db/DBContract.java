@@ -28,6 +28,8 @@ public final class DBContract {
         public static final String COLUMN_CLOCKIN = "clockin";
         public static final String COLUMN_CLOCKOUT = "clockout";
         public static final String COLUMN_PERIOD = "period";
+        public static final String COLUMN_WEEKEND = "weekend";
+        public static final String COLUMN_PUBLIC_HOLIDAY = "public_holiday";
     }
 
     //constants for the naming convention for the Shifts table

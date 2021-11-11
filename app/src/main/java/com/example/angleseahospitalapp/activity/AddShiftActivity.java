@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -44,6 +45,8 @@ public class AddShiftActivity extends AppCompatActivity {
     private ImageButton calendarBtn;
     private Spinner userSpinner;
     private Spinner periodSpinner;
+    private CheckBox weekendCheckBox;
+    private CheckBox publicHolidayCheckBox;
 
     DBHelper dbHelper = DBHelper.getInstance(this);
 
@@ -60,6 +63,9 @@ public class AddShiftActivity extends AppCompatActivity {
 
         userSpinner = findViewById(R.id.staffSpinner);
         periodSpinner = findViewById(R.id.shiftSpinner);
+
+        weekendCheckBox = findViewById(R.id.weekendCheckBox);
+        publicHolidayCheckBox = findViewById(R.id.publicHolidayCheckBox);
 
         List<User> users = dbHelper.getAllUsers();
         List<String> staffSpinnerList = new ArrayList<>();
@@ -150,6 +156,8 @@ public class AddShiftActivity extends AppCompatActivity {
                 shift.setStaffID(array[0]);
                 shift.setDate(dateEditText.getText().toString());
                 shift.setPeriod(periodSpinner.getSelectedItem().toString());
+                shift.setWeekend(weekendCheckBox.isChecked());
+                shift.setPublicHoliday(publicHolidayCheckBox.isChecked());
 
                 helper.saveShift(shift);
 
@@ -166,6 +174,8 @@ public class AddShiftActivity extends AppCompatActivity {
         dateEditText.setText("");
         periodSpinner.setSelection(0);
         userSpinner.setSelection(0);
+        weekendCheckBox.setChecked(false);
+        publicHolidayCheckBox.setChecked(false);
     }
 
     public String load() {
