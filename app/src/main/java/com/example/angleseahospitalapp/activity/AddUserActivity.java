@@ -31,14 +31,12 @@ import com.example.angleseahospitalapp.model.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class AddUserActivity extends AppCompatActivity {
-
-    //Firebase
-    Uri fileUri;
 
     ImageView userPhoto;
     ImageButton photoBtn;
@@ -128,11 +126,11 @@ public class AddUserActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
-            photo = imageBitmap.getNinePatchChunk();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream); //compress to which format you want.
+            photo = stream.toByteArray();
 
-            //filePath = Uri.fromFile()
             userPhoto.setImageBitmap(imageBitmap);
-            fileUri = Uri.fromFile(userPhoto.getContext().getFilesDir());
         }
     }
 

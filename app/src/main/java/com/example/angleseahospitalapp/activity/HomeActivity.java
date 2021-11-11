@@ -2,11 +2,14 @@ package com.example.angleseahospitalapp.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -52,9 +55,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private TextView shiftStartTimeTextView;
     private TextView durationTimeTextView;
     private TextView homeTimeTextView;
+    private TextView profileNameMenu;
+    private TextView helloMessage;
 
     private Button clockInBtn;
     private Button clockOutBtn;
+
+    private ImageView photo;
+    private ImageView photoProfile;
+    private ImageView switchHome;
 
     private boolean isClockedIn = false;
 
@@ -121,22 +130,38 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         shiftStartTimeTextView = findViewById(R.id.shiftStartTime);
         durationTimeTextView = findViewById(R.id.durationTimeTextView);
+        helloMessage = findViewById(R.id.helloMessage);
 
         drawerLayout = findViewById(R.id.drawerLayout);
 
         NavigationView navigationView = findViewById(R.id.navView);
 
+        View header = navigationView.getHeaderView(0);
+
+        profileNameMenu = header.findViewById(R.id.profileNameMenu);
+        profileNameMenu.setText(new StringBuilder().append(user.getName()).append(" ").append(user.getSurname()).toString());
+
+        photo = findViewById(R.id.homeImage);
+        photoProfile = header.findViewById(R.id.profilePhoto);
+
         TextView userName = findViewById(R.id.userName);
-        userName.setText(user.getName() +" "+user.getSurname());
+        userName.setText(new StringBuilder().append(user.getName()).append(" ").append(user.getSurname()).toString());
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        switchHome = findViewById(R.id.homeSwitch);
 
         loggedRelativeLayout = findViewById(R.id.relativeLayout);
         loggedRelativeLayout.setVisibility(View.INVISIBLE);
 
         timeRelativeLayout = findViewById(R.id.relativeLayout2);
 
-        if(user.getRole().equals(Role.MANAGER.toString())){
+        if(user != null && user.getPhoto() != null) {
+            photo.setImageBitmap(Util.getCircleBitmap(BitmapFactory.decodeByteArray(user.getPhoto(), 0, user.getPhoto().length),100));
+            photoProfile.setImageBitmap(Util.getCircleBitmap(BitmapFactory.decodeByteArray(user.getPhoto(), 0, user.getPhoto().length),100));
+        }
+
+        if(user.getRole() != null && user.getRole().equals(Role.MANAGER.toString())){
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.menu_manager);
         }else{
@@ -336,8 +361,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                         dbHelper.saveShift(shift);
 
-                        loggedRelativeLayout.setVisibility(View.INVISIBLE);
-                        timeRelativeLayout.setVisibility(View.VISIBLE);
+                        final Drawable icon = getDrawable(R.drawable.ic_baseline_toggle_off_24);
+                        switchHome.setImageDrawable(icon);
+
+                        helloMessage.setText("Goodbye !");
+
+                        durationTimeTextView.setText(Util.shiftDuration(shift.getClockInTime(), Util.convertDateTimeToString(new Date())));
+
+                        loggedRelativeLayout.setVisibility(View.VISIBLE);
+                        timeRelativeLayout.setVisibility(View.INVISIBLE);
 
                         clockInBtn.setVisibility(View.INVISIBLE);
                         clockOutBtn.setVisibility(View.INVISIBLE);

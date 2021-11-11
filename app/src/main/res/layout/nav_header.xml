@@ -9,12 +9,14 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
+        android:id="@+id/profilePhoto"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_gravity="center"
         android:src="@drawable/ic_person_brown" />
 
     <TextView
+        android:id="@+id/profileNameMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
