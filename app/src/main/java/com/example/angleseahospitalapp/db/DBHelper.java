@@ -118,6 +118,8 @@ public class DBHelper extends SQLiteOpenHelper {
             user.setPin(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_PIN)));
             user.setEmail(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_EMAIL)));
             user.setRole(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_ROLENAME)));
+            user.setPhoneNumber(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_ROLENAME)));
+            user.setPhoto(c.getBlob(c.getColumnIndex(DBContract.UsersTable.COLUMN_PHOTO)));
             users.add(user);
         }
 
@@ -225,6 +227,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 usr.setPin(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_PIN)));
                 usr.setEmail(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_EMAIL)));
                 usr.setRole(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_ROLENAME)));
+                usr.setPhoneNumber(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_ROLENAME)));
                 usr.setPhoto(c.getBlob(c.getColumnIndex(DBContract.UsersTable.COLUMN_PHOTO)));
             } while (c.moveToNext());
         }

@@ -14,10 +14,12 @@
         android:theme="@style/Theme.AngleseaHospitalApp">
         <activity
             android:name=".activity.ListUserActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.ListLeaveActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar" />
         <activity
             android:name=".activity.AddLeaveActivity"
@@ -47,7 +49,8 @@
         <activity
             android:name=".activity.ProfileActivity"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar"/>
         <activity
             android:name=".activity.PinScreenActivity"
             android:exported="true"

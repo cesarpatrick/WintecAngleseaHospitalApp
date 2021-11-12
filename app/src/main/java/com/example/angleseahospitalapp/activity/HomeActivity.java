@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -60,6 +61,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private Button clockInBtn;
     private Button clockOutBtn;
+
+    private ImageButton profileBtn;
 
     private ImageView photo;
     private ImageView photoProfile;
@@ -132,6 +135,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         durationTimeTextView = findViewById(R.id.durationTimeTextView);
         helloMessage = findViewById(R.id.helloMessage);
 
+        profileBtn = findViewById(R.id.profileBtn);
+
         drawerLayout = findViewById(R.id.drawerLayout);
 
         NavigationView navigationView = findViewById(R.id.navView);
@@ -159,7 +164,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if(user != null && user.getPhoto() != null) {
             photo.setImageBitmap(Util.getCircleBitmap(BitmapFactory.decodeByteArray(user.getPhoto(), 0, user.getPhoto().length),100));
             photoProfile.setImageBitmap(Util.getCircleBitmap(BitmapFactory.decodeByteArray(user.getPhoto(), 0, user.getPhoto().length),100));
+            profileBtn.setImageBitmap(Util.getCircleBitmap(BitmapFactory.decodeByteArray(user.getPhoto(), 0, user.getPhoto().length),100));
         }
+
+        Intent profileActivityIntent = new Intent(this, ProfileActivity.class);
+        profileBtn.setOnClickListener(view -> startActivity(profileActivityIntent));
 
         if(user.getRole() != null && user.getRole().equals(Role.MANAGER.toString())){
             navigationView.getMenu().clear();
