@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:text="Select the bla bla bla and then you will blabla, so your blabla it will gain blabla bla"
+            android:text="Click on the video to view a demo of the following:"
             android:textAlignment="viewStart"
             android:textColor="#636D78"
             android:textSize="18sp"
@@ -86,7 +86,13 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="10dp"
-            android:text="Select the bla bla bla and then you will blabla, so your blabla it will gain blabla bla"
+            android:text="-Clock in to begin shift&#xA;-Clock out to end shift&#xA;
+&#xA;
+-View profile&#xA;
+&#xA;
+-View shifts&#xA;
+-Request and view leave&#xA;
+-Log out&#xA;"
             android:textAlignment="viewStart"
             android:textColor="#A8B2BF"
             android:textSize="18sp"

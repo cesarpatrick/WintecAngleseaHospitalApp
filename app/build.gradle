@@ -34,7 +34,7 @@ android {
 dependencies {
     implementation 'com.sun.mail:android-mail:1.6.3'
     implementation 'com.sun.mail:android-activation:1.6.3'
-    implementation 'androidx.biometric:biometric:1.0.1'
+    implementation 'androidx.biometric:biometric:1.1.0'
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'com.chaos.view:pinview:1.4.4'
