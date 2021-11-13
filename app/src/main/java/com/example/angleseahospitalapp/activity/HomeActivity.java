@@ -196,6 +196,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             managerDashboard.setVisibility(View.INVISIBLE);
             managerDashboard2.setVisibility(View.INVISIBLE);
             photo.setVisibility(View.VISIBLE);
+            emailFab.setVisibility(View.GONE);
         }
 
         Button managerShiftBtn = findViewById(R.id.managerShiftBtn);

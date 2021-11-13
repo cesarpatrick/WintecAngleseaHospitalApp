@@ -135,7 +135,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         User user = getUserByPin(userPin);
 
-        String query = "SELECT * FROM leave where userid=" + user.getUserId();
+        String query = "SELECT * FROM leave where userid=" + user.getUserId() + " order by leaveid desc";
         Cursor c = db.rawQuery(query,null);
 
         while(c.moveToNext()){
@@ -158,7 +158,7 @@ public class DBHelper extends SQLiteOpenHelper {
         List<Leave> leaveList = new ArrayList<>();
         db = getReadableDatabase();
 
-        String query = "SELECT * FROM leave";
+        String query = "SELECT * FROM leave order by leaveid desc";
         Cursor c = db.rawQuery(query,null);
 
         while(c.moveToNext()){
@@ -341,26 +341,38 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void saveLeave(Leave leave){
-        ContentValues cv = new ContentValues();
-        cv.put(DBContract.LeaveTable.COLUMN_USERID, leave.getUserId());
-        cv.put(DBContract.LeaveTable.COLUMN_STARTDATETIME, leave.getStartDate()); //Date type
-        cv.put(DBContract.LeaveTable.COLUMN_ENDDATETIME, leave.getEndDate()); //Date type
-        cv.put(DBContract.LeaveTable.COLUMN_STATUS, leave.getLeaveStatus());
-        db.insert(DBContract.LeaveTable.TABLE_NAME, null, cv);
+        String selection = DBContract.LeaveTable.COLUMN_LEAVEID + " = ?";
+        String[] selectionArs = new String[]{leave.getId()};
+
+        if(leave.getId() == null || leave.getId().isEmpty()) {
+            ContentValues cv = new ContentValues();
+            cv.put(DBContract.LeaveTable.COLUMN_USERID, leave.getUserId());
+            cv.put(DBContract.LeaveTable.COLUMN_STARTDATETIME, leave.getStartDate()); //Date type
+            cv.put(DBContract.LeaveTable.COLUMN_ENDDATETIME, leave.getEndDate()); //Date type
+            cv.put(DBContract.LeaveTable.COLUMN_STATUS, leave.getLeaveStatus());
+            db.insert(DBContract.LeaveTable.TABLE_NAME, null, cv);
+        }else{
+            ContentValues cv = new ContentValues();
+            cv.put(DBContract.LeaveTable.COLUMN_USERID, leave.getUserId());
+            cv.put(DBContract.LeaveTable.COLUMN_STARTDATETIME, leave.getStartDate()); //Date type
+            cv.put(DBContract.LeaveTable.COLUMN_ENDDATETIME, leave.getEndDate()); //Date type
+            cv.put(DBContract.LeaveTable.COLUMN_STATUS, leave.getLeaveStatus());
+            db.update(DBContract.LeaveTable.TABLE_NAME, cv, selection, selectionArs);
+        }
     }
 
     private void fillUsers(){
-        User u1 = new User("1", "Jordan", "Laing", "9876", null, "MANAGER", "cesarawswintec@gmail.com", "0210000000");
+        User u1 = new User("1", "App", "Admin", "9876", null, "MANAGER", "cesarawswintec@gmail.com", "XXX XXX XXXX");
         saveUser(u1);
     }
 
     private void fillShifts(){
-        Shift s1 = new Shift("1", "24/11/21", "09:00", "12:00", "Dev", false, false);
-        saveShift(s1);
+//        Shift s1 = new Shift("1", "24/11/21", "09:00", "12:00", "Dev", false, false);
+//        saveShift(s1);
     }
 
     private void fillLeave(){
-        Leave l1 = new Leave("1", "29/11/21", "01/12/21", "APPROVED");
-        saveLeave(l1);
+//        Leave l1 = new Leave("1", "29/11/21", "01/12/21", "APPROVED");
+//        saveLeave(l1);
     }
 }

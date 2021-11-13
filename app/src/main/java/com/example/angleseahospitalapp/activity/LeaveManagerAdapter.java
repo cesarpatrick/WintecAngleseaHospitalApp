@@ -1,56 +1,47 @@
 package com.example.angleseahospitalapp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.angleseahospitalapp.R;
+import com.example.angleseahospitalapp.databinding.ActivityHomeBinding;
+import com.example.angleseahospitalapp.databinding.ActivityListLeaveBinding;
+import com.example.angleseahospitalapp.db.DBHelper;
 import com.example.angleseahospitalapp.model.Leave;
 import com.example.angleseahospitalapp.model.LeaveStatus;
+import com.example.angleseahospitalapp.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LeaveManagerAdapter extends RecyclerView.Adapter<LeaveManagerAdapter.LeaveViewHolder>{
 
-    private Context mContext;
+    private Context context;
     public ArrayList<Leave> leaveList;
-    private ArrayAdapter<String> dataAdapter;
-
-    public LeaveManagerAdapter(Context context, ArrayList<Leave> list){
-        this.mContext = context;
-
-        List<String> periodSpinnerList = new ArrayList<>();
-        periodSpinnerList.add(LeaveStatus.REQUESTED.toString());
-        periodSpinnerList.add(LeaveStatus.APPROVED.toString());
-        periodSpinnerList.add(LeaveStatus.DISAPPROVED.toString());
-
-        leaveList = list;
-
-        dataAdapter = new ArrayAdapter<>(mContext,
-                android.R.layout.simple_spinner_item, periodSpinnerList);
-        // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-    }
 
     public static class LeaveViewHolder extends RecyclerView.ViewHolder {
         public TextView userNameTextView;
         public TextView periodTextView;
         public Spinner leaveStatusSpinner;
+        public TextView idTextView;
 
         public LeaveViewHolder(View itemView) {
             super(itemView);
             userNameTextView = itemView.findViewById(R.id.userNameTextView);
             periodTextView = itemView.findViewById(R.id.periodTextView);
             leaveStatusSpinner = itemView.findViewById(R.id.leaveStatusSpinner);
-
+            idTextView = itemView.findViewById(R.id.idTextView);
         }
     }
 
@@ -61,20 +52,56 @@ public class LeaveManagerAdapter extends RecyclerView.Adapter<LeaveManagerAdapte
         return svh;
     }
 
+    public LeaveManagerAdapter(Context context, ArrayList<Leave> list) {
+        leaveList = list;
+        this.context = context;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(LeaveManagerAdapter.LeaveViewHolder holder, int position) {
+
         Leave leaveItem = leaveList.get(position);
 
-        holder.userNameTextView.setText(leaveItem.getStartDate());
-        holder.periodTextView.setText(leaveItem.getEndDate());
-        holder.leaveStatusSpinner.setAdapter(dataAdapter);
+        if(leaveItem != null && leaveItem.getId() != null &&  !leaveItem.getId().isEmpty()) {
+            List<String> periodSpinnerList = new ArrayList<>();
+            periodSpinnerList.add(LeaveStatus.REQUESTED.toString());
+            periodSpinnerList.add(LeaveStatus.APPROVED.toString());
+            periodSpinnerList.add(LeaveStatus.DISAPPROVED.toString());
 
-        if(LeaveStatus.valueOf(leaveItem.getLeaveStatus()).equals(LeaveStatus.APPROVED)){
-            holder.leaveStatusSpinner.setSelection(0);
-        }else if(LeaveStatus.valueOf(leaveItem.getLeaveStatus()).equals(LeaveStatus.DISAPPROVED)){
-            holder.leaveStatusSpinner.setSelection(1);
-        }else{
-            holder.leaveStatusSpinner.setSelection(2);
+            // Creating adapter for spinner
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context, android.R.layout.select_dialog_item, periodSpinnerList);
+            holder.leaveStatusSpinner.setAdapter(dataAdapter);
+
+            DBHelper dbHelper = DBHelper.getInstance(context);
+            User nurse = dbHelper.getUserById(leaveItem.getUserId());
+
+            holder.idTextView.setText(nurse.getUserId());
+            holder.userNameTextView.setText(nurse.getName() + " " + nurse.getSurname());
+            holder.periodTextView.setText(leaveItem.getStartDate()+ "-" + leaveItem.getEndDate());
+
+            if(LeaveStatus.valueOf(leaveItem.getLeaveStatus()).equals(LeaveStatus.APPROVED) || LeaveStatus.valueOf(leaveItem.getLeaveStatus()).equals(LeaveStatus.DISAPPROVED)){
+                holder.leaveStatusSpinner.setEnabled(false);
+            }
+
+            holder.leaveStatusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                    Object item = holder.leaveStatusSpinner.getSelectedItem();
+                    leaveItem.setLeaveStatus(item.toString().toUpperCase());
+                    dbHelper.saveLeave(leaveItem);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+
+            ArrayAdapter myAdap = (ArrayAdapter) holder.leaveStatusSpinner.getAdapter(); //cast to an ArrayAdapter
+            int spinnerPosition = myAdap.getPosition(leaveItem.getLeaveStatus());
+            //set the default according to value
+            holder.leaveStatusSpinner.setSelection(spinnerPosition);
         }
     }
 

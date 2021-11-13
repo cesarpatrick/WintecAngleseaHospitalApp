@@ -8,7 +8,7 @@
         <item
             android:id="@+id/navShifts"
             android:icon="@drawable/ic_shifts"
-            android:title="@string/menu_shifts"/>
+            android:title="Roster"/>
 
         <item
             android:id="@+id/navMyLeave"

@@ -38,7 +38,7 @@ public class ListLeaveActivity extends AppCompatActivity {
         RecyclerView mRecyclerView = findViewById(R.id.leaveRecyclerView);
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        RecyclerView.Adapter mAdapter = new LeaveAdapter(new ArrayList<>(dbHelper.getAllLeave()));
+        RecyclerView.Adapter mAdapter = new LeaveManagerAdapter(this, new ArrayList<>(dbHelper.getAllLeave()));
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);

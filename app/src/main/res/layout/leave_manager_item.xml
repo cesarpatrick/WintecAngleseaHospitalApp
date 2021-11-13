@@ -2,61 +2,83 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/idTextView"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:text="1857"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/userNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="58dp"
+            android:layout_marginTop="15dp"
+            android:text="Cesar Gouveia"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/periodTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="200dp"
+            android:layout_marginTop="15dp"
+            android:text="24/12/2020 - 25/05/2020"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/statusTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="54dp"
+            android:text="Status"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/leaveStatusSpinner"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/userNameTextView"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="9dp"
+            android:layout_toEndOf="@+id/statusTextView"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="OnClick" />
+
+        <View
+            android:id="@+id/line"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="2dp"
+            android:layout_below="@+id/leaveStatusSpinner"
+            android:background="@color/black" />
 
-
-            <TextView
-                android:id="@+id/userNameTextView"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
-                android:text="Cesar Gouveia"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/periodTextView"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="111dp"
-                android:layout_marginTop="15dp"
-                android:text="24/12/2020 25/05/2020"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-
-
-            <Spinner
-                android:id="@+id/leaveStatusSpinner"
-                android:layout_width="120dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="9dp"
-                android:layout_marginTop="5dp"
-                android:layout_toEndOf="@+id/periodTextView"
-                android:background="@android:drawable/btn_dropdown"
-                android:spinnerMode="dropdown"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <View
-                android:id="@+id/line"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_below="@+id/userNameTextView"
-                android:layout_marginTop="17dp"
-                android:background="@color/black"/>
-
-        </RelativeLayout>
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>

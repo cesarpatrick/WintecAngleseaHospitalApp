@@ -8,7 +8,7 @@
         <item
             android:id="@+id/addShift"
             android:icon="@drawable/ic_baseline_date_range_24"
-            android:title="@string/shift" />
+            android:title="Roster" />
 
         <item
             android:id="@+id/navLeaveManager"

@@ -228,7 +228,7 @@
             android:background="@drawable/circle"
             android:drawableTop="@drawable/ic_add_person_white"
             android:paddingTop="20dp"
-            android:text="Users"
+            android:text="Notifications"
             android:textColor="#fff"
             tools:layout_editor_absoluteX="44dp"
             tools:layout_editor_absoluteY="407dp" />

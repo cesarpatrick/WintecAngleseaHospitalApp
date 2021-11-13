@@ -126,7 +126,7 @@ public class PinScreenActivity extends AppCompatActivity {
             @Override
             public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
-                User user = dbHelper.getUserByPin("0123");
+                User user = dbHelper.getUserByPin("9876");
                 save(user.getPin());
                 startActivity(intent);
             }

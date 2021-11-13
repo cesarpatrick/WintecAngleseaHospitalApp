@@ -97,6 +97,8 @@ public class SendEmailActivity extends AppCompatActivity {
                             manager.getEmail(),
                             staff.getEmail());
 
+                    cleanFields();
+
                     Toast.makeText(this,"Email was sent with success",Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
                     Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -158,5 +160,11 @@ public class SendEmailActivity extends AppCompatActivity {
             }
         }
         return null;
+    }
+
+    private void cleanFields(){
+        messageEditText.setText("");
+        subjectEditText.setSelection(0);
+        userSpinner.setSelection(0);
     }
 }

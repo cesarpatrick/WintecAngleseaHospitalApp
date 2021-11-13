@@ -39,11 +39,24 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbarLeaveList">
 
         <TextView
+            android:id="@+id/idTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="15dp"
+            android:text="ID"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+
+        <TextView
             android:id="@+id/nurseNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="58dp"
             android:layout_marginBottom="15dp"
             android:text="Nurse"
             android:textColor="@color/black"
@@ -55,21 +68,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="111dp"
+            android:layout_marginStart="200dp"
             android:layout_marginBottom="15dp"
             android:text="Period"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/teamNameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="202dp"
-            android:layout_marginBottom="15dp"
-            android:text="Status"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold" />
