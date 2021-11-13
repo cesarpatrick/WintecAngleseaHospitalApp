@@ -28,9 +28,6 @@ import com.example.angleseahospitalapp.R;
 import com.example.angleseahospitalapp.db.DBHelper;
 import com.example.angleseahospitalapp.model.Role;
 import com.example.angleseahospitalapp.model.User;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +49,6 @@ public class AddUserActivity extends AppCompatActivity {
 
     Spinner roleSpinner;
 
-    private DatabaseReference mDatabaseRef;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +59,6 @@ public class AddUserActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
         userPhoto = findViewById(R.id.profileImage);
         photoBtn = findViewById(R.id.addPhotoBtn);

@@ -180,8 +180,8 @@
 
         <Button
             android:id="@+id/managerShiftBtn"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/circle"
             android:drawableTop="@drawable/ic_baseline_edit_calendar_24"
@@ -193,8 +193,8 @@
 
         <Button
             android:id="@+id/viewShiftBtn"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:background="@drawable/circle"
             android:drawableTop="@drawable/ic_view_calendar"
@@ -220,13 +220,13 @@
 
 
         <Button
-            android:id="@+id/manageUserBtn"
+            android:id="@+id/notificationsBtn"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/circle"
-            android:drawableTop="@drawable/ic_add_person_white"
+            android:drawableTop="@drawable/ic_baseline_notification_important_24"
             android:paddingTop="20dp"
             android:text="Notifications"
             android:textColor="#fff"
@@ -235,8 +235,8 @@
 
         <Button
             android:id="@+id/leaveRequestBtn"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:background="@drawable/circle"
             android:drawableTop="@drawable/ic_note"
             android:paddingTop="20dp"
@@ -257,6 +257,17 @@
         app:layout_constraintBottom_toTopOf="@+id/helloMessage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/reportProblemFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/submit"
+        android:src="@drawable/ic_baseline_error_24"
+        app:layout_constraintTop_toBottomOf="@+id/clockOutBtn"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

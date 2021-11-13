@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <RelativeLayout
+        android:id="@+id/notificationItemRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="133dp"
+        android:layout_margin="4dp"
+        android:background="#F08080">
+
+        <TextView
+            android:id="@+id/dayTextView"
+            android:layout_width="57dp"
+            android:layout_height="67dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="29dp"
+            android:text="24"
+            android:textSize="45sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/dayNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="83dp"
+            android:gravity="center"
+            android:text="Tus"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/staffNameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="68dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="Cesar Gouveia"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_below="@+id/staffNameTextView"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="68dp"
+            android:layout_marginTop="-2dp"
+            android:textStyle="bold"
+            android:text="I forgot to clock out."
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

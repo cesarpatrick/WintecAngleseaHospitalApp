@@ -10,10 +10,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import com.example.angleseahospitalapp.model.Leave;
+import com.example.angleseahospitalapp.model.Notification;
 import com.example.angleseahospitalapp.model.Role;
 import com.example.angleseahospitalapp.model.Shift;
 import com.example.angleseahospitalapp.model.User;
-import com.example.angleseahospitalapp.model.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,9 +79,20 @@ public class DBHelper extends SQLiteOpenHelper {
                 DBContract.UsersTable.TABLE_NAME + "(" + DBContract.UsersTable.COLUMN_USERID + ")" + "ON DELETE CASCADE" +
                 ")";
 
+        final String SQL_CREATE_NOTIFICATIONS_TABLE = "CREATE TABLE " +
+                DBContract.NotificationsTable.TABLE_NAME + "( " +
+                DBContract.NotificationsTable.COLUMN_NOTIFICATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DBContract.NotificationsTable.COLUMN_USER_ID + " INTEGER, " +
+                DBContract.NotificationsTable.COLUMN_DESCRIPTION + " TEXT, " +
+                DBContract.NotificationsTable.COLUMN_DATE + " DATE, " +
+                "FOREIGN KEY(" + DBContract.NotificationsTable.COLUMN_USER_ID + ") REFERENCES " +
+                DBContract.NotificationsTable.TABLE_NAME + "(" + DBContract.UsersTable.COLUMN_USERID + ")" + "ON DELETE CASCADE" +
+                ")";
+
         db.execSQL(SQL_CREATE_USERS_TABLE);
         db.execSQL(SQL_CREATE_SHIFTS_TABLE);
         db.execSQL(SQL_CREATE_LEAVE_TABLE);
+        db.execSQL(SQL_CREATE_NOTIFICATIONS_TABLE);
         fillUsers();
         fillShifts();
         fillLeave();
@@ -92,6 +103,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DBContract.LeaveTable.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + DBContract.ShiftsTable.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + DBContract.UsersTable.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + DBContract.NotificationsTable.TABLE_NAME);
         onCreate(db);
     }
 
@@ -100,6 +112,27 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onConfigure(SQLiteDatabase db) {
         super.onConfigure(db);
         db.setForeignKeyConstraintsEnabled(true);
+    }
+
+    @SuppressLint("Range")
+    public List<Notification> getAllNotifications(){
+        List<Notification> notifications = new ArrayList<>();
+        db = getReadableDatabase();
+
+        String query = "SELECT * FROM notifications order by id DESC";
+        Cursor c = db.rawQuery(query,null);
+
+        while(c.moveToNext()){
+            Notification notification = new Notification();
+            notification.setUserId(c.getString(c.getColumnIndex(DBContract.NotificationsTable.COLUMN_NOTIFICATION_ID)));
+            notification.setUserId(c.getString(c.getColumnIndex(DBContract.NotificationsTable.COLUMN_USER_ID)));
+            notification.setDescription(c.getString(c.getColumnIndex(DBContract.NotificationsTable.COLUMN_DESCRIPTION)));
+            notification.setDate(c.getString(c.getColumnIndex(DBContract.NotificationsTable.COLUMN_DATE)));
+            notifications.add(notification);
+        }
+
+        c.close();
+        return notifications;
     }
 
     @SuppressLint("Range")
@@ -127,6 +160,7 @@ public class DBHelper extends SQLiteOpenHelper {
         c.close();
         return users;
     }
+
 
     @SuppressLint("Range")
     public List<Leave> getAllLeaveByUserId(String userPin){
@@ -308,6 +342,15 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(DBContract.UsersTable.COLUMN_PHOTO, user.getPhoto());
         cv.put(DBContract.UsersTable.COLUMN_PHONE, user.getPhoneNumber());
         db.insert(DBContract.UsersTable.TABLE_NAME, null, cv);
+    }
+
+    public void saveNotification(Notification notification){
+        ContentValues cv = new ContentValues();
+        cv.put(DBContract.NotificationsTable.COLUMN_NOTIFICATION_ID, notification.getId());
+        cv.put(DBContract.NotificationsTable.COLUMN_USER_ID, notification.getUserId());
+        cv.put(DBContract.NotificationsTable.COLUMN_DESCRIPTION, notification.getDescription());
+        cv.put(DBContract.NotificationsTable.COLUMN_DATE, notification.getDate());
+        db.insert(DBContract.NotificationsTable.TABLE_NAME, null, cv);
     }
 
     public void saveShift(Shift shift){

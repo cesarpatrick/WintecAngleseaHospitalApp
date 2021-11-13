@@ -14,15 +14,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AngleseaHospitalApp">
         <activity
-            android:name=".activity.SendEmailActivity"
+            android:name=".activity.ListNotificationsActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar"/>
         <activity
+            android:name=".activity.ReportAProblemActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar" />
+        <activity
+            android:name=".activity.SendEmailActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar" />
+        <activity
             android:name=".activity.ListUserActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar"/>
+            android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar" />
         <activity
             android:name=".activity.ListLeaveActivity"
             android:exported="true"

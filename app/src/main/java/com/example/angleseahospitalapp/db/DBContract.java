@@ -42,4 +42,12 @@ public final class DBContract {
         public static final String COLUMN_ENDDATETIME= "enddatetime";
         public static final String COLUMN_STATUS = "status";
     }
+
+    public static class NotificationsTable implements BaseColumns{
+        public static final String TABLE_NAME = "notifications";
+        public static final String COLUMN_NOTIFICATION_ID = "id"; //primary key
+        public static final String COLUMN_USER_ID = "user_id"; //foreign key
+        public static final String COLUMN_DESCRIPTION = "description";
+        public static final String COLUMN_DATE = "date";
+    }
 }

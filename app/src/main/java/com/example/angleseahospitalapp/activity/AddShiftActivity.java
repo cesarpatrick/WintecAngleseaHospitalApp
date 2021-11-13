@@ -27,16 +27,10 @@ import com.example.angleseahospitalapp.model.ShiftPeriod;
 import com.example.angleseahospitalapp.model.User;
 import com.example.angleseahospitalapp.model.Util;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
-
-import com.example.angleseahospitalapp.model.*;
 
 public class AddShiftActivity extends AppCompatActivity {
 
@@ -176,36 +170,6 @@ public class AddShiftActivity extends AppCompatActivity {
         userSpinner.setSelection(0);
         weekendCheckBox.setChecked(false);
         publicHolidayCheckBox.setChecked(false);
-    }
-
-    public String load() {
-        FileInputStream fis = null;
-
-        try {
-            fis = openFileInput(SystemConstants.FILE_NAME);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-            StringBuilder sb = new StringBuilder();
-            String text;
-
-            while ((text = br.readLine()) != null) {
-                sb.append(text).append("\n");
-            }
-
-            return  sb.toString();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return null;
     }
 
     private boolean validateFields(){

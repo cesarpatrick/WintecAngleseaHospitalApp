@@ -76,6 +76,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private LinearLayoutCompat managerDashboard2;
 
     private FloatingActionButton emailFab;
+    private FloatingActionButton reportProblemFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,9 +145,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         helloMessage = findViewById(R.id.helloMessage);
 
         emailFab = findViewById(R.id.emailFab);
-
         profileBtn = findViewById(R.id.profileBtn);
-
         drawerLayout = findViewById(R.id.drawerLayout);
 
         NavigationView navigationView = findViewById(R.id.navView);
@@ -177,6 +176,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             profileBtn.setImageBitmap(Util.getCircleBitmap(BitmapFactory.decodeByteArray(user.getPhoto(), 0, user.getPhoto().length),100));
         }
 
+        reportProblemFab = findViewById(R.id.reportProblemFab);
+        Intent reportIntent = new Intent(this, ReportAProblemActivity.class);
+        reportProblemFab.setOnClickListener(view -> startActivity(reportIntent));
+
         Intent profileActivityIntent = new Intent(this, ProfileActivity.class);
         profileBtn.setOnClickListener(view -> startActivity(profileActivityIntent));
 
@@ -188,6 +191,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             managerDashboard.setVisibility(View.VISIBLE);
             managerDashboard2.setVisibility(View.VISIBLE);
             photo.setVisibility(View.GONE);
+            reportProblemFab.setVisibility(View.GONE);
 
         }else{
             navigationView.getMenu().clear();
@@ -197,6 +201,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             managerDashboard2.setVisibility(View.INVISIBLE);
             photo.setVisibility(View.VISIBLE);
             emailFab.setVisibility(View.GONE);
+            reportProblemFab.setVisibility(View.VISIBLE);
         }
 
         Button managerShiftBtn = findViewById(R.id.managerShiftBtn);
@@ -211,9 +216,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Intent leaveRequestIntent = new Intent(this, ListLeaveActivity.class);
         leaveRequestBtn.setOnClickListener(view -> startActivity(leaveRequestIntent));
 
-        Button manageUserBtn = findViewById(R.id.manageUserBtn);
-        Intent manageUserIntent = new Intent(this, AddUserActivity.class);
-        manageUserBtn.setOnClickListener(view -> startActivity(manageUserIntent));
+        Button notificationsBtn = findViewById(R.id.notificationsBtn);
+        Intent notificationsIntent = new Intent(this, ListNotificationsActivity.class);
+        notificationsBtn.setOnClickListener(view -> startActivity(notificationsIntent));
 
         emailFab = findViewById(R.id.emailFab);
         Intent sendEmailIntent = new Intent(this, SendEmailActivity.class);
