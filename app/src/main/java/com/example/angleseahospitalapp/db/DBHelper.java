@@ -50,6 +50,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 DBContract.UsersTable.COLUMN_EMAIL + " TEXT, " +
                 DBContract.UsersTable.COLUMN_ROLENAME + " TEXT, " +
                 DBContract.UsersTable.COLUMN_FINGERPRINT + " TEXT, " +
+                DBContract.UsersTable.COLUMN_PHONE + " TEXT, " +
                 DBContract.UsersTable.COLUMN_PHOTO + " BLOB " +
                 ")";
 
@@ -227,7 +228,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 usr.setPin(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_PIN)));
                 usr.setEmail(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_EMAIL)));
                 usr.setRole(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_ROLENAME)));
-                usr.setPhoneNumber(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_ROLENAME)));
+                usr.setPhoneNumber(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_PHONE)));
                 usr.setPhoto(c.getBlob(c.getColumnIndex(DBContract.UsersTable.COLUMN_PHOTO)));
             } while (c.moveToNext());
         }
@@ -288,6 +289,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 usr.setPin(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_PIN)));
                 usr.setEmail(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_EMAIL)));
                 usr.setRole(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_ROLENAME)));
+                usr.setPhoneNumber(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_PHONE)));
             } while (c.moveToNext());
         }
 
@@ -304,6 +306,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(DBContract.UsersTable.COLUMN_EMAIL, user.getEmail());
         cv.put(DBContract.UsersTable.COLUMN_ROLENAME, user.getRole());
         cv.put(DBContract.UsersTable.COLUMN_PHOTO, user.getPhoto());
+        cv.put(DBContract.UsersTable.COLUMN_PHONE, user.getPhoneNumber());
         db.insert(DBContract.UsersTable.TABLE_NAME, null, cv);
     }
 
@@ -347,7 +350,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     private void fillUsers(){
-        User u1 = new User("1", "Jordan", "Laing", "9876", null, "MANAGER", "Jordy@mail", "0210000000");
+        User u1 = new User("1", "Jordan", "Laing", "9876", null, "MANAGER", "cesarawswintec@gmail.com", "0210000000");
         saveUser(u1);
     }
 

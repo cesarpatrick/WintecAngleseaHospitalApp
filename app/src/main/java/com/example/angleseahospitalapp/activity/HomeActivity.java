@@ -1,9 +1,7 @@
 package com.example.angleseahospitalapp.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -21,6 +19,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -28,6 +27,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.angleseahospitalapp.databinding.ActivityHomeBinding;
 import com.example.angleseahospitalapp.db.DBHelper;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.BufferedReader;
@@ -71,6 +71,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private boolean isClockedIn = false;
 
     private DBHelper dbHelper = DBHelper.getInstance(this);
+
+    private LinearLayoutCompat managerDashboard;
+    private LinearLayoutCompat managerDashboard2;
+
+    private FloatingActionButton emailFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,9 +136,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        managerDashboard = findViewById(R.id.managerDashboard);
+        managerDashboard2 = findViewById(R.id.managerDashboard2);
+
         shiftStartTimeTextView = findViewById(R.id.shiftStartTime);
         durationTimeTextView = findViewById(R.id.durationTimeTextView);
         helloMessage = findViewById(R.id.helloMessage);
+
+        emailFab = findViewById(R.id.emailFab);
 
         profileBtn = findViewById(R.id.profileBtn);
 
@@ -173,10 +183,41 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if(user.getRole() != null && user.getRole().equals(Role.MANAGER.toString())){
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.menu_manager);
+
+            timeRelativeLayout.setVisibility(View.GONE);
+            managerDashboard.setVisibility(View.VISIBLE);
+            managerDashboard2.setVisibility(View.VISIBLE);
+            photo.setVisibility(View.GONE);
+
         }else{
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.menu);
+            timeRelativeLayout.setVisibility(View.VISIBLE);
+            managerDashboard.setVisibility(View.INVISIBLE);
+            managerDashboard2.setVisibility(View.INVISIBLE);
+            photo.setVisibility(View.VISIBLE);
         }
+
+        Button managerShiftBtn = findViewById(R.id.managerShiftBtn);
+        Intent addShiftIntent = new Intent(this, AddShiftActivity.class);
+        managerShiftBtn.setOnClickListener(view -> startActivity(addShiftIntent));
+
+        Button viewShiftBtn = findViewById(R.id.viewShiftBtn);
+        Intent viewShiftIntent = new Intent(this, AddShiftActivity.class);
+        viewShiftBtn.setOnClickListener(view -> startActivity(viewShiftIntent));
+
+        Button leaveRequestBtn = findViewById(R.id.leaveRequestBtn);
+        Intent leaveRequestIntent = new Intent(this, ListLeaveActivity.class);
+        leaveRequestBtn.setOnClickListener(view -> startActivity(leaveRequestIntent));
+
+        Button manageUserBtn = findViewById(R.id.manageUserBtn);
+        Intent manageUserIntent = new Intent(this, AddUserActivity.class);
+        manageUserBtn.setOnClickListener(view -> startActivity(manageUserIntent));
+
+        emailFab = findViewById(R.id.emailFab);
+        Intent sendEmailIntent = new Intent(this, SendEmailActivity.class);
+        emailFab.setOnClickListener(view -> startActivity(sendEmailIntent));
+
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout, toolbar,
                 R.string.navigation_drawer_open,R.string.navigation_drawer_close);
@@ -217,16 +258,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         clockOutBtn.setOnClickListener(view -> clockOut());
     }
 
-    //To close the navigation draw on back pressed
-    @Override
-    public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
-            drawerLayout.closeDrawer(GravityCompat.START);
-        }else{
-            super.onBackPressed();
-        }
-        super.onBackPressed();
-    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -267,6 +298,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         //To select the item
         return true;
+    }
+
+    //To close the navigation draw on back pressed
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
+        }
+        super.onBackPressed();
     }
 
     @Override

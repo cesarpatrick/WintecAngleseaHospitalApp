@@ -14,6 +14,7 @@ public final class DBContract {
         public static final String COLUMN_SURNAME = "surname";
         public static final String COLUMN_PIN = "pin";
         public static final String COLUMN_EMAIL = "email";
+        public static final String COLUMN_PHONE = "phone";
         public static final String COLUMN_ROLENAME = "role";
         public static final String COLUMN_FINGERPRINT = "fingerprint"; //not sure if this is still needed
         public static final String COLUMN_PHOTO = "photo";
