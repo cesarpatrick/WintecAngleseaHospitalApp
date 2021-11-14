@@ -47,9 +47,9 @@
             android:layout_marginStart="68dp"
             android:layout_marginTop="2dp"
             android:gravity="center"
-            android:textStyle="bold"
             android:text="Cesar Gouveia"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/descriptionTextView"

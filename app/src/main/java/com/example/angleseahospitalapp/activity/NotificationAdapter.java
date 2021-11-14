@@ -37,7 +37,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             super(itemView);
             dayTextView = itemView.findViewById(R.id.dayTextView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
-            userNameTextView = itemView.findViewById(R.id.teamNameTextView);
+            userNameTextView = itemView.findViewById(R.id.staffNameTextView);
             dayNameTextView = itemView.findViewById(R.id.dayNameTextView);
             relativeLayout = itemView.findViewById(R.id.shiftItemRelativeLayout);
         }
@@ -60,7 +60,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         Notification notification = notificationList.get(position);
 
         holder.dayTextView.setText(notification.getDate()); //this has to be split up was a date type for db
-        holder.descriptionTextView.setText(Util.getTimeByShiftPeriod(ShiftPeriod.valueOf(notification.getDescription())));
+        holder.descriptionTextView.setText(notification.getDescription());
 
         User user = dbHelper.getUserById(notification.getUserId());
         holder.userNameTextView.setText(user.getName() + " " + user.getSurname());

@@ -187,6 +187,7 @@
             android:drawableTop="@drawable/ic_baseline_edit_calendar_24"
             android:paddingTop="20dp"
             android:text="New Roster"
+            android:textSize="10sp"
             android:textColor="#fff"
             tools:layout_editor_absoluteX="44dp"
             tools:layout_editor_absoluteY="294dp" />
@@ -200,6 +201,7 @@
             android:drawableTop="@drawable/ic_view_calendar"
             android:paddingTop="20dp"
             android:text="View Rosters"
+            android:textSize="10sp"
             android:textColor="#fff"
             tools:layout_editor_absoluteX="161dp"
             tools:layout_editor_absoluteY="407dp" />
@@ -229,6 +231,7 @@
             android:drawableTop="@drawable/ic_baseline_notification_important_24"
             android:paddingTop="20dp"
             android:text="Notifications"
+            android:textSize="10sp"
             android:textColor="#fff"
             tools:layout_editor_absoluteX="44dp"
             tools:layout_editor_absoluteY="407dp" />
@@ -241,6 +244,7 @@
             android:drawableTop="@drawable/ic_note"
             android:paddingTop="20dp"
             android:text="Leave Requests"
+            android:textSize="10sp"
             android:textColor="#fff"
             tools:layout_editor_absoluteX="161dp"/>
 

@@ -86,7 +86,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 DBContract.NotificationsTable.COLUMN_DESCRIPTION + " TEXT, " +
                 DBContract.NotificationsTable.COLUMN_DATE + " DATE, " +
                 "FOREIGN KEY(" + DBContract.NotificationsTable.COLUMN_USER_ID + ") REFERENCES " +
-                DBContract.NotificationsTable.TABLE_NAME + "(" + DBContract.UsersTable.COLUMN_USERID + ")" + "ON DELETE CASCADE" +
+                DBContract.UsersTable.TABLE_NAME + "(" + DBContract.UsersTable.COLUMN_USERID + ")" + "ON DELETE CASCADE" +
                 ")";
 
         db.execSQL(SQL_CREATE_USERS_TABLE);

@@ -147,6 +147,12 @@ public class AddUserActivity extends AppCompatActivity {
             return false;
         }
 
+        if(TextUtils.isEmpty(emailEditText.getText()))
+        {
+            emailEditText.setError("Please inform the staff email");
+            return false;
+        }
+
         return true;
     }
 
