@@ -2,6 +2,8 @@ package com.example.angleseahospitalapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -17,12 +19,17 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.angleseahospitalapp.R;
+import com.example.angleseahospitalapp.db.DBHelper;
+import com.example.angleseahospitalapp.model.Shift;
 import com.example.angleseahospitalapp.model.Util;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -44,6 +51,8 @@ public class ShiftDashboardActivity extends AppCompatActivity {
     private Button calendar3Btn;
     private Button calendar4Btn;
     private Button calendar5Btn;
+
+    DBHelper dbHelper = DBHelper.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +97,16 @@ public class ShiftDashboardActivity extends AppCompatActivity {
 
         dateEditText.setText(Util.getMonthNameText(new Date()) + " - "+ Util.getYear(new Date()));
 
+        ArrayList<Shift> shiftItems = new ArrayList<>(dbHelper.getAllShiftByDate(Util.convertDateToString(new Date())));
+
+        RecyclerView mRecyclerView = findViewById(R.id.shiftDashboardRecyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.Adapter mAdapter = new ShiftDashboardAdapter(shiftItems);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
         startDateCalendarBtn =  findViewById(R.id.startDateCalendarBtn);
         startDateCalendarBtn.setOnClickListener(view -> {
             Calendar cal = Calendar.getInstance();
@@ -113,7 +132,7 @@ public class ShiftDashboardActivity extends AppCompatActivity {
             month = month + 1;
             String dateString = Util.formatDayDate(day)  + "/" + Util.formatDayDate(month) + "/" + year;
             Calendar.getInstance().getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
-            dateEditText.setText(Util.getMonthNameText(Util.convertStringToDate(dateString)) + " - "+ Util.getYear(new Date()));
+            dateEditText.setText(Util.getMonthNameText(Util.convertStringToDate(dateString)) + "-"+ Util.getYear(new Date()));
 
             Date date = Util.convertStringToDate(dateString);
 
@@ -130,6 +149,11 @@ public class ShiftDashboardActivity extends AppCompatActivity {
             calendar5Btn.setText(Util.getPlusDayString(date, 2));
         };
 
+        calendar1Btn.setOnClickListener(view -> loadShifts(mRecyclerView, mLayoutManager, calendar1Btn.getText().toString()));
+        calendar2Btn.setOnClickListener(view -> loadShifts(mRecyclerView, mLayoutManager, calendar2Btn.getText().toString()));
+        calendar3Btn.setOnClickListener(view -> loadShifts(mRecyclerView, mLayoutManager, calendar3Btn.getText().toString()));
+        calendar4Btn.setOnClickListener(view -> loadShifts(mRecyclerView, mLayoutManager, calendar4Btn.getText().toString()));
+        calendar5Btn.setOnClickListener(view -> loadShifts(mRecyclerView, mLayoutManager, calendar5Btn.getText().toString()));
 
     }
 
@@ -144,5 +168,28 @@ public class ShiftDashboardActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    private void loadShifts(RecyclerView mRecyclerView, RecyclerView.LayoutManager mLayoutManager, String btnText){
+        String day = btnText;
+        String[] mothYear = dateEditText.getText().toString().split("-");
+
+        Date dateMonth = null;
+        try {
+            dateMonth = new SimpleDateFormat("MMMM").parse(mothYear[0]);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dateMonth);
+        cal.add(Calendar.MONTH, 1);
+        String month = cal.get(Calendar.MONTH)+"";
+        String year = mothYear[1];
+
+        String date = day+"/"+month+"/"+year.trim();
+
+        RecyclerView.Adapter mAdapter = new ShiftDashboardAdapter(new ArrayList<>(dbHelper.getAllShiftByDate(date)));
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
     }
 }

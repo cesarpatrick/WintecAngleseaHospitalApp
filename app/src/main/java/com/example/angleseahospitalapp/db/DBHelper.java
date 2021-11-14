@@ -269,6 +269,32 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
+    public List<Shift> getAllShiftByDate(String date){
+        List<Shift> shiftList = new ArrayList<>();
+        db = getReadableDatabase();
+
+        String query = "SELECT * FROM shift where shift_date='" + date + "' order by shiftid";
+        Cursor c = db.rawQuery(query,null);
+
+        while(c.moveToNext()){
+
+            Shift shift = new Shift();
+            shift.setShiftId(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_SHIFTID)));
+            shift.setStaffID(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_USERID)));
+            shift.setPeriod(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_PERIOD)));
+            shift.setDate(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_DATE)));
+            shift.setClockOutTime(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_CLOCKOUT)));
+            shift.setClockInTime(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_CLOCKIN)));
+            shift.setWeekend(Boolean.parseBoolean(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_WEEKEND))));
+            shift.setPublicHoliday(Boolean.parseBoolean(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_PUBLIC_HOLIDAY))));
+            shiftList.add(shift);
+        }
+
+        c.close();
+        return shiftList;
+    }
+
+    @SuppressLint("Range")
     public User getUserByPin(String pin){
         User usr = new User();
         db = getReadableDatabase();

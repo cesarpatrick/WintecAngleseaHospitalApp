@@ -59,7 +59,6 @@
             android:background="#2D43A6"
             android:src="@drawable/ic_baseline_date_range_24" />
 
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -172,11 +171,13 @@
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/leaveRecyclerView"
+        android:id="@+id/shiftDashboardRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dashBoardRelativeLayout2"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
