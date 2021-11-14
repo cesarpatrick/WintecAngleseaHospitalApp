@@ -18,6 +18,7 @@ public final class DBContract {
         public static final String COLUMN_ROLENAME = "role";
         public static final String COLUMN_FINGERPRINT = "fingerprint"; //not sure if this is still needed
         public static final String COLUMN_PHOTO = "photo";
+        public static final String COLUMN_GROUP = "user_group";
     }
 
     //constants for the naming convention for the Shifts table

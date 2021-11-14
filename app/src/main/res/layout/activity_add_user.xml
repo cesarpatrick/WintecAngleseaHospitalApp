@@ -122,19 +122,46 @@
         app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
 
     <TextView
-        android:id="@+id/roleTextView"
+        android:id="@+id/groupTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="4dp"
         android:layout_marginTop="24dp"
-        android:hint="Role:"
+        android:hint="Group:"
         android:maxLength="4"
         android:textColor="#A8B2BF"
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/pinEditText"
         app:layout_constraintTop_toBottomOf="@+id/pinEditText" />
+
+    <Spinner
+        android:id="@+id/groupSpinner"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pinEditText"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/roleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="56dp"
+        android:hint="Role:"
+        android:maxLength="4"
+        android:textColor="#A8B2BF"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/groupTextView"
+        app:layout_constraintTop_toBottomOf="@+id/groupTextView" />
 
     <Spinner
         android:id="@+id/roleSpinner"
@@ -145,7 +172,7 @@
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pinEditText"
+        app:layout_constraintTop_toBottomOf="@+id/groupSpinner"
         tools:ignore="SpeakableTextPresentCheck" />
 
 

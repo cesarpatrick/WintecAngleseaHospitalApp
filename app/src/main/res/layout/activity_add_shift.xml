@@ -31,6 +31,36 @@
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
+        android:id="@+id/groupTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="8dp"
+        android:hint="Group"
+        android:textColor="#A8B2BF"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.034"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarAddShit" />
+
+    <Spinner
+        android:id="@+id/staffGroupSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/groupTextView"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <TextView
         android:id="@+id/staffTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,7 +75,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.034"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarAddShit" />
+        app:layout_constraintTop_toBottomOf="@+id/staffGroupSpinner" />
 
     <Spinner
         android:id="@+id/staffSpinner"

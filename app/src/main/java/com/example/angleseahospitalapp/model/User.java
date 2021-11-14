@@ -10,10 +10,11 @@ public class User {
     private byte[] photo;
     private String role;
     private String phoneNumber;
+    private String group;
 
     public User(){ }
 
-    public User(String userId, String name, String surname, String pin, byte[] photo, String role, String email, String phoneNumber) {
+    public User(String userId, String name, String surname, String pin, byte[] photo, String role, String email, String phoneNumber, String group) {
         this.userId = userId;
         this.name = name;
         this.surname = surname;
@@ -22,6 +23,7 @@ public class User {
         this.role = role;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.group = group;
     }
 
     public String getUserId() {
@@ -86,5 +88,13 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 }

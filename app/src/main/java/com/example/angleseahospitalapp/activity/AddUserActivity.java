@@ -10,6 +10,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,6 +29,9 @@ import com.example.angleseahospitalapp.R;
 import com.example.angleseahospitalapp.db.DBHelper;
 import com.example.angleseahospitalapp.model.Role;
 import com.example.angleseahospitalapp.model.User;
+import com.example.angleseahospitalapp.model.UserGroup;
+import com.example.angleseahospitalapp.model.Util;
+
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +52,9 @@ public class AddUserActivity extends AppCompatActivity {
     EditText pinEditText;
 
     Spinner roleSpinner;
+    Spinner groupSpinner;
+
+    DBHelper helper = DBHelper.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,15 +75,26 @@ public class AddUserActivity extends AppCompatActivity {
         pinEditText = findViewById(R.id.pinEditText);
         phoneEditText = findViewById(R.id.phoneEditText);
 
+        groupSpinner = findViewById(R.id.groupSpinner);
         roleSpinner = findViewById(R.id.roleSpinner);
 
         List<Role> roles = new ArrayList<>();
         roles.add(Role.NURSE);
         roles.add(Role.MANAGER);
 
+        List<String> groups = new ArrayList<>();
+        groups.add("");
+        groups.add(UserGroup.WARD.toString());
+        groups.add(UserGroup.PACU.toString());
+        groups.add(UserGroup.OT.toString());
+
         // Creating adapter for spinner
         ArrayAdapter<Role> dataAdapter = new ArrayAdapter<Role>(this, android.R.layout.select_dialog_item, roles);
         roleSpinner.setAdapter(dataAdapter);
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> groupDataAdapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, groups);
+        groupSpinner.setAdapter(groupDataAdapter);
 
         //Request for camera runtime permissions
         if(ContextCompat.checkSelfPermission(AddUserActivity.this, Manifest.permission.CAMERA)
@@ -91,11 +109,19 @@ public class AddUserActivity extends AppCompatActivity {
             startActivityForResult(intent,100);
         });
 
+        User user = loadUser();
+
         saveBtn = findViewById(R.id.saveUserBtn);
         saveBtn.setOnClickListener(view -> {
 
             if(validateFields() == true){
-                save();
+
+                if(user.getUserId() != null && !user.getUserId().isEmpty()){
+                    save(user, true);
+                }else{
+                    save(user, false);
+                }
+
             }
         });
     }
@@ -156,34 +182,39 @@ public class AddUserActivity extends AppCompatActivity {
         return true;
     }
 
-    private void save(){
+    private void save(User usr, Boolean isUserLoaded){
 
         User user;
 
-        DBHelper helper = DBHelper.getInstance(this);
-
-        user = helper.getUserByPin(pinEditText.getText().toString());
-        if( user.getUserId() != null){
-            Toast.makeText(this, "This pin number is already in use, try another one. ", Toast.LENGTH_LONG).show();
+        if(isUserLoaded){
+            user = usr;
         }else{
-            user = new User();
-            user.setPin(pinEditText.getText().toString());
-            user.setEmail(emailEditText.getText().toString());
-            user.setName(nameEditText.getText().toString());
-            user.setPhoneNumber(phoneEditText.getText().toString());
-            user.setSurname(surnameEditText.getText().toString());
-            user.setRole(roleSpinner.getSelectedItem().toString());
-
-            if(photo != null){
-                user.setPhoto(photo);
+            user = helper.getUserByPin(pinEditText.getText().toString());
+            if( user.getUserId() != null){
+                Toast.makeText(this, "This pin number is already in use, try another one. ", Toast.LENGTH_LONG).show();
             }
-
-            helper.saveUser(user);
-
-            //Set all the fields back to empty
-            cleanFields();
-            Toast.makeText(this, "User Saved.", Toast.LENGTH_LONG).show();
         }
+
+        user.setPin(pinEditText.getText().toString());
+        user.setEmail(emailEditText.getText().toString());
+        user.setName(nameEditText.getText().toString());
+        user.setPhoneNumber(phoneEditText.getText().toString());
+        user.setSurname(surnameEditText.getText().toString());
+        user.setRole(roleSpinner.getSelectedItem().toString());
+        user.setGroup(groupSpinner.getSelectedItem().toString());
+
+        if(photo != null){
+            user.setPhoto(photo);
+        }
+
+        helper.saveUser(user);
+
+        //Set all the fields back to empty
+        cleanFields();
+        Toast.makeText(this, "User Saved.", Toast.LENGTH_LONG).show();
+        Intent listUse = new Intent(this, ListUserActivity.class);
+        startActivity(listUse);
+
     }
 
     private void cleanFields(){
@@ -193,9 +224,51 @@ public class AddUserActivity extends AppCompatActivity {
         pinEditText.setText("");
         phoneEditText.setText("");
         roleSpinner.setSelection(0);
+        groupSpinner.setSelection(0);
 
         final Drawable icon = getDrawable(R.drawable.ic_person);
         userPhoto.setImageDrawable(icon);
+    }
+
+    private User loadUser(){
+        String userId = getIntent().getStringExtra("USER_ID");
+
+        if(userId != null  && !userId.isEmpty()) {
+
+            User user = helper.getUserById(userId);
+
+            nameEditText.setText(user.getName());
+            surnameEditText.setText(user.getSurname());
+            emailEditText.setText(user.getEmail());
+            pinEditText.setText(user.getPin());
+
+            if (user.getPhoneNumber() != null && !user.getPhoneNumber().isEmpty()) {
+                phoneEditText.setText(user.getPhoneNumber());
+            }
+
+            if (user.getRole() != null && !user.getRole().isEmpty()) {
+                ArrayAdapter myAdap = (ArrayAdapter) roleSpinner.getAdapter(); //cast to an ArrayAdapter
+                int spinnerPosition = myAdap.getPosition(user.getRole());
+                roleSpinner.setSelection(spinnerPosition);
+            }
+
+            if (user.getRole() != null && !user.getRole().isEmpty()) {
+                ArrayAdapter myAdap = (ArrayAdapter) groupSpinner.getAdapter(); //cast to an ArrayAdapter
+                int spinnerPosition = myAdap.getPosition(user.getGroup());
+                groupSpinner.setSelection(spinnerPosition);
+            }
+
+            if(user.getPhoto() != null){
+                userPhoto.setImageBitmap(Util.getCircleBitmap(BitmapFactory.decodeByteArray(user.getPhoto(), 0, user.getPhoto().length),100));
+            }else{
+                final Drawable icon = getDrawable(R.drawable.ic_person);
+                userPhoto.setImageDrawable(icon);
+            }
+
+            return user;
+        }
+
+        return new User();
     }
 
     //The the file extension

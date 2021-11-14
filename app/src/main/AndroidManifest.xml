@@ -17,7 +17,7 @@
             android:name=".activity.ListNotificationsActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar"/>
+            android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar" />
         <activity
             android:name=".activity.ReportAProblemActivity"
             android:exported="true"

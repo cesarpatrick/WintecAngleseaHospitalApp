@@ -204,9 +204,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             reportProblemFab.setVisibility(View.VISIBLE);
         }
 
-        Button managerShiftBtn = findViewById(R.id.managerShiftBtn);
-        Intent addShiftIntent = new Intent(this, AddShiftActivity.class);
-        managerShiftBtn.setOnClickListener(view -> startActivity(addShiftIntent));
+        Button userstBtn = findViewById(R.id.managerShiftBtn);
+        Intent listUsersIntent = new Intent(this, ListUserActivity.class);
+        userstBtn.setOnClickListener(view -> startActivity(listUsersIntent));
 
         Button viewShiftBtn = findViewById(R.id.viewShiftBtn);
         Intent viewShiftIntent = new Intent(this, AddShiftActivity.class);
@@ -282,8 +282,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(myLeaveIntent);
                 break;
             case R.id.addUser:
-                Intent addUserIntent = new Intent(this, AddUserActivity.class);
-                startActivity(addUserIntent);
+                Intent userIntent = new Intent(this, ListUserActivity.class);
+                startActivity(userIntent);
                 break;
             case R.id.addShift:
                 Intent addShiftIntent = new Intent(this, AddShiftActivity.class);

@@ -14,6 +14,7 @@ import com.example.angleseahospitalapp.model.Notification;
 import com.example.angleseahospitalapp.model.Role;
 import com.example.angleseahospitalapp.model.Shift;
 import com.example.angleseahospitalapp.model.User;
+import com.example.angleseahospitalapp.model.UserGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 DBContract.UsersTable.COLUMN_EMAIL + " TEXT, " +
                 DBContract.UsersTable.COLUMN_ROLENAME + " TEXT, " +
                 DBContract.UsersTable.COLUMN_FINGERPRINT + " TEXT, " +
+                DBContract.UsersTable.COLUMN_GROUP + " TEXT, " +
                 DBContract.UsersTable.COLUMN_PHONE + " TEXT, " +
                 DBContract.UsersTable.COLUMN_PHOTO + " BLOB " +
                 ")";
@@ -154,6 +156,34 @@ public class DBHelper extends SQLiteOpenHelper {
             user.setRole(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_ROLENAME)));
             user.setPhoneNumber(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_ROLENAME)));
             user.setPhoto(c.getBlob(c.getColumnIndex(DBContract.UsersTable.COLUMN_PHOTO)));
+            user.setGroup(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_GROUP)));
+            users.add(user);
+        }
+
+        c.close();
+        return users;
+    }
+
+    @SuppressLint("Range")
+    public List<User> getAllUsersByGroup(UserGroup group){
+        List<User> users = new ArrayList<>();
+        db = getReadableDatabase();
+
+        String query = "SELECT * FROM users where user_group= '" + group.toString() + "'";
+        Cursor c = db.rawQuery(query,null);
+
+        while(c.moveToNext()){
+
+            User user = new User();
+            user.setUserId(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_USERID)));
+            user.setName(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_NAME)));
+            user.setSurname(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_SURNAME)));
+            user.setPin(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_PIN)));
+            user.setEmail(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_EMAIL)));
+            user.setRole(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_ROLENAME)));
+            user.setPhoneNumber(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_ROLENAME)));
+            user.setPhoto(c.getBlob(c.getColumnIndex(DBContract.UsersTable.COLUMN_PHOTO)));
+            user.setGroup(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_GROUP)));
             users.add(user);
         }
 
@@ -264,6 +294,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 usr.setRole(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_ROLENAME)));
                 usr.setPhoneNumber(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_PHONE)));
                 usr.setPhoto(c.getBlob(c.getColumnIndex(DBContract.UsersTable.COLUMN_PHOTO)));
+                usr.setGroup(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_GROUP)));
+
             } while (c.moveToNext());
         }
 
@@ -324,6 +356,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 usr.setEmail(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_EMAIL)));
                 usr.setRole(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_ROLENAME)));
                 usr.setPhoneNumber(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_PHONE)));
+                usr.setGroup(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_GROUP)));
             } while (c.moveToNext());
         }
 
@@ -332,16 +365,36 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void saveUser(User user){
-        ContentValues cv = new ContentValues();
-        cv.put(DBContract.UsersTable.COLUMN_USERID, user.getUserId());
-        cv.put(DBContract.UsersTable.COLUMN_NAME, user.getName());
-        cv.put(DBContract.UsersTable.COLUMN_SURNAME, user.getSurname());
-        cv.put(DBContract.UsersTable.COLUMN_PIN, user.getPin());
-        cv.put(DBContract.UsersTable.COLUMN_EMAIL, user.getEmail());
-        cv.put(DBContract.UsersTable.COLUMN_ROLENAME, user.getRole());
-        cv.put(DBContract.UsersTable.COLUMN_PHOTO, user.getPhoto());
-        cv.put(DBContract.UsersTable.COLUMN_PHONE, user.getPhoneNumber());
-        db.insert(DBContract.UsersTable.TABLE_NAME, null, cv);
+        String selection = DBContract.UsersTable.COLUMN_USERID + " = ?";
+        String[] selectionArs = new String[]{user.getUserId()};
+
+        if(user.getUserId() == null || user.getUserId().isEmpty()){
+            ContentValues cv = new ContentValues();
+            cv.put(DBContract.UsersTable.COLUMN_USERID, user.getUserId());
+            cv.put(DBContract.UsersTable.COLUMN_NAME, user.getName());
+            cv.put(DBContract.UsersTable.COLUMN_SURNAME, user.getSurname());
+            cv.put(DBContract.UsersTable.COLUMN_PIN, user.getPin());
+            cv.put(DBContract.UsersTable.COLUMN_EMAIL, user.getEmail());
+            cv.put(DBContract.UsersTable.COLUMN_ROLENAME, user.getRole());
+            cv.put(DBContract.UsersTable.COLUMN_PHOTO, user.getPhoto());
+            cv.put(DBContract.UsersTable.COLUMN_PHONE, user.getPhoneNumber());
+            cv.put(DBContract.UsersTable.COLUMN_GROUP, user.getGroup());
+            db.insert(DBContract.UsersTable.TABLE_NAME, null, cv);
+
+        }else{
+            ContentValues cv = new ContentValues();
+            cv.put(DBContract.UsersTable.COLUMN_USERID, user.getUserId());
+            cv.put(DBContract.UsersTable.COLUMN_NAME, user.getName());
+            cv.put(DBContract.UsersTable.COLUMN_SURNAME, user.getSurname());
+            cv.put(DBContract.UsersTable.COLUMN_PIN, user.getPin());
+            cv.put(DBContract.UsersTable.COLUMN_EMAIL, user.getEmail());
+            cv.put(DBContract.UsersTable.COLUMN_ROLENAME, user.getRole());
+            cv.put(DBContract.UsersTable.COLUMN_PHOTO, user.getPhoto());
+            cv.put(DBContract.UsersTable.COLUMN_PHONE, user.getPhoneNumber());
+            cv.put(DBContract.UsersTable.COLUMN_GROUP, user.getGroup());
+            db.update(DBContract.UsersTable.TABLE_NAME, cv, selection, selectionArs);
+        }
+
     }
 
     public void saveNotification(Notification notification){
@@ -405,7 +458,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     private void fillUsers(){
-        User u1 = new User("1", "App", "Admin", "9876", null, "MANAGER", "cesarawswintec@gmail.com", "XXX XXX XXXX");
+        User u1 = new User("1", " Mandy", "", "9876", null, "MANAGER", "cesarawswintec@gmail.com", "XXX XXX XXXX","");
         saveUser(u1);
     }
 

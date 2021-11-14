@@ -25,6 +25,7 @@ import com.example.angleseahospitalapp.db.DBHelper;
 import com.example.angleseahospitalapp.model.Shift;
 import com.example.angleseahospitalapp.model.ShiftPeriod;
 import com.example.angleseahospitalapp.model.User;
+import com.example.angleseahospitalapp.model.UserGroup;
 import com.example.angleseahospitalapp.model.Util;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class AddShiftActivity extends AppCompatActivity {
     private ImageButton calendarBtn;
     private Spinner userSpinner;
     private Spinner periodSpinner;
+    private Spinner staffGroupSpinner;
     private CheckBox weekendCheckBox;
     private CheckBox publicHolidayCheckBox;
 
@@ -57,6 +59,7 @@ public class AddShiftActivity extends AppCompatActivity {
 
         userSpinner = findViewById(R.id.staffSpinner);
         periodSpinner = findViewById(R.id.shiftSpinner);
+        staffGroupSpinner = findViewById(R.id.staffGroupSpinner);
 
         weekendCheckBox = findViewById(R.id.weekendCheckBox);
         publicHolidayCheckBox = findViewById(R.id.publicHolidayCheckBox);
@@ -69,6 +72,12 @@ public class AddShiftActivity extends AppCompatActivity {
         periodSpinnerList.add(ShiftPeriod.AFTERNOON.toString());
         periodSpinnerList.add(ShiftPeriod.NIGHT.toString());
 
+        List<String> groupSpinnerList = new ArrayList<>();
+        groupSpinnerList.add("");
+        groupSpinnerList.add(UserGroup.WARD.toString());
+        groupSpinnerList.add(UserGroup.OT.toString());
+        groupSpinnerList.add(UserGroup.PACU.toString());
+
         staffSpinnerList.add("");
         for (User user: users) {
             staffSpinnerList.add(user.getUserId() + "-" + user.getName() +" "+ user.getSurname());
@@ -77,6 +86,9 @@ public class AddShiftActivity extends AppCompatActivity {
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, staffSpinnerList);
         userSpinner.setAdapter(dataAdapter);
+
+        ArrayAdapter<String> dataAdapterGroup = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, groupSpinnerList);
+        staffGroupSpinner.setAdapter(dataAdapterGroup);
 
         ArrayAdapter<String> dataAdapterPeriod = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, periodSpinnerList);
         periodSpinner.setAdapter(dataAdapterPeriod);
@@ -135,32 +147,62 @@ public class AddShiftActivity extends AppCompatActivity {
 
     public void save(){
 
-        Shift shift;
-
         DBHelper helper = DBHelper.getInstance(this);
 
-        if(validateFields() == true)
+        if(validateFields())
         {
-            String[] array = userSpinner.getSelectedItem().toString().split("-");
-            shift = helper.getShiftByUserIdByDate(array[0], dateEditText.getText().toString());
+            if(!TextUtils.isEmpty(userSpinner.getSelectedItem().toString())){
+                String[] array = userSpinner.getSelectedItem().toString().split("-");
 
-            if(shift.getShiftId() == null) {
+                Shift shift =  helper.getShiftByUserIdByDate(array[0], dateEditText.getText().toString());
 
-                shift = new Shift();
-                shift.setStaffID(array[0]);
-                shift.setDate(dateEditText.getText().toString());
-                shift.setPeriod(periodSpinner.getSelectedItem().toString());
-                shift.setWeekend(weekendCheckBox.isChecked());
-                shift.setPublicHoliday(publicHolidayCheckBox.isChecked());
+                if(shift.getShiftId() == null) {
 
-                helper.saveShift(shift);
+                    shift = new Shift();
+                    shift.setStaffID(array[0]);
+                    shift.setDate(dateEditText.getText().toString());
+                    shift.setPeriod(periodSpinner.getSelectedItem().toString());
+                    shift.setWeekend(weekendCheckBox.isChecked());
+                    shift.setPublicHoliday(publicHolidayCheckBox.isChecked());
 
-                //Set all the fields back to empty
-                cleanFields();
-                Toast.makeText(this, "Shift Saved", Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(this, "This nurse has a shift for this day already", Toast.LENGTH_LONG).show();
+                    helper.saveShift(shift);
+
+                    //Set all the fields back to empty
+                    cleanFields();
+                    Toast.makeText(this, "Shift Saved", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(this, "This nurse has a shift for this day already", Toast.LENGTH_LONG).show();
+                }
             }
+
+            if(!TextUtils.isEmpty(staffGroupSpinner.getSelectedItem().toString())){
+
+                List<User> users = dbHelper.getAllUsersByGroup(UserGroup.valueOf(staffGroupSpinner.getSelectedItem().toString()));
+
+                for (User user: users) {
+
+                    Shift shift =  helper.getShiftByUserIdByDate(user.getUserId(), dateEditText.getText().toString());
+
+                    if(shift.getShiftId() == null) {
+
+                        shift = new Shift();
+                        shift.setStaffID(user.getUserId());
+                        shift.setDate(dateEditText.getText().toString());
+                        shift.setPeriod(periodSpinner.getSelectedItem().toString());
+                        shift.setWeekend(weekendCheckBox.isChecked());
+                        shift.setPublicHoliday(publicHolidayCheckBox.isChecked());
+
+                        helper.saveShift(shift);
+                    }else{
+                        Toast.makeText(this, "The nurses on this group has a shift for this day already", Toast.LENGTH_LONG).show();
+                        break;
+                    }
+                }
+
+                Toast.makeText(this, "Shifts Saved", Toast.LENGTH_LONG).show();
+
+            }
+
         }
     }
 
@@ -174,9 +216,9 @@ public class AddShiftActivity extends AppCompatActivity {
 
     private boolean validateFields(){
 
-        if(TextUtils.isEmpty(userSpinner.getSelectedItem().toString()))
+        if(TextUtils.isEmpty(userSpinner.getSelectedItem().toString()) && TextUtils.isEmpty(staffGroupSpinner.getSelectedItem().toString()))
         {
-            ((TextView)userSpinner.getSelectedView()).setError("Please select the nurse");
+            ((TextView)userSpinner.getSelectedView()).setError("Please select the nurse or inform the group");
             return false;
         }
 

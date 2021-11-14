@@ -44,6 +44,6 @@ The project is conducted by Double-X Tech Company under the guidance of Hami Te 
     <string name="staff_hint">Staff</string>
     <string name="submit">Submit</string>
     <string name="shift">Shift</string>
-    <string name="add_user">Add User</string>
+    <string name="add_user">Users</string>
 
 </resources>
