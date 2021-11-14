@@ -7,10 +7,16 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -56,6 +62,13 @@ public class Util {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         String monthName = new SimpleDateFormat("MMMM").format(cal.getTime());
+        return monthName;
+    }
+
+    public static String getYearText(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        String monthName = new SimpleDateFormat("yyyy").format(cal.getTime());
         return monthName;
     }
 
@@ -226,5 +239,21 @@ public class Util {
         canvas.drawBitmap(bitmap, rect, rect, paint);
         bitmap.recycle();
         return output;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static Date getLastDayOfMonth(String date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date convertedDate = null;
+        try {
+            convertedDate = dateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar c = Calendar.getInstance();
+        c.setTime(convertedDate);
+        c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+        return c.getTime();
     }
 }

@@ -298,6 +298,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 Intent pinActivity = new Intent(this, PinScreenActivity.class);
                 startActivity(pinActivity);
                 break;
+            case R.id.navHelpManager:
+                Intent helpManagerIntent = new Intent(this, ManagerHelpActivity.class);
+                startActivity(helpManagerIntent);
+                break;
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);

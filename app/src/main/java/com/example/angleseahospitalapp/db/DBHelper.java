@@ -358,6 +358,34 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
+    public List<Shift> getShiftByPeriod(String from, String to){
+        List<Shift> shiftList = new ArrayList<>();
+        db = getReadableDatabase();
+
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM shift where shift_date >'").append(from)
+                .append("' and shift_date<='").append(to).append("' and clockout IS NOT NULL order by userid");
+
+        Cursor c = db.rawQuery(query.toString(),null);
+
+        while (c.moveToNext()){
+            Shift shift = new Shift();
+            shift.setStaffID(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_USERID)));
+            shift.setDate(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_DATE)));
+            shift.setPeriod(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_PERIOD)));
+            shift.setShiftId(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_SHIFTID)));
+            shift.setClockInTime(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_CLOCKIN)));
+            shift.setClockOutTime(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_CLOCKOUT)));
+            shift.setWeekend(Boolean.parseBoolean(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_WEEKEND))));
+            shift.setPublicHoliday(Boolean.parseBoolean(c.getString(c.getColumnIndex(DBContract.ShiftsTable.COLUMN_PUBLIC_HOLIDAY))));
+            shiftList.add(shift);
+        }
+
+        c.close();
+        return shiftList;
+    }
+
+    @SuppressLint("Range")
     public User getUserById(String userId){
         User usr = new User();
         db = getReadableDatabase();
@@ -383,6 +411,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 usr.setRole(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_ROLENAME)));
                 usr.setPhoneNumber(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_PHONE)));
                 usr.setGroup(c.getString(c.getColumnIndex(DBContract.UsersTable.COLUMN_GROUP)));
+                usr.setPhoto(c.getBlob(c.getColumnIndex(DBContract.UsersTable.COLUMN_PHOTO)));
             } while (c.moveToNext());
         }
 

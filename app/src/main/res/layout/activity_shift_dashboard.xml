@@ -59,6 +59,15 @@
             android:background="#2D43A6"
             android:src="@drawable/ic_baseline_date_range_24" />
 
+        <ImageButton
+            android:id="@+id/downloadBtn"
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="10dp"
+            android:background="#2D43A6"
+            android:src="@drawable/ic_baseline_cloud_download_24" />
+
     </RelativeLayout>
 
     <RelativeLayout

@@ -40,8 +40,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="68dp"
                 android:layout_marginTop="-2dp"
-                android:text="OT - 08:00 - 12:00"
-                android:textSize="25sp" />
+                android:text="WARD - 08:00 am - 12:00 am"
+                android:textSize="20sp" />
 
         </RelativeLayout>
 </androidx.cardview.widget.CardView>

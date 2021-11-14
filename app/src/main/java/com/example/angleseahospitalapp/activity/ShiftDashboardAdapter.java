@@ -72,6 +72,10 @@ public class ShiftDashboardAdapter extends RecyclerView.Adapter<ShiftDashboardAd
             final Drawable icon = context.getDrawable(R.drawable.ic_person);
             holder.imageView.setImageDrawable(icon);
         }
+
+        if(shiftItem.getClockOutTime() != null && !shiftItem.getClockOutTime().isEmpty()){
+            holder.relativeLayout.setBackgroundColor(Color.GREEN);
+        }
     }
 
     @Override

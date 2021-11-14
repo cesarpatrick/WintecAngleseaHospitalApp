@@ -37,7 +37,7 @@
         android:layout_gravity="center"
         android:layout_marginStart="5dp"
         android:layout_marginTop="8dp"
-        android:hint="Group"
+        android:hint="Team"
         android:textColor="#A8B2BF"
         android:textSize="15sp"
         android:textStyle="bold"

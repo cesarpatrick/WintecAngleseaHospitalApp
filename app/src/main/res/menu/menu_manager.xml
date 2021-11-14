@@ -21,7 +21,7 @@
             android:title="@string/add_user" />
 
         <item
-            android:id="@+id/navHelp"
+            android:id="@+id/navHelpManager"
             android:icon="@drawable/ic_menu_help"
             android:title="@string/menu_help" />
 
