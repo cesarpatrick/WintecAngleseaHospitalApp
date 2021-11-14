@@ -58,10 +58,10 @@ public class AddLeaveActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
         startDateEditText = findViewById(R.id.startDateEditText);
-        startDateEditText.setEnabled(false);
+        startDateEditText.setEnabled(true);
 
         endDateEditText = findViewById(R.id.endDateEditText);
-        endDateEditText.setEnabled(false);
+        endDateEditText.setEnabled(true);
 
         startDateBtn =  findViewById(R.id.startDateCalendarBtn);
         startDateBtn.setOnClickListener(view -> {

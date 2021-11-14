@@ -145,7 +145,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="10dp"
-        android:enabled="false"
+        android:enabled="true"
         android:hint="DD/MM/YYYY"
         android:textColor="#A8B2BF"
         android:textSize="15sp"
