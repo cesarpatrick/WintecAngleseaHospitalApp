@@ -22,6 +22,7 @@ import com.example.angleseahospitalapp.R;
 import com.example.angleseahospitalapp.db.DBHelper;
 import com.example.angleseahospitalapp.model.Shift;
 import com.example.angleseahospitalapp.model.Util;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -52,6 +53,8 @@ public class ShiftDashboardActivity extends AppCompatActivity {
     private Button calendar4Btn;
     private Button calendar5Btn;
 
+    private FloatingActionButton addShiftFab;
+
     DBHelper dbHelper = DBHelper.getInstance(this);
 
     @Override
@@ -68,6 +71,8 @@ public class ShiftDashboardActivity extends AppCompatActivity {
         final Drawable upArrow = getDrawable(R.drawable.ic_baseline_arrow_back_24);
         upArrow.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
+
+        addShiftFab = findViewById(R.id.addShiftFab);
 
         dateEditText = findViewById(R.id.dateEditText);
 
@@ -154,6 +159,9 @@ public class ShiftDashboardActivity extends AppCompatActivity {
         calendar3Btn.setOnClickListener(view -> loadShifts(mRecyclerView, mLayoutManager, calendar3Btn.getText().toString()));
         calendar4Btn.setOnClickListener(view -> loadShifts(mRecyclerView, mLayoutManager, calendar4Btn.getText().toString()));
         calendar5Btn.setOnClickListener(view -> loadShifts(mRecyclerView, mLayoutManager, calendar5Btn.getText().toString()));
+
+        Intent addShiftIntent = new Intent(this, AddShiftActivity.class);
+        addShiftFab.setOnClickListener(view -> startActivity(addShiftIntent));
 
     }
 

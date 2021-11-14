@@ -135,7 +135,7 @@ public class AddShiftActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent homeIntent = new Intent(this, HomeActivity.class);
+        Intent homeIntent = new Intent(this, ShiftDashboardActivity.class);
         startActivity(homeIntent);
     }
 
@@ -170,6 +170,7 @@ public class AddShiftActivity extends AppCompatActivity {
                     //Set all the fields back to empty
                     cleanFields();
                     Toast.makeText(this, "Shift Saved", Toast.LENGTH_LONG).show();
+                    onBackPressed();
                 }else{
                     Toast.makeText(this, "This nurse has a shift for this day already", Toast.LENGTH_LONG).show();
                 }
@@ -201,6 +202,7 @@ public class AddShiftActivity extends AppCompatActivity {
 
                 cleanFields();
                 Toast.makeText(this, "Shifts Saved", Toast.LENGTH_LONG).show();
+                onBackPressed();
 
             }
 
