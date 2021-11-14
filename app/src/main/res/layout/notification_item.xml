@@ -12,7 +12,7 @@
     <RelativeLayout
         android:id="@+id/notificationItemRelativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="133dp"
+        android:layout_height="match_parent"
         android:layout_margin="4dp"
         android:background="#EA868C">
 
