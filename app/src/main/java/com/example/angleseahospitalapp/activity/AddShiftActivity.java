@@ -199,6 +199,7 @@ public class AddShiftActivity extends AppCompatActivity {
                     }
                 }
 
+                cleanFields();
                 Toast.makeText(this, "Shifts Saved", Toast.LENGTH_LONG).show();
 
             }
