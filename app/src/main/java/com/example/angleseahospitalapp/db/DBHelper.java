@@ -458,8 +458,18 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     private void fillUsers(){
-        User u1 = new User("1", " Mandy", "", "9876", null, "MANAGER", "cesarawswintec@gmail.com", "XXX XXX XXXX","");
-        saveUser(u1);
+        User user = new User("1", " Mandy", "", "9876", null, "MANAGER", "cesarawswintec@gmail.com", "XXX XXX XXXX","");
+        ContentValues cv = new ContentValues();
+        cv.put(DBContract.UsersTable.COLUMN_USERID, user.getUserId());
+        cv.put(DBContract.UsersTable.COLUMN_NAME, user.getName());
+        cv.put(DBContract.UsersTable.COLUMN_SURNAME, user.getSurname());
+        cv.put(DBContract.UsersTable.COLUMN_PIN, user.getPin());
+        cv.put(DBContract.UsersTable.COLUMN_EMAIL, user.getEmail());
+        cv.put(DBContract.UsersTable.COLUMN_ROLENAME, user.getRole());
+        cv.put(DBContract.UsersTable.COLUMN_PHOTO, user.getPhoto());
+        cv.put(DBContract.UsersTable.COLUMN_PHONE, user.getPhoneNumber());
+        cv.put(DBContract.UsersTable.COLUMN_GROUP, user.getGroup());
+        db.insert(DBContract.UsersTable.TABLE_NAME, null, cv);
     }
 
     private void fillShifts(){

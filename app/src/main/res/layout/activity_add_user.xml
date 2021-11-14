@@ -28,13 +28,12 @@
         android:layout_height="?attr/actionBarSize"
         android:background="#2D43A6"
         app:popupTheme="@style/Theme.AngleseaHospitalApp.PopupOverlay"
-        app:title="Add User"
+        app:title="User"
         app:titleTextColor="@color/white"
         tools:ignore="MissingConstraints"
         app:layout_constraintStart_toStartOf="parent">
 
     </androidx.appcompat.widget.Toolbar>
-
 
 
     <EditText
