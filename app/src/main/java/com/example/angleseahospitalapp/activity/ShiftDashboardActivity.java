@@ -10,6 +10,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -128,6 +129,7 @@ public class ShiftDashboardActivity extends AppCompatActivity {
             calendar4Btn.setText(Util.getPlusDayString(date, 1));
             calendar5Btn.setText(Util.getPlusDayString(date, 2));
         };
+
 
     }
 

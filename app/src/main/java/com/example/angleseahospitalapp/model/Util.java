@@ -65,10 +65,7 @@ public class Util {
 
         c.add(Calendar.DAY_OF_WEEK, number); //same with c.add(Calendar.DAY_OF_MONTH, 1);
 
-        // convert calendar to date
-        Date currentDatePlus = c.getTime();
-
-        return c.get(Calendar.DAY_OF_WEEK)+ "";
+        return c.get(Calendar.DAY_OF_MONTH)+ "";
     }
 
     public static String getMinusDayString(Date date, int number){
@@ -77,10 +74,7 @@ public class Util {
 
         c.add(Calendar.DAY_OF_WEEK, -number); //same with c.add(Calendar.DAY_OF_MONTH, 1);
 
-        // convert calendar to date
-        Date currentDatePlus = c.getTime();
-
-        return c.get(Calendar.DAY_OF_WEEK)+ "";
+        return c.get(Calendar.DAY_OF_MONTH)+ "";
     }
 
     public static Date getPlusDay(Date date, int number){
@@ -110,7 +104,7 @@ public class Util {
     public static String getDay(Date date){
         Calendar c = Calendar.getInstance();
         c.setTime(date);
-        return c.get(Calendar.DAY_OF_WEEK)+ "";
+        return c.get(Calendar.DAY_OF_MONTH)+ "";
     }
 
     public static Date convertStringToDate(String stringDate){
