@@ -209,7 +209,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         userstBtn.setOnClickListener(view -> startActivity(listUsersIntent));
 
         Button viewShiftBtn = findViewById(R.id.viewShiftBtn);
-        Intent viewShiftIntent = new Intent(this, AddShiftActivity.class);
+        Intent viewShiftIntent = new Intent(this, ShiftDashboardActivity.class);
         viewShiftBtn.setOnClickListener(view -> startActivity(viewShiftIntent));
 
         Button leaveRequestBtn = findViewById(R.id.leaveRequestBtn);
@@ -286,7 +286,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(userIntent);
                 break;
             case R.id.addShift:
-                Intent addShiftIntent = new Intent(this, AddShiftActivity.class);
+                Intent addShiftIntent = new Intent(this, ShiftDashboardActivity.class);
                 startActivity(addShiftIntent);
                 break;
             case R.id.navLeaveManager:

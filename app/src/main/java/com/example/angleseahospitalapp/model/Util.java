@@ -11,12 +11,12 @@ import android.graphics.RectF;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Util {
 
     public static String formatDayDate(int day){
-        String dayFormmat;
         if(day <= 9){
             return "0"+day;
         }else{
@@ -34,6 +34,12 @@ public class Util {
         return null;
     }
 
+    public static String getYear(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.YEAR) + "";
+    }
+
     public static String getLastDayOfMonth(Date date){
         Format f = new SimpleDateFormat("EEEE");
         String str = f.format(date);
@@ -44,6 +50,61 @@ public class Util {
         Format f = new SimpleDateFormat("EEE");
         String str = f.format(date);
         return str;
+    }
+
+    public static String getMonthNameText(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        String monthName = new SimpleDateFormat("MMMM").format(cal.getTime());
+        return monthName;
+    }
+
+    public static String getPlusDayString(Date date, int number){
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+
+        c.add(Calendar.DAY_OF_WEEK, number); //same with c.add(Calendar.DAY_OF_MONTH, 1);
+
+        return c.get(Calendar.DAY_OF_MONTH)+ "";
+    }
+
+    public static String getMinusDayString(Date date, int number){
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+
+        c.add(Calendar.DAY_OF_WEEK, -number); //same with c.add(Calendar.DAY_OF_MONTH, 1);
+
+        return c.get(Calendar.DAY_OF_MONTH)+ "";
+    }
+
+    public static Date getPlusDay(Date date, int number){
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+
+        c.add(Calendar.DAY_OF_WEEK, number); //same with c.add(Calendar.DAY_OF_MONTH, 1);
+
+        // convert calendar to date
+        Date currentDatePlus = c.getTime();
+
+        return currentDatePlus;
+    }
+
+    public static Date getMinusDay(Date date, int number){
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+
+        c.add(Calendar.DAY_OF_WEEK, -number); //same with c.add(Calendar.DAY_OF_MONTH, 1);
+
+        // convert calendar to date
+        Date currentDatePlus = c.getTime();
+
+        return currentDatePlus;
+    }
+
+    public static String getDay(Date date){
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        return c.get(Calendar.DAY_OF_MONTH)+ "";
     }
 
     public static Date convertStringToDate(String stringDate){

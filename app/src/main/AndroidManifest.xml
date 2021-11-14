@@ -15,7 +15,9 @@
         android:theme="@style/Theme.AngleseaHospitalApp">
         <activity
             android:name=".activity.ShiftDashboardActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AngleseaHospitalApp.NoActionBar" />
         <activity
             android:name=".activity.ListNotificationsActivity"
             android:exported="true"

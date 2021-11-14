@@ -6,4 +6,177 @@
     android:layout_height="match_parent"
     tools:context=".activity.ShiftDashboardActivity">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.AngleseaHospitalApp.AppBarOverlay"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarShiftDashboard"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#2D43A6"
+        app:popupTheme="@style/Theme.AngleseaHospitalApp.PopupOverlay"
+        app:title="Rosters"
+        app:titleTextColor="@color/white"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/dashBoardRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarShiftDashboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/dateEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="34dp"
+            android:layout_toStartOf="@+id/startDateCalendarBtn"
+            android:enabled="false"
+            android:text="November - 2021"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/startDateCalendarBtn"
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:background="#2D43A6"
+            android:src="@drawable/ic_baseline_date_range_24" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/dashBoardRelativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        android:background="#78B1EB"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dashBoardRelativeLayout">
+
+        <TextView
+            android:id="@+id/dayName1TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="Wed"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/calendar1Btn"
+            android:layout_width="55dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/dayName1TextView"
+            android:layout_marginStart="10dp"
+            android:text="11"
+            android:textAlignment="center"
+            android:backgroundTint="#2D43A6"/>
+
+        <TextView
+            android:id="@+id/dayName2TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="75dp"
+            android:text="Wed"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/calendar2Btn"
+            android:layout_width="55dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/dayName1TextView"
+            android:layout_marginStart="70dp"
+            android:text="12"
+            android:textAlignment="center"
+            android:backgroundTint="#2D43A6"/>
+
+        <TextView
+            android:id="@+id/dayName3TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="135dp"
+            android:text="Wed"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/calendar3Btn"
+            android:layout_width="55dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/dayName1TextView"
+            android:layout_marginStart="130dp"
+            android:text="13"
+            android:textAlignment="center"
+            android:backgroundTint="#2D43A6"/>
+
+        <TextView
+            android:id="@+id/dayName4TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="195dp"
+            android:text="Wed"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/calendar4Btn"
+            android:layout_width="55dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/dayName1TextView"
+            android:layout_marginStart="190dp"
+            android:text="14"
+            android:textAlignment="center"
+            android:backgroundTint="#2D43A6"/>
+
+        <TextView
+            android:id="@+id/dayName5TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="255dp"
+            android:text="Wed"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/calendar5Btn"
+            android:layout_width="55dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/dayName1TextView"
+            android:layout_marginStart="250dp"
+            android:text="15"
+            android:textAlignment="center"
+            android:backgroundTint="#2D43A6"/>
+
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/leaveRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dashBoardRelativeLayout2"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
