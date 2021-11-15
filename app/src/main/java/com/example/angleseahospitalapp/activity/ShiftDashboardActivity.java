@@ -1,5 +1,6 @@
 package com.example.angleseahospitalapp.activity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,6 +19,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -127,7 +129,7 @@ public class ShiftDashboardActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
-        dateEditText.setText(Util.getMonthNameText(new Date()) + " - "+ Util.getYear(new Date()));
+        dateEditText.setText(Util.getMonthNameText(new Date()) + " - " + Util.getYear(new Date()));
 
         ArrayList<Shift> shiftItems = new ArrayList<>(dbHelper.getAllShiftByDate(Util.convertDateToString(new Date())));
 
@@ -139,7 +141,9 @@ public class ShiftDashboardActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        startDateCalendarBtn =  findViewById(R.id.startDateCalendarBtn);
+        mRecyclerView.scrollToPosition(0);
+
+        startDateCalendarBtn = findViewById(R.id.startDateCalendarBtn);
         startDateCalendarBtn.setOnClickListener(view -> {
             Calendar cal = Calendar.getInstance();
             int year = cal.get(Calendar.YEAR);
@@ -150,7 +154,7 @@ public class ShiftDashboardActivity extends AppCompatActivity {
                     ShiftDashboardActivity.this,
                     android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                     mDateSetListener,
-                    year,month,day);
+                    year, month, day);
 
             //Get yesterday's date
             Calendar calendar = Calendar.getInstance();
@@ -162,9 +166,9 @@ public class ShiftDashboardActivity extends AppCompatActivity {
 
         mDateSetListener = (datePicker, year, month, day) -> {
             month = month + 1;
-            String dateString = Util.formatDayDate(day)  + "/" + Util.formatDayDate(month) + "/" + year;
+            String dateString = Util.formatDayDate(day) + "/" + Util.formatDayDate(month) + "/" + year;
             Calendar.getInstance().getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
-            dateEditText.setText(Util.getMonthNameText(Util.convertStringToDate(dateString)) + "-"+ year);
+            dateEditText.setText(Util.getMonthNameText(Util.convertStringToDate(dateString)) + "-" + year);
 
             Date date = Util.convertStringToDate(dateString);
 
@@ -181,6 +185,14 @@ public class ShiftDashboardActivity extends AppCompatActivity {
             calendar5Btn.setText(Util.getPlusDayString(date, 2));
 
             loadShifts(mRecyclerView, mLayoutManager, calendar3Btn.getText().toString());
+        };
+
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
         };
 
         calendar1Btn.setOnClickListener(view -> loadShifts(mRecyclerView, mLayoutManager, calendar1Btn.getText().toString()));
@@ -207,10 +219,10 @@ public class ShiftDashboardActivity extends AppCompatActivity {
             Calendar cal = Calendar.getInstance();
             cal.setTime(dateMonth);
             cal.add(Calendar.MONTH, 1);
-            String month = cal.get(Calendar.MONTH)+"";
+            int month = cal.get(Calendar.MONTH);
             String year = mothYear[1];
 
-            String from = day+"/"+month+"/"+year.trim();
+            String from = day + "/" + Util.formatDayDate(month) + "/" + year.trim();
             String to = Util.convertDateTimeToString(Util.getLastDayOfMonth(from));
 
             generateXlsFile(from, to);
@@ -232,7 +244,7 @@ public class ShiftDashboardActivity extends AppCompatActivity {
     }
 
 
-    private void loadShifts(RecyclerView mRecyclerView, RecyclerView.LayoutManager mLayoutManager, String btnText){
+    private void loadShifts(RecyclerView mRecyclerView, RecyclerView.LayoutManager mLayoutManager, String btnText) {
 
 
         String day = btnText;
@@ -247,23 +259,21 @@ public class ShiftDashboardActivity extends AppCompatActivity {
         Calendar cal = Calendar.getInstance();
         cal.setTime(dateMonth);
         cal.add(Calendar.MONTH, 1);
-        String month = cal.get(Calendar.MONTH)+"";
+        String month = cal.get(Calendar.MONTH) + "";
         String year = mothYear[1];
 
-        String date = day+"/"+month+"/"+year.trim();
+        String date = day + "/" + month + "/" + year.trim();
 
         RecyclerView.Adapter mAdapter = new ShiftDashboardAdapter(new ArrayList<>(dbHelper.getAllShiftByDate(date)));
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void generateXlsFile(String from, String to){
+    private void generateXlsFile(String from, String to) {
 
-        File filePath = new File(Environment.getExternalStorageDirectory() + "/Anglesea Roster-"+ Util.getMonthNameText(Util.convertStringToDate(from))+ "-"+Util.getYearText(Util.convertStringToDate(from)) +".xlsx");
+        File filePath = new File(Environment.getExternalStorageDirectory() + "/Anglesea Roster-" + Util.getMonthNameText(Util.convertStringToDate(from)) + "-" + Util.getYearText(Util.convertStringToDate(from)) + ".xls");
 
         List<Shift> shiftList = dbHelper.getShiftByPeriod(from, to);
-
-        String[] headers = new String[] { "Nurse", "Clock in", "Clock Out", "Duration" };
 
         HSSFWorkbook hssfWorkbook = new HSSFWorkbook();
         HSSFSheet hssfSheet = hssfWorkbook.createSheet("Aglesea Roster");
@@ -283,7 +293,13 @@ public class ShiftDashboardActivity extends AppCompatActivity {
         HSSFCell title4 = hssfRowTitle.createCell(3);
         title4.setCellValue("Duration");
 
-        for(int i=0; i < shiftList.size(); i++){
+        HSSFCell title5 = hssfRowTitle.createCell(4);
+        title5.setCellValue("Weekend Shift");
+
+        HSSFCell title6 = hssfRowTitle.createCell(5);
+        title6.setCellValue("Statutory Days");
+
+        for (int i = 0; i < shiftList.size(); i++) {
 
             row++;
             Shift s = shiftList.get(i);
@@ -291,7 +307,7 @@ public class ShiftDashboardActivity extends AppCompatActivity {
 
             HSSFRow hssfRow = hssfSheet.createRow(row);
             HSSFCell hssfCell = hssfRow.createCell(0);
-            hssfCell.setCellValue(user.getName() +" " + user.getSurname());
+            hssfCell.setCellValue(user.getName() + " " + user.getSurname());
 
             HSSFCell hssfCell2 = hssfRow.createCell(1);
             hssfCell2.setCellValue(s.getClockInTime());
@@ -301,22 +317,39 @@ public class ShiftDashboardActivity extends AppCompatActivity {
 
             HSSFCell hssfCell4 = hssfRow.createCell(3);
             hssfCell4.setCellValue(Util.shiftDuration(s.getClockInTime(), s.getClockOutTime()));
+
+            HSSFCell hssfCell5= hssfRow.createCell(4);
+            HSSFCell hssfCell6 = hssfRow.createCell(5);
+            hssfCell6.setCellValue(Util.shiftDuration(s.getClockInTime(), s.getClockOutTime()));
+
+            if(s.getWeekend()){
+                hssfCell5.setCellValue("YES");
+            }else{
+                hssfCell5.setCellValue("NO");
+            }
+
+            if(s.getPublicHoliday()){
+                hssfCell6.setCellValue("YES");
+            }else{
+                hssfCell6.setCellValue("NO");
+            }
+
         }
 
         try {
-            if (!filePath.exists()){
+            if (!filePath.exists()) {
                 filePath.createNewFile();
             }
 
-            FileOutputStream fileOutputStream= new FileOutputStream(filePath);
+            FileOutputStream fileOutputStream = new FileOutputStream(filePath);
             hssfWorkbook.write(fileOutputStream);
 
-            if (fileOutputStream!=null){
+            if (fileOutputStream != null) {
                 fileOutputStream.flush();
                 fileOutputStream.close();
             }
 
-            Toast.makeText(this,"The file was saved on " + filePath, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "The file was saved on " + filePath, Toast.LENGTH_LONG).show();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -330,4 +363,5 @@ public class ShiftDashboardActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.
                 LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
+
 }

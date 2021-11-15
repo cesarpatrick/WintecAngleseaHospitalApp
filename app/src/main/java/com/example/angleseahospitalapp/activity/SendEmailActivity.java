@@ -91,15 +91,11 @@ public class SendEmailActivity extends AppCompatActivity {
             if(staff.getEmail() != null && !staff.getEmail().isEmpty()){
                 // Get the Session object.// and pass username and password
                 try {
-                    GMailSender sender = new GMailSender("cesarawswintec@gmail.com", "33775644");
-                    sender.sendMail(subjectEditText.getText().toString(),
-                            messageEditText.getText().toString(),
-                            manager.getEmail(),
-                            staff.getEmail());
+                    SendMail sm = new SendMail(this, manager.getEmail(), staff.getEmail(), subjectEditText.getText().toString(), messageEditText.getText().toString());
+                    sm.execute();
 
                     cleanFields();
 
-                    Toast.makeText(this,"Email was sent with success",Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
                     Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
